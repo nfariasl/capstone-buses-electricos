@@ -74,3 +74,6 @@ caso_base_simple_gurobi/corrida_gurobi/**
 
 # Grafo de conocimiento local (herramienta graphify; no la usa el grupo)
 graphify-out/
+
+# Capturas e íconos intermedios del exportador del deck (se regeneran con exportar_pptx.py)
+09-entrega3/presentacion/exportacion/

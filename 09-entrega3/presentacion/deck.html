@@ -1,0 +1,1036 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flota eléctrica RED</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+/* ---------- Tokens: colores de RED (red.cl) + roles de datos validados con dataviz ---------- */
+:root {
+  --rojo: #CF152D;        /* identidad RED y "lo que se elimina" */
+  --azul: #0D5DAB;        /* nuestra solución */
+  --azul-claro: #A9C6E8;  /* filas de buses que reciben viajes */
+  --verde: #16936A;       /* recarga y energía */
+  --gris-base: #888B8D;   /* caso base, contexto */
+  --texto: #222324;
+  --texto-2: #58595B;
+  --linea: #D5D7D8;
+  --fondo: #F3F4F4;
+  --blanco: #FFFFFF;
+  --display: "Overpass", "Helvetica Neue", Arial, sans-serif;
+  --serif: "Source Serif 4", Georgia, serif;
+  --mover: 650ms cubic-bezier(.22, 1, .36, 1);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; background: #1B1C1D; overflow: hidden; }
+body { font-family: var(--display); color: var(--texto); }
+
+/* Escenario fijo de 1920 × 1080 que se escala al tamaño de la ventana: lo mismo que verá Canva. */
+#escenario {
+  position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px;
+  background: var(--fondo); overflow: hidden; transform-origin: center center;
+  transform: translate(-50%, -50%) scale(var(--escala, 1));
+}
+.lamina {
+  position: absolute; inset: 0; opacity: 0; visibility: hidden;
+  transition: opacity 380ms ease, visibility 0s linear 380ms;
+}
+.lamina.activa { opacity: 1; visibility: visible; transition: opacity 380ms ease; }
+.notas { display: none; }
+
+/* ---------- Línea de recorrido: numeración + bloque actual ---------- */
+#recorrido { position: absolute; left: 96px; right: 96px; bottom: 34px; height: 56px; z-index: 5;
+  transition: opacity 380ms ease; }
+#recorrido.oculto { opacity: 0; }
+#recorrido .via { position: absolute; left: 0; right: 0; top: 14px; height: 4px; background: var(--linea); border-radius: 2px; }
+#recorrido .hecho { position: absolute; left: 0; top: 14px; height: 4px; background: var(--rojo); border-radius: 2px;
+  transition: width var(--mover); }
+#recorrido .parada { position: absolute; top: 10px; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%;
+  background: var(--fondo); border: 3px solid var(--linea); }
+#recorrido .parada.pasada { border-color: var(--rojo); }
+#recorrido .tramo { position: absolute; top: 32px; font-size: 17px; color: var(--texto-2); white-space: nowrap;
+  transform: translateX(-50%); transition: color 380ms ease; }
+#recorrido .tramo.actual { color: var(--texto); font-weight: 600; }
+#marcador { position: absolute; top: 0; height: 32px; padding: 0 12px; margin-left: -1px; transform: translateX(-50%);
+  background: var(--rojo); color: var(--blanco); border-radius: 16px; font-weight: 800; font-size: 18px;
+  line-height: 34px; white-space: nowrap; font-variant-numeric: tabular-nums; transition: left var(--mover); }
+
+/* ---------- Encabezado: sigla del curso y grupo ---------- */
+#encabezado { position: absolute; left: 96px; right: 96px; top: 30px; display: flex; justify-content: space-between;
+  font-size: 18px; color: var(--texto-2); z-index: 5; transition: opacity 380ms ease; }
+#encabezado b { color: var(--rojo); font-weight: 800; }
+#encabezado .curso { display: flex; gap: 12px; }  /* sigla y nombre en cajas separadas: así salen bien en el .pptx */
+#encabezado.oculto { opacity: 0; }
+
+/* ---------- Íconos ---------- */
+i.ico { display: inline-block; width: 1em; height: 1em; flex: none; vertical-align: -0.14em; }
+i.ico svg { display: block; width: 100%; height: 100%; }
+i.ico.verde { color: var(--verde); }
+i.ico.azul { color: var(--azul); }
+i.ico.gris { color: var(--texto-2); }
+.problema .decisiones li { display: grid; grid-template-columns: 70px 1fr; align-items: start; }
+.problema .decisiones li > i.ico { font-size: 46px; margin-top: 2px; }
+.formula .termino > i.ico { font-size: 48px; margin-bottom: 4px; }
+.formula .termino.flota > i.ico { font-size: 64px; }
+.kpis .fila-k > i.ico { font-size: 44px; align-self: center; }
+.reglas-cb li > i.ico { display: block; font-size: 52px; color: var(--gris-base); margin-bottom: 12px; }
+.reglas-cb li::before { content: none; }
+.barra-flota .valor i.ico { font-size: .78em; margin-right: 20px; vertical-align: -0.08em; }
+.duelo h3 i.ico, .pasos-m h3 i.ico { font-size: .95em; margin-right: 14px; vertical-align: -0.16em; }
+
+/* ---------- Pasos: un elemento con data-desde="k" entra cuando la lámina llega al paso k ---------- */
+.lamina [data-desde] { opacity: 0; transform: translateY(24px);
+  transition: opacity 500ms ease var(--retardo, 0ms), transform 650ms cubic-bezier(.22, 1, .36, 1) var(--retardo, 0ms); }
+.lamina [data-desde][data-efecto="crece"] { transform: scaleX(0); transform-box: fill-box; transform-origin: left center; }
+.lamina [data-desde][data-efecto="pop"] { transform: scale(0); transform-box: fill-box; transform-origin: center; }
+.lamina [data-desde][data-efecto="traza"] { opacity: 1; transform: none; stroke-dasharray: 1; stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1400ms cubic-bezier(.45, 0, .25, 1) var(--retardo, 0ms); }
+.lamina [data-desde].visto { opacity: 1; transform: none; }
+.lamina [data-desde][data-efecto="traza"].visto { stroke-dashoffset: 0; }
+
+/* Barrido rojo al cambiar de expositor */
+#barrido { position: absolute; inset: 0; background: var(--rojo); z-index: 20; transform: translateX(-101%); pointer-events: none; }
+#barrido.pasa { animation: barrer 900ms cubic-bezier(.65, 0, .35, 1) forwards; }
+@keyframes barrer { 0% { transform: translateX(-101%); } 45%, 55% { transform: translateX(0); } 100% { transform: translateX(101%); } }
+
+/* ---------- Tipografía común de láminas ---------- */
+.titulo { position: absolute; left: 96px; top: 84px; width: 1500px; font-weight: 800; font-size: 62px;
+  line-height: 1.04; letter-spacing: -0.015em; }
+.frase { position: absolute; left: 96px; top: 168px; width: 1250px; font-family: var(--serif); font-size: 31px;
+  line-height: 1.35; color: var(--texto-2); }
+.sube { opacity: 0; transform: translateY(18px); }
+.activa .sube { animation: subir 700ms cubic-bezier(.22, 1, .36, 1) 220ms forwards; }
+@keyframes subir { to { opacity: 1; transform: none; } }
+
+/* ---------- 1 · Portada ---------- */
+.portada .foto { position: absolute; top: 0; right: 0; width: 1030px; height: 1080px; overflow: hidden; }
+.portada .foto img { width: 100%; height: 100%; object-fit: cover; object-position: 47% 50%; }
+.portada .credito { position: absolute; right: 22px; bottom: 16px; font-size: 14px; color: rgba(255,255,255,.92);
+  text-shadow: 0 1px 3px rgba(0,0,0,.6); }
+.portada .curso { position: absolute; left: 96px; top: 96px; font-family: var(--serif); font-size: 26px; color: var(--texto-2); }
+.portada .cabeza { position: absolute; left: 96px; top: 270px; width: 760px; display: flex; flex-direction: column; gap: 36px; }
+.portada h1 { font-weight: 800; font-size: 90px; line-height: .98; letter-spacing: -0.025em; }
+.portada .oficial { width: 640px; font-family: var(--serif); font-size: 30px; line-height: 1.35; color: var(--texto-2); }
+.portada .equipo { position: absolute; left: 96px; bottom: 96px; width: 700px; display: grid; list-style: none;
+  grid-template-columns: 1fr 1fr; column-gap: 40px; row-gap: 6px; font-size: 22px; color: var(--texto); }
+
+/* ---------- 10 · Absorción ---------- */
+.absorcion .leyenda { position: absolute; left: 330px; top: 306px; display: flex; gap: 40px; font-size: 20px; color: var(--texto-2); }
+.absorcion .leyenda span::before { content: ""; display: inline-block; width: 30px; height: 14px; border-radius: 3px;
+  margin-right: 10px; vertical-align: -1px; background: var(--c); }
+.grafico { position: absolute; left: 96px; top: 360px; width: 1728px; height: 520px; }
+.grafico .fila { position: absolute; left: 234px; right: 0; height: 2px; background: var(--linea); }
+.grafico .nombre { position: absolute; left: 0; width: 210px; text-align: right; font-size: 24px; color: var(--texto-2);
+  transform: translateY(-50%); transition: color 400ms ease; }
+.grafico .nombre b { font-weight: 600; color: var(--rojo); }
+.grafico .hora { position: absolute; top: 478px; font-size: 18px; color: var(--texto-2); transform: translateX(-50%);
+  font-variant-numeric: tabular-nums; }
+.viaje { position: absolute; height: 56px; margin-top: -28px; border-radius: 6px; background: var(--azul-claro);
+  transition: top var(--mover), opacity 400ms ease; }
+.viaje.donado { background: var(--rojo); }
+.viaje.carga { background: var(--verde); opacity: 0; }
+.viaje.carga.ver { opacity: 1; }
+.tachado { position: absolute; left: 234px; right: 0; height: 4px; margin-top: -2px; background: var(--rojo);
+  transform: scaleX(0); transform-origin: left; transition: transform 700ms cubic-bezier(.65,0,.35,1); }
+.tachado.ver { transform: scaleX(1); }
+.etiqueta-carga { position: absolute; font-size: 18px; color: var(--verde); font-weight: 600; opacity: 0; transition: opacity 400ms ease;
+  transform: translateX(-50%); }
+.etiqueta-carga.ver { opacity: 1; }
+.paso-n { position: absolute; right: 96px; top: 98px; font-size: 22px; color: var(--texto-2); font-variant-numeric: tabular-nums; }
+
+/* ---------- 2 · Contexto: la jornada de un bus diésel y la de uno eléctrico ---------- */
+.jornadas { position: absolute; left: 96px; top: 330px; width: 1728px; height: 560px; }
+.jornadas svg { position: absolute; inset: 0; overflow: visible; }
+.jornadas .rotulo { font-family: var(--display); font-size: 26px; fill: var(--texto); font-weight: 600; }
+.jornadas .nota { font-family: var(--serif); font-size: 23px; fill: var(--texto-2); }
+.jornadas .nota-verde { font-family: var(--display); font-size: 21px; fill: var(--verde); font-weight: 600; }
+.jornadas .hora { font-family: var(--display); font-size: 18px; fill: var(--texto-2); }
+.jornadas .ilustrativo { font-family: var(--display); font-size: 18px; fill: var(--texto-2); }
+
+/* ---------- 3 · El problema ---------- */
+.problema .cifra { position: absolute; left: 90px; top: 250px; font-weight: 800; font-size: 250px; line-height: .9;
+  letter-spacing: -0.035em; font-variant-numeric: tabular-nums; }
+.problema .bajo-cifra { position: absolute; left: 96px; top: 490px; width: 760px; font-family: var(--serif); font-size: 34px;
+  line-height: 1.3; color: var(--texto-2); }
+.problema .decisiones { position: absolute; left: 1040px; top: 262px; width: 780px; list-style: none; }
+.problema .decisiones li { font-size: 40px; font-weight: 600; line-height: 1.15; padding: 26px 0 26px 0; border-top: 2px solid var(--linea); }
+.problema .decisiones li:last-child { border-bottom: 2px solid var(--linea); }
+.problema .decisiones small { display: block; font-family: var(--serif); font-weight: 400; font-size: 26px; color: var(--texto-2); margin-top: 8px; }
+.problema .rotulo-dec { position: absolute; left: 1040px; top: 214px; font-family: var(--serif); font-size: 26px; color: var(--texto-2); }
+.terminales { position: absolute; left: 96px; top: 690px; width: 1728px; height: 230px; }
+.terminales svg { position: absolute; inset: 0; overflow: visible; }
+.terminales .nombre { font-family: var(--display); font-size: 22px; fill: var(--texto); font-weight: 600; }
+.terminales .plazas { font-family: var(--display); font-size: 20px; fill: var(--texto-2); }
+.terminales .titulo-t { font-family: var(--serif); font-size: 27px; fill: var(--texto-2); }
+
+/* ---------- 4 · Objetivo ---------- */
+.formula { position: absolute; left: 96px; top: 250px; width: 1728px; display: flex; align-items: flex-end; gap: 30px; }
+.formula .termino { display: flex; flex-direction: column; gap: 10px; }
+.formula .signo { font-size: 56px; font-weight: 400; color: var(--texto-2); padding-bottom: 46px; }
+.formula .precio { font-weight: 800; font-size: 54px; letter-spacing: -0.01em; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.formula .que { font-family: var(--serif); font-size: 26px; color: var(--texto-2); white-space: nowrap; }
+.formula .termino.flota .precio { font-size: 96px; }
+.formula .igual { font-weight: 800; font-size: 54px; padding-bottom: 46px; white-space: nowrap; }
+.objetivo .peso { position: absolute; left: 96px; top: 590px; width: 1180px; font-family: var(--serif); font-size: 38px; line-height: 1.3; }
+.objetivo .reglas { position: absolute; left: 96px; top: 760px; width: 1728px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 72px; }
+.objetivo .reglas h3 { font-size: 22px; font-weight: 600; color: var(--texto-2); margin-bottom: 8px; }
+.objetivo .reglas p { font-family: var(--serif); font-size: 27px; line-height: 1.35; }
+.formula .termino, .formula .signo { transition: opacity 500ms ease; }
+.formula.enfocar .termino:not(.flota), .formula.enfocar .signo { opacity: .22; }
+.formula .termino.flota .precio { transition: color 500ms ease; }
+.formula.enfocar .termino.flota .precio { color: var(--rojo); }
+
+/* ---------- 5 · Un día de operación ---------- */
+.curva-dia { position: absolute; left: 96px; top: 250px; width: 1728px; height: 500px; }
+.curva-dia svg { position: absolute; inset: 0; overflow: visible; }
+.curva-dia .eje { font-family: var(--display); font-size: 18px; fill: var(--texto-2); }
+.curva-dia .serie { font-family: var(--display); font-size: 22px; font-weight: 700; paint-order: stroke;
+  stroke: var(--fondo); stroke-width: 7px; stroke-linejoin: round; }
+.pico-dia { position: absolute; top: 250px; width: 470px; }
+.pico-dia b { display: block; font-weight: 800; font-size: 104px; line-height: 1; letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums; }
+.pico-dia p { font-family: var(--serif); font-size: 27px; line-height: 1.32; color: var(--texto-2); margin-top: 10px; }
+.fuentes { position: absolute; left: 96px; top: 808px; width: 1728px; display: grid; grid-template-columns: repeat(3, 1fr);
+  column-gap: 56px; }
+.fuentes > div { border-top: 2px solid var(--linea); padding-top: 14px; }
+.fuentes h3 { display: flex; align-items: center; gap: 12px; font-size: 26px; font-weight: 800; }
+.fuentes h3 i.ico { font-size: 32px; }
+.fuentes p { font-family: var(--serif); font-size: 23px; line-height: 1.32; color: var(--texto-2); margin-top: 6px; }
+
+/* ---------- 6 · KPIs ---------- */
+.kpis { position: absolute; left: 96px; top: 205px; width: 1728px; }
+.kpis .grupo { display: grid; grid-template-columns: 220px 1fr; border-top: 2px solid var(--linea); padding: 10px 0; }
+.kpis .grupo:last-child { border-bottom: 2px solid var(--linea); }
+.kpis .nombre-g { font-family: var(--serif); font-size: 26px; color: var(--texto-2); padding-top: 10px; }
+.kpis .fila-k { display: grid; grid-template-columns: 70px 450px 1fr; column-gap: 40px; padding: 7px 0; align-items: baseline; }
+.kpis .k { font-weight: 800; font-size: 33px; }
+.kpis .k small { display: block; font-weight: 400; font-size: 21px; color: var(--texto-2); margin-top: 4px; }
+.kpis .para { font-family: var(--serif); font-size: 27px; line-height: 1.3; }
+.nota-pie { position: absolute; left: 96px; top: 860px; font-family: var(--serif); font-size: 24px; color: var(--texto-2); }
+
+/* ---------- 7 · Caso base ---------- */
+.reglas-cb { position: absolute; left: 96px; top: 250px; width: 1728px; list-style: none; display: grid;
+  grid-template-columns: repeat(3, 1fr); column-gap: 56px; counter-reset: regla; }
+.reglas-cb li { counter-increment: regla; font-family: var(--serif); font-size: 28px; line-height: 1.32;
+  padding-top: 20px; border-top: 4px solid var(--gris-base); }
+.barra-flota { position: absolute; left: 96px; top: 600px; height: 120px; width: 1500px; }
+.barra-flota .barra { position: absolute; inset: 0; background: var(--gris-base); border-radius: 0 8px 8px 0; }
+.barra-flota .valor { position: absolute; left: 32px; top: 22px; color: var(--blanco); line-height: 1;
+  font-weight: 800; font-size: 72px; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.barra-flota .valor small { font-size: 34px; font-weight: 600; margin-left: 24px; }
+.costo-cb { position: absolute; left: 96px; top: 760px; width: 1500px; display: flex; gap: 64px; align-items: baseline; }
+.costo-cb .usd { font-weight: 800; font-size: 60px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.costo-cb p { font-family: var(--serif); font-size: 27px; line-height: 1.34; color: var(--texto-2); max-width: 900px; }
+
+/* ---------- 8 · Exacto contra híbrido ---------- */
+.duelo { position: absolute; left: 96px; top: 250px; width: 1728px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 72px; }
+.duelo .lado { border-top: 6px solid var(--gris-base); padding-top: 22px; }
+.duelo .lado.nuestro { border-top-color: var(--azul); }
+.duelo h3 { font-size: 40px; font-weight: 800; }
+.duelo h3 small { display: block; font-family: var(--serif); font-weight: 400; font-size: 24px; color: var(--texto-2); margin-top: 6px; }
+.duelo dl { margin-top: 26px; display: grid; grid-template-columns: 170px 1fr; row-gap: 18px; column-gap: 24px; }
+.duelo dt { font-size: 21px; color: var(--texto-2); padding-top: 6px; }
+.duelo dd { font-family: var(--serif); font-size: 29px; line-height: 1.3; }
+.duelo dd b { font-family: var(--display); font-weight: 800; }
+.base-lit { position: absolute; left: 96px; top: 800px; width: 1500px; font-family: var(--serif); font-size: 25px;
+  line-height: 1.4; color: var(--texto-2); }
+
+/* ---------- 9 · Sectores y construcción ---------- */
+.sectores .mapa { position: absolute; left: 96px; top: 175px; width: 760px; height: 800px; }
+.sectores .mapa svg { width: 100%; height: 100%; overflow: visible; }
+.sectores .ruta { fill: none; stroke: var(--gris-base); stroke-width: 1.5; stroke-opacity: .6; transition: stroke 600ms ease, stroke-opacity 600ms ease; }
+.sectores .mapa.s-1 .ruta.s1, .sectores .mapa.s-2 .ruta.s2, .sectores .mapa.s-3 .ruta.s3,
+.sectores .mapa.s-4 .ruta.s4, .sectores .mapa.s-5 .ruta.s5 { stroke: var(--c); stroke-opacity: .85; }
+.sectores .et-nombre { font-family: var(--display); font-weight: 800; font-size: 26px; paint-order: stroke; stroke: var(--fondo); stroke-width: 6px; }
+.sectores .et-rutas { font-family: var(--display); font-size: 21px; fill: var(--texto-2); paint-order: stroke; stroke: var(--fondo); stroke-width: 6px; }
+.pasos-m { position: absolute; left: 930px; top: 250px; width: 894px; list-style: none; counter-reset: pm; }
+.pasos-m li { counter-increment: pm; display: grid; grid-template-columns: 64px 1fr; padding: 26px 0; border-top: 2px solid var(--linea); }
+.pasos-m li:last-child { border-bottom: 2px solid var(--linea); }
+.pasos-m li::before { content: counter(pm); font-weight: 800; font-size: 40px; color: var(--azul); line-height: 1; }
+.pasos-m h3 { font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+.pasos-m p { font-family: var(--serif); font-size: 26px; line-height: 1.34; color: var(--texto-2); }
+
+/* ---------- 11 · Implementación ---------- */
+.tuberia { position: absolute; left: 96px; top: 280px; width: 1728px; height: 300px; }
+.tuberia svg { position: absolute; inset: 0; overflow: visible; }
+.tuberia .et { font-family: var(--display); font-weight: 800; font-size: 28px; fill: var(--texto); }
+.tuberia .det { font-family: var(--serif); font-size: 22px; fill: var(--texto-2); }
+.cierre-impl { position: absolute; left: 96px; top: 660px; width: 1300px; padding-top: 24px; border-top: 6px solid var(--azul);
+  font-family: var(--serif); font-size: 36px; line-height: 1.34; }
+
+/* ---------- Modo exportación (exportar_pptx.py): sin movimiento; con ?sintexto los textos se vuelven transparentes ---------- */
+.estatico *, .estatico *::before, .estatico *::after { transition: none !important; animation: none !important; }
+.sintexto .lamina, .sintexto .lamina *:not(.fijo) { -webkit-text-fill-color: transparent !important; }
+.sinmarco #encabezado, .sinmarco #recorrido { visibility: hidden !important; }
+.siniconos svg.ico-svg { visibility: hidden !important; }
+.sintexto .lamina svg text:not(.fijo) { fill-opacity: 0 !important; stroke-opacity: 0 !important; }
+
+/* Al abrir el deck no se anima nada: la primera lámina aparece de inmediato. */
+.cargando .lamina, .cargando #recorrido, .cargando #recorrido * { transition: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 1ms !important; animation-duration: 1ms !important; animation-delay: 0ms !important; }
+}
+</style>
+</head>
+<body>
+<main id="escenario" aria-live="polite">
+
+  <!-- ============ 1 · Portada ============ -->
+  <section class="lamina portada" data-n="1" data-tramo="0" aria-label="Portada">
+    <div class="foto">
+      <img src="img/bus_alameda.jpg" alt="Bus eléctrico de dos pisos de RED detenido en un paradero de la Alameda">
+      <p class="credito">Foto: Igallards7, CC BY 4.0, Wikimedia Commons</p>
+    </div>
+    <p class="curso">Grupo 29, Capstone ICS2122</p>
+    <div class="cabeza">
+      <h1>Operar la flota eléctrica de RED con menos buses</h1>
+      <p class="oficial">Planificación de la operación de buses eléctricos en la Región Metropolitana</p>
+    </div>
+    <ul class="equipo">
+      <li>Nicolás Farías</li><li>Gustavo Cueto</li><li>Fernando Gonzalez</li><li>Diego Barrios</li>
+      <li>Gustavo Anguita</li><li>Cristobal Rehbein</li><li>Ricardo Palma</li>
+    </ul>
+    <aside class="notas">
+      (10 s) Buenos días. Somos el grupo 29. Les vamos a mostrar cómo planificar la operación de los buses
+      eléctricos de RED para cumplir el mismo servicio con menos buses.
+    </aside>
+  </section>
+
+  <!-- ============ 2 · Contexto ============ -->
+  <section class="lamina contexto" data-n="2" data-tramo="0" data-pasos="3" aria-label="Contexto">
+    <h2 class="titulo">La batería le pone un límite a cada bus</h2>
+    <p class="frase">Si un bus eléctrico no alcanza a terminar su jornada, hay que llevarlo a cargar a un electroterminal, y ahí las plazas son pocas.</p>
+    <div class="jornadas" aria-label="Jornada de un bus diésel comparada con la de un bus eléctrico. Ejemplo ilustrativo."></div>
+    <aside class="notas">
+      (35 s) RED está cambiando su flota diésel por buses eléctricos. Con un diésel, programar es fácil: el bus
+      sale en la mañana, encadena viajes y vuelve en la noche. [→] Con uno eléctrico aparece una restricción nueva: la
+      batería, que baja con cada viaje. [→] Si no le alcanza para su jornada, hay que sacarlo de servicio, llevarlo a
+      un electroterminal y esperar que cargue. Y esos electroterminales tienen pocas plazas, que comparten todos los buses. Entonces
+      programar la flota pasa a ser también programar la carga.
+    </aside>
+  </section>
+
+  <!-- ============ 3 · El problema ============ -->
+  <section class="lamina problema" data-n="3" data-tramo="0" data-pasos="3" aria-label="El problema">
+    <p class="cifra" data-contar="64502">64.502</p>
+    <p class="bajo-cifra" data-desde="0" style="--retardo: 900ms">corridas en un día laboral, repartidas en 417 rutas de la red</p>
+    <p class="rotulo-dec" data-desde="1">Lo que hay que decidir</p>
+    <ul class="decisiones">
+      <li data-desde="1" style="--retardo: 100ms"><i class="ico" data-ico="bus"></i><span>Qué bus hace cada corrida<small>y en qué orden las encadena</small></span></li>
+      <li data-desde="1" style="--retardo: 350ms"><i class="ico verde" data-ico="enchufe"></i><span>Cuándo y dónde recarga cada bus<small>sin bajar del mínimo de batería</small></span></li>
+      <li data-desde="1" style="--retardo: 600ms"><i class="ico" data-ico="bus-mas"></i><span>Cuántos buses hacen falta<small>es un resultado, no un dato de entrada</small></span></li>
+    </ul>
+    <div class="terminales" aria-label="Los cinco electroterminales y sus plazas de carga"></div>
+    <aside class="notas">
+      (50 s) Este es el tamaño del problema: más de sesenta y cuatro mil corridas en un día laboral, en las
+      cuatrocientas diecisiete rutas de la red. [→] Para cada una hay que decidir qué bus la hace y en qué orden
+      encadena sus viajes; cuándo y dónde recarga cada bus; y, como consecuencia, cuántos buses hacen falta. La
+      flota no es un dato: es lo que queremos minimizar. [→] Abajo está el recurso compartido: cinco electroterminales
+      con setecientas plazas de carga en total, para toda la flota. Cada plaza tiene su cargador, así que un bus
+      que ocupa una plaza le quita espacio a todos los demás.
+    </aside>
+  </section>
+
+  <!-- ============ 4 · Objetivo ============ -->
+  <section class="lamina objetivo" data-n="4" data-tramo="0" data-pasos="3" aria-label="Objetivo y alcance">
+    <h2 class="titulo">Minimizar el costo diario de operar la red</h2>
+    <p class="frase">Los precios vienen de los datos del enunciado (parameters.csv y electricity_prices.csv).</p>
+    <div class="formula">
+      <div class="termino flota" data-desde="0" style="--retardo: 150ms"><i class="ico" data-ico="bus"></i><span class="precio">USD 250</span><span class="que">por bus en operación</span></div>
+      <span class="signo" data-desde="0" style="--retardo: 400ms">+</span>
+      <div class="termino" data-desde="0" style="--retardo: 450ms"><i class="ico" data-ico="camino"></i><span class="precio">USD 0,5</span><span class="que">por km, con o sin pasajeros</span></div>
+      <span class="signo" data-desde="0" style="--retardo: 700ms">+</span>
+      <div class="termino" data-desde="0" style="--retardo: 750ms"><i class="ico verde" data-ico="rayo"></i><span class="precio">USD 0,10–0,22</span><span class="que">por kWh, según la hora</span></div>
+      <span class="signo" data-desde="0" style="--retardo: 1000ms">+</span>
+      <div class="termino" data-desde="0" style="--retardo: 1050ms"><i class="ico verde" data-ico="enchufe"></i><span class="precio">USD 5</span><span class="que">por sesión de carga</span></div>
+    </div>
+    <p class="peso" data-desde="1" style="--retardo: 250ms">En nuestro plan para el día laboral, los buses son el 70,2&nbsp;% del costo. Bajar el costo es, sobre todo, usar menos buses.</p>
+    <div class="reglas">
+      <div data-desde="2"><h3>Sujeto a</h3><p>Cubrir todas las corridas, no bajar del 10&nbsp;% de batería y no exceder las plazas ni los cargadores de cada electroterminal.</p></div>
+      <div data-desde="2" style="--retardo: 250ms"><h3>Alcance y entregable</h3><p>Toda la red, en día laboral, sábado y domingo: un plan bus por bus con su calendario de recargas, auditado.</p></div>
+    </div>
+    <aside class="notas">
+      (35 s) El objetivo es minimizar el costo diario. Tiene cuatro partes, con los precios del enunciado: doscientos
+      cincuenta dólares por cada bus que sale a operar, medio dólar por kilómetro, la energía según la hora y cinco
+      dólares por sesión de carga. [→] El término que manda es el primero: en nuestro plan para el día laboral, los
+      buses son el setenta por ciento del costo. Por eso, en la práctica, el objetivo es usar menos buses, [→] cubriendo
+      todas las corridas, sin bajar del diez por ciento de batería y respetando las plazas. Lo hicimos para toda la
+      red y los tres tipos de día.
+    </aside>
+  </section>
+
+  <!-- ============ 5 · Un día de operación (datos_dia.js, generado por curva_dia.py) ============ -->
+  <section class="lamina datos" data-n="5" data-tramo="1" data-pasos="4" aria-label="Un día de operación">
+    <h2 class="titulo">Así se mueve la red en un día</h2>
+    <p class="frase">Cada punto de la curva es cuántos buses están haciendo un viaje en ese momento.</p>
+    <div class="curva-dia" aria-label="Viajes en curso cada 5 minutos en día laboral, sábado y domingo"></div>
+    <div class="pico-dia" data-desde="1" style="--retardo: 250ms">
+      <b data-contar-paso="1" data-valor="6601">6.601</b>
+      <p>viajes en curso a la vez a las 08:00 de un día laboral. Ningún plan puede usar menos buses.</p>
+    </div>
+    <div class="fuentes">
+      <div data-desde="3"><h3><i class="ico azul" data-ico="reloj"></i>Real</h3>
+        <p>Horarios y recorridos del GTFS público de DTPM.</p></div>
+      <div data-desde="3" style="--retardo: 200ms"><h3><i class="ico gris" data-ico="archivo"></i>Lo fija el enunciado</h3>
+        <p>Costos, batería de 350 kWh, tarifas eléctricas y electroterminales.</p></div>
+      <div data-desde="3" style="--retardo: 400ms"><h3><i class="ico gris" data-ico="archivo-falta"></i>Lo supusimos</h3>
+        <p>Tiempos de viaje fijos, sin tráfico ni mantenciones, y cargadores de 180 kW.</p></div>
+    </div>
+    <aside class="notas">
+      (50 s) Antes de planificar, miramos cómo se mueve la red. Esta curva cuenta, cada cinco minutos, cuántos
+      buses están haciendo un viaje en ese momento en un día laboral. Tiene dos puntas, la de la mañana y la de la
+      tarde. [→] La más alta es a las ocho de la mañana: seis mil seiscientos viajes en curso al mismo tiempo. Ese
+      número es un piso: ningún plan puede funcionar con menos buses, y lo vamos a usar para medir qué tan bueno es
+      el nuestro. [→] El fin de semana la red necesita mucho menos: el sábado la punta es de unos tres mil
+      ochocientos, a las tres de la tarde, y el domingo de unos dos mil novecientos, a las seis. [→] De dónde salen
+      estos datos: los horarios y recorridos son reales, del GTFS público de DTPM. Los costos, la batería, las
+      tarifas y los electroterminales los fija el enunciado. Y hay cosas que no vienen y que supusimos: tiempos de
+      viaje fijos, sin tráfico ni mantenciones, y cargadores de ciento ochenta kilowatts. (Si preguntan: trips.txt
+      trae 6.629 filas que son plantillas; al expandir frequencies.txt salen casi diez veces más corridas. Y la
+      flota declarada de 1.200 buses no alcanza, por eso la flota es una decisión.)
+    </aside>
+  </section>
+
+  <!-- ============ 6 · KPIs ============ -->
+  <section class="lamina kpis-l" data-n="6" data-tramo="1" data-pasos="3" aria-label="Indicadores">
+    <h2 class="titulo">Seis indicadores, siempre contra el caso base</h2>
+    <div class="kpis">
+      <div class="grupo" data-desde="0" style="--retardo: 200ms"><span class="nombre-g">Costo</span><div>
+        <div class="fila-k"><i class="ico" data-ico="bus"></i><span class="k">Buses<small>flota necesaria en el día</small></span><span class="para">El término que más pesa en el costo.</span></div>
+        <div class="fila-k"><i class="ico" data-ico="costo"></i><span class="k">Costo total<small>USD por día</small></span><span class="para">Es lo que minimizamos.</span></div>
+      </div></div>
+      <div class="grupo" data-desde="1"><span class="nombre-g">Operación</span><div>
+        <div class="fila-k"><i class="ico" data-ico="camino"></i><span class="k">Km en vacío<small>% de los km recorridos</small></span><span class="para">Kilómetros que no llevan pasajeros.</span></div>
+        <div class="fila-k"><i class="ico verde" data-ico="enchufe"></i><span class="k">Buses cargando a la vez<small>máximo por electroterminal</small></span><span class="para">Dice si los cargadores son un cuello de botella.</span></div>
+      </div></div>
+      <div class="grupo" data-desde="2"><span class="nombre-g">Energía</span><div>
+        <div class="fila-k"><i class="ico verde" data-ico="rayo"></i><span class="k">Energía cargada en el día<small>kWh</small></span><span class="para">Cuánto depende el plan de los cargadores.</span></div>
+        <div class="fila-k"><i class="ico verde" data-ico="bateria"></i><span class="k">Energía al cerrar el día<small>kWh promedio por bus</small></span><span class="para">Dice si el día siguiente se puede repetir.</span></div>
+      </div></div>
+    </div>
+    <p class="nota-pie" data-desde="2" style="--retardo: 300ms">La calidad de la solución se mide aparte: su distancia al óptimo en casos que la exacta resuelve.</p>
+    <aside class="notas">
+      (35 s) Medimos seis indicadores, y cada uno se compara contra el caso base, no contra una meta fija. Dos de
+      costo: los buses y el costo total, que es lo que minimizamos. [→] Dos de operación: los kilómetros en vacío y
+      cuántos buses cargan a la vez en cada electroterminal, que dice si los cargadores son un cuello de botella.
+      [→] Y dos de energía: cuánta se carga durante el día y con cuánta termina cada bus, que dice si el día
+      siguiente se puede repetir. La calidad de la solución la medimos aparte, contra el óptimo.
+    </aside>
+  </section>
+
+  <!-- ============ 7 · Caso base ============ -->
+  <section class="lamina caso-base" data-n="7" data-tramo="1" data-pasos="3" aria-label="Caso base">
+    <h2 class="titulo">El caso base: cada ruta con sus propios buses</h2>
+    <ol class="reglas-cb">
+      <li data-desde="0" style="--retardo: 150ms"><i class="ico" data-ico="reloj"></i>Las corridas se asignan en orden de salida, al bus de su ruta que lleva más tiempo libre.</li>
+      <li data-desde="0" style="--retardo: 400ms"><i class="ico" data-ico="bateria"></i>Si la batería no alcanza, el bus va al electroterminal más cercano y carga al 100&nbsp;%.</li>
+      <li data-desde="0" style="--retardo: 650ms"><i class="ico" data-ico="bus-mas"></i>Si ningún bus de la ruta puede hacer la corrida, se agrega uno nuevo.</li>
+    </ol>
+    <div class="barra-flota">
+      <div class="barra" data-desde="1" data-efecto="crece"></div>
+      <span class="valor" data-desde="1" style="--retardo: 500ms"><i class="ico" data-ico="bus"></i><span data-contar-paso="1" data-valor="8684">8.684</span><small>buses en un día laboral</small></span>
+    </div>
+    <div class="costo-cb" data-desde="2">
+      <span class="usd">USD 3.062.717 al día</span>
+      <p>Es un plan factible y auditado. Carga solo cuando no le alcanza: el umbral más favorable de los que probamos.</p>
+    </div>
+    <aside class="notas">
+      (45 s) Para saber si nuestro plan es bueno necesitamos una referencia razonable, no una hecha para perder.
+      El caso base sigue una regla simple, ruta por ruta: cada ruta tiene sus propios buses, las corridas se
+      asignan en orden, el bus carga al cien por ciento cuando no le alcanza, y si ningún bus puede, se agrega uno.
+      [→] Con esa regla, la red completa necesita casi ocho mil setecientos buses en un día laboral. [→] Cuesta un
+      poco más de tres millones de dólares al día. Es un plan factible, revisado por nuestros auditores. Y probamos
+      varios umbrales de recarga; usamos el más favorable, para no inflar nuestro ahorro.
+    </aside>
+  </section>
+
+  <!-- ============ 8 · Exacto contra híbrido ============ -->
+  <section class="lamina metodo" data-n="8" data-tramo="2" data-pasos="3" aria-label="Elección del método">
+    <h2 class="titulo">Un método exacto no cabe en la red completa</h2>
+    <div class="duelo">
+      <div class="lado" data-desde="0" style="--retardo: 150ms">
+        <h3><i class="ico gris" data-ico="diana"></i>Modelo exacto<small>un solo MILP con todas las corridas, en Gurobi</small></h3>
+        <dl>
+          <dt>Garantía</dt><dd>Óptimo probado.</dd>
+          <dt>Alcance</dt><dd>El caso más grande que resolvimos tiene <b>293</b> corridas; con más, no cabe en la memoria.</dd>
+          <dt>Rol</dt><dd>Medir qué tan lejos del óptimo queda la heurística.</dd>
+        </dl>
+      </div>
+      <div class="lado nuestro" data-desde="1">
+        <h3><i class="ico azul" data-ico="intercambio"></i>Método híbrido<small>construir un plan y mejorarlo por grupos de buses</small></h3>
+        <dl>
+          <dt>Garantía</dt><dd>Ninguna: por eso lo comparamos contra la exacta.</dd>
+          <dt>Alcance</dt><dd>La red completa en <b>40 min</b> por tipo de día.</dd>
+          <dt>Rol</dt><dd>Entregar el plan de los tres tipos de día.</dd>
+        </dl>
+      </div>
+    </div>
+    <p class="base-lit" data-desde="2">Revisamos seis familias de métodos: flujo en redes tiempo-espacio, branch-and-price, metaheurísticas,
+      Benders, modelos con incertidumbre y simulación. El híbrido es una búsqueda en vecindarios grandes (Ahuja et al., 2002)
+      que en cada movimiento resuelve un MILP pequeño de recargas.</p>
+    <aside class="notas">
+      (40 s) Revisamos seis familias de métodos y la pregunta fue cuál escala. El modelo exacto, un solo MILP con
+      todas las corridas, da el óptimo probado, pero el caso más grande que logramos resolver tiene menos de
+      trescientas corridas: con más, no cabe en la memoria. [→] Por eso el plan lo entrega un método híbrido: arma un
+      plan y lo mejora por grupos de buses. Resuelve la red completa en cuarenta minutos por tipo de día, pero no
+      garantiza el óptimo. [→] Ahí vuelve a servir el exacto: en los casos chicos medimos cuánto se aleja la
+      heurística del óptimo. Es una búsqueda en vecindarios grandes, como la de Ahuja y coautores, con un MILP
+      pequeño de recargas dentro de cada movimiento.
+    </aside>
+  </section>
+
+  <!-- ============ 9 · Sectores y construcción ============ -->
+  <section class="lamina sectores" data-n="9" data-tramo="2" data-pasos="4" aria-label="Sectores y construcción">
+    <h2 class="titulo">Primero se arma un plan, después se mejora</h2>
+    <div class="mapa" aria-label="Rutas pintadas según el electroterminal de su sector"></div>
+    <ol class="pasos-m">
+      <li data-desde="1"><div><h3><i class="ico azul" data-ico="pin"></i>Sectores</h3><p>Cada ruta queda asociada al electroterminal que le deja menos km en vacío.</p></div></li>
+      <li data-desde="2"><div><h3><i class="ico azul" data-ico="reloj"></i>Construcción en orden de salida</h3><p>Cada corrida va al bus de su sector que llega a tiempo, tiene batería y queda más cerca. Si no hay, se agrega un bus.</p></div></li>
+      <li data-desde="3"><div><h3><i class="ico azul" data-ico="intercambio"></i>Mejora por grupos</h3><p>Grupos de cuatro buses elegidos al azar intentan que uno reparta sus viajes entre los otros.</p></div></li>
+    </ol>
+    <aside class="notas">
+      (40 s) El método tiene tres pasos. [→] Primero dividimos la red en cinco sectores: cada ruta queda asociada al
+      electroterminal que le deja menos kilómetros en vacío. Los sectores van de sesenta y cinco a ciento diecisiete
+      rutas. [→] Después construimos un plan inicial: recorremos las corridas en orden de salida y cada una se la
+      damos al bus de su sector que llega a tiempo, tiene batería y queda más cerca; si no hay ninguno, agregamos un
+      bus. [→] Y por último lo mejoramos con grupos de cuatro buses elegidos al azar, que es lo que muestra la lámina
+      siguiente.
+    </aside>
+  </section>
+
+  <!-- ============ 10 · Absorción ============ -->
+  <section class="lamina absorcion" data-n="10" data-tramo="2" data-pasos="5" aria-label="La absorción">
+    <h2 class="titulo">Un bus reparte sus viajes y desaparece</h2>
+    <p class="frase"><span class="t"></span></p>
+    <p class="paso-n"></p>
+    <div class="leyenda">
+      <span style="--c: var(--azul-claro)">Viaje de un bus que recibe</span>
+      <span style="--c: var(--rojo)">Viaje del bus que se elimina</span>
+      <span style="--c: var(--verde)">Recarga en electroterminal</span>
+    </div>
+    <div class="grafico" aria-label="Horario de cuatro buses entre las 06:00 y las 22:00. Ejemplo ilustrativo."></div>
+    <aside class="notas">
+      (40 s) Esta es la jugada central del método. Tomamos un grupo de cuatro buses y uno de ellos, el que
+      tiene menos viajes, intenta repartirlos entre los otros tres. [→] El primer viaje cabe en un hueco del bus 1.
+      [→] El segundo, en el bus 2, y el tercero, en el bus 3. [→] Pero al bus 3 ya no le alcanza la batería:
+      un modelo entero pequeño decide dónde y cuánto recargar. [→] Si el plan sigue siendo factible y más
+      barato, el bus 4 se elimina. Esto lo repetimos miles de veces sobre la red completa, con grupos de
+      cuatro buses elegidos al azar. Los horarios de esta figura son ilustrativos.
+    </aside>
+  </section>
+
+  <!-- ============ 11 · Implementación ============ -->
+  <section class="lamina implementacion" data-n="11" data-tramo="2" data-pasos="3" aria-label="Implementación">
+    <h2 class="titulo">Todos los planes fueron auditados</h2>
+    <p class="frase">Python con Gurobi. El código, las pruebas y los resultados están en el repositorio del grupo.</p>
+    <div class="tuberia" aria-label="Flujo del método, de los datos al plan auditado"></div>
+    <p class="cierre-impl" data-desde="2">Cada plan de esta presentación, el nuestro y el caso base, pasó por los auditores
+      antes de usarse: cubre todas las corridas, respeta horarios, batería y plazas, y su costo cuadra.</p>
+    <aside class="notas">
+      (60 s) Así está implementado. Todo está en Python y los modelos enteros se resuelven con Gurobi. [→] El flujo
+      parte de los datos, arma el plan inicial, lo mejora por grupos con un presupuesto de tiempo y, antes de usarlo,
+      lo pasa por los auditores. Cada movimiento se acepta solo si el plan sigue siendo factible y baja el costo.
+      [→] Todos los planes que van a ver, el nuestro y el caso base, fueron auditados: cubren todas las corridas,
+      respetan horarios, batería y plazas, y su costo cuadra con los precios del enunciado.
+    </aside>
+  </section>
+
+</main>
+<div id="barrido" aria-hidden="true"></div>
+
+<script src="datos_mapa.js"></script>
+<script src="datos_dia.js"></script>
+<script>
+/* ---------- Datos de la absorción (mismos que 09-entrega3/figuras/gif_absorcion.py) ---------- */
+const VIAJES = {
+  0: [[6.0, 7.5], [9.6, 11.2], [15.0, 16.5], [19.0, 20.5]],
+  1: [[6.5, 8.0], [12.5, 14.0], [17.0, 18.6], [20.3, 21.6]],
+  2: [[7.0, 9.0], [11.0, 12.5], [14.5, 16.0], [20.1, 21.5]],
+};
+const DONADOS = [[[7.8, 9.3], 0], [[10.2, 11.8], 1], [[16.4, 18.0], 2]];
+const RECARGA = [2, [18.2, 19.6]];
+const FRASES = [
+  "El bus 4 tiene pocos viajes. ¿Caben en los huecos de los otros tres?",
+  "El primer viaje cabe en un hueco del bus 1.",
+  "El segundo, en el bus 2, y el tercero, en el bus 3.",
+  "Al bus 3 ya no le alcanza la batería: un modelo entero decide dónde y cuánto recargar.",
+  "El plan sigue siendo factible y es más barato: el grupo queda con un bus menos.",
+];
+const BLOQUES = [
+  { nombre: "Problema", desde: 1 }, { nombre: "Datos y caso base", desde: 5 },
+  { nombre: "Método", desde: 8 }, { nombre: "Resultados", desde: 12 }, { nombre: "Cierre", desde: 19 },
+];
+const TOTAL = 20;
+const CAMBIO_EXPOSITOR = new Set([8, 14]);
+
+/* Geometría del gráfico de absorción */
+const G = { x0: 234, ancho: 1494, h0: 5.5, h1: 22.2, filas: [70, 170, 270, 370] };
+const xHora = h => G.x0 + (h - G.h0) / (G.h1 - G.h0) * G.ancho;
+const FILA_BUS = b => G.filas[b];     // bus 0..3; el 3 es el donante
+
+function armarAbsorcion(lam) {
+  const g = lam.querySelector(".grafico");
+  const ib = c => `<i class="ico" style="color:${c};font-size:34px;margin-right:12px">${icono("bus", "100%")}</i>`;
+  const nombres = [ib("var(--azul)") + "Bus 1", ib("var(--azul)") + "Bus 2", ib("var(--azul)") + "Bus 3", ib("var(--rojo)") + "Bus 4 <b>donante</b>"];
+  nombres.forEach((n, b) => {
+    g.insertAdjacentHTML("beforeend",
+      `<div class="fila" style="top:${FILA_BUS(b)}px"></div><div class="nombre" style="top:${FILA_BUS(b)}px">${n}</div>`);
+  });
+  for (let h = 6; h <= 22; h += 2) {
+    g.insertAdjacentHTML("beforeend", `<div class="hora" style="left:${xHora(h)}px">${String(h).padStart(2, "0")}:00</div>`);
+  }
+  const caja = (ini, fin, fila, clase) => {
+    const d = document.createElement("div");
+    d.className = "viaje " + clase;
+    d.style.left = xHora(ini) + "px"; d.style.width = (xHora(fin) - xHora(ini)) + "px"; d.style.top = fila + "px";
+    g.appendChild(d); return d;
+  };
+  Object.entries(VIAJES).forEach(([b, lista]) => lista.forEach(([i, f]) => caja(i, f, FILA_BUS(+b), "")));
+  const donados = DONADOS.map(([[i, f], destino]) => ({ el: caja(i, f, FILA_BUS(3), "donado"), destino }));
+  const [bc, [ci, cf]] = RECARGA;
+  const carga = caja(ci, cf, FILA_BUS(bc), "carga");
+  const etiqueta = document.createElement("div");
+  etiqueta.className = "etiqueta-carga"; etiqueta.textContent = "recarga";
+  etiqueta.style.left = xHora((ci + cf) / 2) + "px"; etiqueta.style.top = (FILA_BUS(bc) - 58) + "px";
+  g.appendChild(etiqueta);
+  const tachado = document.createElement("div");
+  tachado.className = "tachado"; tachado.style.top = FILA_BUS(3) + "px"; g.appendChild(tachado);
+
+  lam.alPaso = paso => {
+    const movidos = paso >= 2 ? 3 : paso;
+    donados.forEach((d, k) => { d.el.style.top = (k < movidos ? FILA_BUS(d.destino) : FILA_BUS(3)) + "px"; });
+    carga.classList.toggle("ver", paso >= 3);
+    etiqueta.classList.toggle("ver", paso >= 3);
+    tachado.classList.toggle("ver", paso >= 4);
+    lam.querySelector(".frase .t").textContent = FRASES[paso];
+    lam.querySelector(".paso-n").textContent = paso === 0 ? "Ejemplo ilustrativo" : `Paso ${paso} de 4`;
+  };
+}
+
+/* ---------- Íconos propios: grilla de 24, trazo 2, puntas redondas (estilo de señalética de transporte) ---------- */
+const ICONOS = {
+  bus: "M6 3h12a2 2 0 0 1 2 2v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a2 2 0 0 1 2-2z M4 12h16 M7 6h10v6 M7.5 15h1 M15.5 15h1 M7 18v2.5 M17 18v2.5",
+  "bus-electrico": "M6 3h12a2 2 0 0 1 2 2v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a2 2 0 0 1 2-2z M4 13h16 M12.8 5.5l-2.6 3.3h3.6l-2.6 3.2 M7.5 15.5h1 M15.5 15.5h1 M7 18v2.5 M17 18v2.5",
+  "bus-mas": "M5 4h10a2 2 0 0 1 2 2v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a2 2 0 0 1 2-2z M3 11h14 M6 14.5h1 M13 14.5h1 M6 17v2 M14 17v2 M20 3v6 M17 6h6",
+  enchufe: "M9 2.5v4.5 M15 2.5v4.5 M6 7h12v3.5a6 6 0 0 1-12 0z M12 16.5v5",
+  rayo: "M13 2L4.5 13.5H11L10 22l8.5-11.5H12z",
+  bateria: "M3.5 7.5h14a1.5 1.5 0 0 1 1.5 1.5v6a1.5 1.5 0 0 1-1.5 1.5h-14A1.5 1.5 0 0 1 2 15V9a1.5 1.5 0 0 1 1.5-1.5z M22 10.5v3 M5.5 11v2 M8.5 11v2",
+  costo: "M12 2.5a9.5 9.5 0 1 0 0 19a9.5 9.5 0 1 0 0-19z M15 9.2c-.5-.9-1.6-1.4-3-1.4-1.7 0-3 .8-3 2s1.3 1.6 3 1.9 3 .9 3 2.1-1.3 2-3 2c-1.4 0-2.5-.5-3-1.4 M12 6v1.8 M12 16v1.8",
+  camino: "M6 16.5a2.5 2.5 0 1 0 0 5a2.5 2.5 0 1 0 0-5z M18 2.5a2.5 2.5 0 1 0 0 5a2.5 2.5 0 1 0 0-5z M6 16.5V13a3 3 0 0 1 3-3h6a3 3 0 0 0 3-3v-.5",
+  reloj: "M12 2.5a9.5 9.5 0 1 0 0 19a9.5 9.5 0 1 0 0-19z M12 6.5V12l3.5 2.5",
+  escudo: "M12 2.5l8 3v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10v-6z M8.5 12l2.5 2.5 4.5-5",
+  archivo: "M14 2.5H6.5A1.5 1.5 0 0 0 5 4v16a1.5 1.5 0 0 0 1.5 1.5h11A1.5 1.5 0 0 0 19 20V7.5z M14 2.5v5h5 M8.5 12.5h7 M8.5 16.5h5",
+  "archivo-falta": "M14 2.5H6.5A1.5 1.5 0 0 0 5 4v16a1.5 1.5 0 0 0 1.5 1.5h11A1.5 1.5 0 0 0 19 20V7.5z M14 2.5v5h5 M10 12.2a2 2 0 1 1 2.8 1.8c-.5.3-.8.7-.8 1.3 M12 18.2h.01",
+  pin: "M12 21.5s-7-6.3-7-12a7 7 0 0 1 14 0c0 5.7-7 12-7 12z M12 7a2.5 2.5 0 1 0 0 5a2.5 2.5 0 1 0 0-5z",
+  intercambio: "M4 7.5h14 M14.5 4l3.5 3.5-3.5 3.5 M20 16.5H6 M9.5 13L6 16.5 9.5 20",
+  grafico: "M3.5 20.5h17 M7 17v-5 M12 17V6.5 M17 17V9.5",
+  diana: "M12 2.5a9.5 9.5 0 1 0 0 19a9.5 9.5 0 1 0 0-19z M12 7a5 5 0 1 0 0 10a5 5 0 1 0 0-10z M12 11a1 1 0 1 0 0 2a1 1 0 1 0 0-2z",
+  surtidor: "M4.5 21V5a2 2 0 0 1 2-2h5a2 2 0 0 1 2 2v16 M3 21h12 M7 7.5h4 M13.5 10h2a1.5 1.5 0 0 1 1.5 1.5V16a1.5 1.5 0 0 0 3 0V8.5L17.5 6",
+};
+/* Devuelve el ícono como <svg>; dentro de otro SVG se ubica con x, y. */
+function icono(nombre, tam = 24, color = "currentColor", x = null, y = null, extra = "") {
+  const pos = x === null ? "" : `x="${x}" y="${y}"`;
+  return `<svg class="ico-svg" data-ico="${nombre}" ${pos} width="${tam}" height="${tam}" viewBox="0 0 24 24" fill="none" stroke="${color}"
+    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" ${extra}><path d="${ICONOS[nombre]}"/></svg>`;
+}
+document.querySelectorAll("i.ico[data-ico]").forEach(i => { i.innerHTML = icono(i.dataset.ico, "100%"); });
+
+/* ---------- 2 · Jornada diésel contra eléctrica (ejemplo ilustrativo) ---------- */
+const SVG = (w, h, cuerpo) => `<svg viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" xmlns="http://www.w3.org/2000/svg">${cuerpo}</svg>`;
+const enPaso = (k, retardo = 0, efecto = "") =>
+  `data-desde="${k}" style="--retardo:${retardo}ms"${efecto ? ` data-efecto="${efecto}"` : ""}`;
+function armarJornadas(cont) {
+  const W = 1728, X0 = 300, X1 = 1700, H0 = 5, H1 = 24.5;
+  const x = h => X0 + (h - H0) / (H1 - H0) * (X1 - X0);
+  const FILA_D = 70, FILA_E = 260, ALTO = 52;
+  const VIAJES_D = [[5.5, 7.2], [7.5, 9.4], [9.8, 11.6], [12, 13.8], [14.2, 16], [16.4, 18.3], [18.7, 20.5], [21, 22.8]];
+  const MANANA_E = [[5.5, 7.2], [7.5, 9.4], [9.8, 11.6], [12, 13.6]];
+  const TARDE_E = [[16.4, 18.3], [18.7, 20.5], [21, 22.8]];
+  const CARGA_DIA = [14.1, 15.9], CARGA_NOCHE = [23.3, 24.5];
+  const caja = (a, b, y, color, attrs) =>
+    `<rect x="${x(a)}" y="${y - ALTO / 2}" width="${x(b) - x(a)}" height="${ALTO}" rx="6" fill="${color}" ${attrs}/>`;
+  let s = "";
+  /* Paso 0: el bus diésel recorre su día */
+  s += `<g ${enPaso(0)}><line x1="${X0}" x2="${X1}" y1="${FILA_D}" y2="${FILA_D}" stroke="var(--linea)" stroke-width="2"/>
+        ${icono("bus", 44, "var(--gris-base)", 0, FILA_D - 22)}<text class="rotulo" x="58" y="${FILA_D + 9}">Bus diésel</text></g>`;
+  VIAJES_D.forEach(([a, b], i) => { s += caja(a, b, FILA_D, "var(--gris-base)", enPaso(0, 200 + i * 110, "crece")); });
+  s += `<text class="nota" x="${X0}" y="${FILA_D + 66}" ${enPaso(0, 1200)}>Encadena viajes todo el día y carga combustible en minutos.</text>`;
+
+  /* Batería del bus eléctrico: baja con los viajes y sube con las cargas */
+  const B_ARR = 330, B_ABA = 450, yB = soc => B_ABA - soc * (B_ABA - B_ARR);
+  const tramos = [...MANANA_E, ...TARDE_E].map(([a, b]) => ({ a, b, t: "viaje" }))
+    .concat([{ a: CARGA_DIA[0], b: CARGA_DIA[1], t: "carga" }, { a: CARGA_NOCHE[0], b: CARGA_NOCHE[1], t: "carga" }])
+    .sort((p, q) => p.a - q.a);
+  let soc = 1;
+  const manana = [[x(H0 + 0.5), yB(soc)]], tarde = [];
+  tramos.forEach(({ a, b, t }) => {
+    const destino = a < CARGA_DIA[0] ? manana : tarde;
+    if (destino === tarde && !tarde.length) tarde.push(manana[manana.length - 1]);
+    destino.push([x(a), yB(soc)]);
+    soc = t === "viaje" ? Math.max(0.12, soc - 0.075 * (b - a)) : Math.min(1, soc + 0.3 * (b - a));
+    destino.push([x(b), yB(soc)]);
+  });
+  const linea = (pts, attrs) =>
+    `<polyline points="${pts.map(p => p.join(",")).join(" ")}" pathLength="1" fill="none" stroke="var(--verde)" stroke-width="4" stroke-linejoin="round" ${attrs}/>`;
+
+  /* Paso 1: el bus eléctrico trabaja la mañana y la batería se acerca al mínimo */
+  s += `<g ${enPaso(1)}><line x1="${X0}" x2="${X1}" y1="${FILA_E}" y2="${FILA_E}" stroke="var(--linea)" stroke-width="2"/>
+        ${icono("bus-electrico", 44, "var(--azul)", 0, FILA_E - 22)}<text class="rotulo" x="58" y="${FILA_E + 9}">Bus eléctrico</text>
+        <line x1="${X0}" x2="${X1}" y1="${yB(0.1)}" y2="${yB(0.1)}" stroke="var(--rojo)" stroke-width="2" stroke-dasharray="6 6"/>
+        <text class="nota" x="48" y="${yB(0.1) + 8}">mínimo</text>
+        ${icono("bateria", 34, "var(--verde)", 0, yB(0.75) - 17)}<text class="nota" x="48" y="${yB(0.75) + 8}">batería</text></g>`;
+  MANANA_E.forEach(([a, b], i) => { s += caja(a, b, FILA_E, "var(--azul)", enPaso(1, 150 + i * 140, "crece")); });
+  s += linea(manana, enPaso(1, 200, "traza"));
+
+  /* Paso 2: va a cargar, la batería se recupera y termina el día cargando de noche */
+  s += caja(...CARGA_DIA, FILA_E, "var(--verde)", enPaso(2, 0, "crece"));
+  s += `<g ${enPaso(2, 200)}>${icono("enchufe", 34, "var(--verde)", (x(CARGA_DIA[0]) + x(CARGA_DIA[1])) / 2 - 17, FILA_E - 104)}<text class="nota-verde" x="${(x(CARGA_DIA[0]) + x(CARGA_DIA[1])) / 2}" y="${FILA_E - 42}" text-anchor="middle">va a cargar</text></g>`;
+  TARDE_E.forEach(([a, b], i) => { s += caja(a, b, FILA_E, "var(--azul)", enPaso(2, 700 + i * 140, "crece")); });
+  s += caja(...CARGA_NOCHE, FILA_E, "var(--verde)", enPaso(2, 1200, "crece"));
+  s += `<text class="nota-verde" x="${x(CARGA_NOCHE[1])}" y="${FILA_E - 42}" text-anchor="end" ${enPaso(2, 1300)}>carga de noche</text>`;
+  s += linea(tarde, enPaso(2, 300, "traza"));
+
+  for (let h = 6; h <= 24; h += 3) s += `<text class="hora" x="${x(h)}" y="520" text-anchor="middle">${String(h % 24).padStart(2, "0")}:00</text>`;
+  s += `<text class="ilustrativo" x="${W}" y="-40" text-anchor="end">Ejemplo ilustrativo</text>`;
+  cont.innerHTML = SVG(W, 560, s);
+}
+
+/* ---------- 3 · Electroterminales (01-datos/depots.csv) ---------- */
+const ELECTROTERMINALES = [
+  ["Vespucio Norte", 150], ["El Conquistador", 180], ["Los Espinos", 120], ["La Reina", 100], ["Santa Rosa", 150],
+];
+function armarTerminales(cont) {
+  const W = 1728, Y = 120;
+  let s = `<text class="titulo-t" x="0" y="0" ${enPaso(2)}>5 electroterminales con 700 plazas de carga, compartidas por toda la flota</text>`;
+  s += `<line x1="0" x2="${W}" y1="${Y}" y2="${Y}" pathLength="1" stroke="var(--linea)" stroke-width="4" ${enPaso(2, 0, "traza")}/>`;
+  ELECTROTERMINALES.forEach(([nombre, plazas], i) => {
+    const cx = 170 + i * 347, r = Math.sqrt(plazas) * 2.6, t = 250 + i * 220;
+    s += `<g ${enPaso(2, t, "pop")}><circle cx="${cx}" cy="${Y}" r="${r}" fill="var(--verde)" stroke="var(--fondo)" stroke-width="4"/>${icono("enchufe", r * 1.1, "var(--blanco)", cx - r * 0.55, Y - r * 0.55)}</g>`;
+    s += `<text class="nombre" x="${cx}" y="${Y - r - 16}" text-anchor="middle" ${enPaso(2, t + 120)}>${nombre}</text>`;
+    s += `<text class="plazas" x="${cx}" y="${Y + r + 32}" text-anchor="middle" ${enPaso(2, t + 120)}>${plazas} plazas</text>`;
+  });
+  cont.innerHTML = SVG(W, 230, s);
+}
+document.querySelectorAll(".jornadas").forEach(armarJornadas);
+document.querySelectorAll(".terminales").forEach(armarTerminales);
+
+/* ---------- Cifra que cuenta hasta su valor al entrar a la lámina ---------- */
+const formato = n => Math.round(n).toLocaleString("es-CL");
+const sinMovimiento = matchMedia("(prefers-reduced-motion: reduce)").matches;
+/* ---------- 5 · Viajes en curso durante el día (datos_dia.js, generado por curva_dia.py) ---------- */
+function armarCurva(cont) {
+  if (typeof DIA === "undefined") { cont.textContent = "Falta datos_dia.js: correr curva_dia.py"; return; }
+  const W = 1728, H = 450, X0 = 640, Y_MAX = 7000, PASO_H = DIA.paso_min / 60, H_FIN = 26;
+  const x = h => X0 + h / H_FIN * (W - X0), y = v => H - v / Y_MAX * H;
+  const H_ROTULO = 10.5;   /* los nombres de las series van en el valle del mediodía */
+  const camino = serie => serie.map((v, i) => `${i ? "L" : "M"}${x(i * PASO_H).toFixed(1)},${y(v).toFixed(1)}`).join("");
+  const SERIES = [["L", "Día laboral", "var(--azul)", 4], ["S", "Sábado", "var(--gris-base)", 3], ["D", "Domingo", "#B5B7B8", 3]];
+  let s = "";
+  for (let v = 0; v <= 6000; v += 2000) {
+    s += `<line x1="${X0}" x2="${W}" y1="${y(v)}" y2="${y(v)}" stroke="var(--linea)" stroke-width="1"/>`;
+    s += `<text class="eje" x="${X0 - 14}" y="${y(v) + 6}" text-anchor="end">${v.toLocaleString("es-CL")}</text>`;
+  }
+  for (let h = 0; h <= 24; h += 3) s += `<text class="eje" x="${x(h)}" y="${H + 34}" text-anchor="middle">${String(h % 24).padStart(2, "0")}:00</text>`;
+  /* Fin de semana primero (atrás); el día laboral encima, con un relleno suave */
+  SERIES.slice(1).reverse().forEach(([d, nombre, color, ancho], k) => {
+    s += `<path d="${camino(DIA.curvas[d])}" pathLength="1" fill="none" stroke="${color}" stroke-width="${ancho}" stroke-linejoin="round" ${enPaso(2, 150 * k, "traza")}/>`;
+    const v = DIA.curvas[d][Math.round(H_ROTULO / PASO_H)];
+    s += `<text class="serie fijo" x="${x(H_ROTULO)}" y="${d === "D" ? y(v) + 34 : y(v) - 16}" text-anchor="middle" fill="${color}" ${enPaso(2, 900)}>${nombre}</text>`;
+  });
+  const L = DIA.curvas.L, GUIA_DESDE = 330;   /* donde termina el número grande */
+  s += `<path d="${camino(L)}L${x((L.length - 1) * PASO_H)},${H}L${X0},${H}Z" fill="var(--azul)" fill-opacity=".08" ${enPaso(0, 900)}/>`;
+  s += `<path d="${camino(L)}" pathLength="1" fill="none" stroke="var(--azul)" stroke-width="4" stroke-linejoin="round" ${enPaso(0, 0, "traza")}/>`;
+  s += `<text class="serie fijo" x="${x(H_ROTULO)}" y="${y(L[Math.round(H_ROTULO / PASO_H)]) - 16}" text-anchor="middle" fill="var(--azul)" ${enPaso(0, 1200)}>Día laboral</text>`;
+  /* Punta de la mañana del día laboral */
+  const pico = DIA.picos.L, hp = +pico.hora.slice(0, 2) + +pico.hora.slice(3) / 60;
+  s += `<g ${enPaso(1, 0, "pop")}><circle cx="${x(hp)}" cy="${y(pico.buses)}" r="11" fill="var(--blanco)" stroke="var(--texto)" stroke-width="4"/></g>`;
+  s += `<line x1="${GUIA_DESDE}" x2="${x(hp) - 16}" y1="${y(pico.buses)}" y2="${y(pico.buses)}" stroke="var(--texto)" stroke-width="2" ${enPaso(1, 150)}/>`;
+  cont.innerHTML = SVG(W, H + 40, s);
+  /* El número grande se ubica a la derecha de la punta */
+  const etiqueta = cont.parentElement.querySelector(".pico-dia");
+  etiqueta.style.left = "96px";
+  etiqueta.style.top = (250 + y(pico.buses) - 52) + "px";
+}
+document.querySelectorAll(".curva-dia").forEach(armarCurva);
+
+/* ---------- 9 · Mapa por sectores. Paleta validada con dataviz (visión normal ≥ 15; rótulos directos) ---------- */
+const COLOR_SECTOR = { 1: "#e87ba4", 2: "#2a78d6", 3: "#eda100", 4: "#1baf7a", 5: "#008300" };
+const RUTAS_SECTOR = { 1: 65, 2: 95, 3: 68, 4: 72, 5: 117 };   // 09-entrega3/mapa_sectores (día laboral)
+const ROTULO = { 1: [20, -30, "start"], 2: [-24, -18, "end"], 3: [-26, -14, "end"], 4: [22, -24, "start"], 5: [26, 30, "start"] };
+function armarSectores(cont) {
+  if (typeof MAPA === "undefined") return;
+  let s = MAPA.rutas.map(r => `<path class="ruta s${r.s}" style="--c:${COLOR_SECTOR[r.s]}" d="${r.d}"/>`).join("");
+  MAPA.electroterminales.forEach(t => {
+    const [dx, dy, ancla] = ROTULO[t.sector];
+    s += `<g ${enPaso(1, 250 + t.sector * 260)}>
+      <circle cx="${t.x}" cy="${t.y}" r="10" fill="var(--blanco)" stroke="var(--texto)" stroke-width="4"/>
+      <text class="et-nombre fijo" x="${t.x + dx}" y="${t.y + dy}" text-anchor="${ancla}" fill="${COLOR_SECTOR[t.sector]}">${t.nombre}</text>
+      <text class="et-rutas fijo" x="${t.x + dx}" y="${t.y + dy + 26}" text-anchor="${ancla}">${RUTAS_SECTOR[t.sector]} rutas</text></g>`;
+  });
+  cont.innerHTML = `<svg viewBox="0 0 ${MAPA.ancho} ${MAPA.alto}" preserveAspectRatio="xMinYMin meet">${s}</svg>`;
+}
+document.querySelectorAll(".sectores .mapa").forEach(armarSectores);
+
+/* Encuadra cada mapa en sus rutas (la caja de mapa_svg.py trae márgenes amplios). */
+function encuadrar(svg, margen = 30) {
+  const rutas = [...svg.querySelectorAll(".ruta")];
+  if (!rutas.length) return;
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  rutas.forEach(r => { const b = r.getBBox(); x0 = Math.min(x0, b.x); y0 = Math.min(y0, b.y);
+    x1 = Math.max(x1, b.x + b.width); y1 = Math.max(y1, b.y + b.height); });
+  svg.setAttribute("viewBox", `${x0 - margen} ${y0 - margen} ${x1 - x0 + 2 * margen} ${y1 - y0 + 2 * margen}`);
+}
+document.querySelectorAll(".mapa svg").forEach(svg => encuadrar(svg));
+
+/* ---------- 11 · Flujo del método como línea con paradas ---------- */
+const ETAPAS = [
+  ["Datos", "GTFS y enunciado", "archivo"], ["Sectores", "una ruta, un electroterminal", "pin"],
+  ["Plan inicial", "en orden de salida", "bus"], ["Mejora", "grupos de 4 y MILP", "intercambio"],
+  ["Auditoría", "cada plan, sin excepción", "escudo"], ["KPIs", "contra el caso base", "grafico"],
+];
+function armarTuberia(cont) {
+  const W = 1728, Y = 70, x = i => 40 + i * (W - 80) / (ETAPAS.length - 1);
+  let s = `<line x1="${x(0)}" x2="${x(ETAPAS.length - 1)}" y1="${Y}" y2="${Y}" pathLength="1" stroke="var(--azul)" stroke-width="6" ${enPaso(1, 0, "traza")}/>`;
+  ETAPAS.forEach(([et, det, ico], i) => {
+    const t = 150 + i * 220, ancla = i === 0 ? "start" : i === ETAPAS.length - 1 ? "end" : "middle";
+    const xt = i === 0 ? x(i) - 18 : i === ETAPAS.length - 1 ? x(i) + 18 : x(i);
+    s += `<g ${enPaso(1, t, "pop")}><circle cx="${x(i)}" cy="${Y}" r="40" fill="var(--fondo)" stroke="var(--azul)" stroke-width="6"/>${icono(ico, 40, "var(--azul)", x(i) - 20, Y - 20)}</g>`;
+    s += `<text class="et" x="${xt}" y="${Y + 86}" text-anchor="${ancla}" ${enPaso(1, t + 80)}>${et}</text>`;
+    s += `<text class="det" x="${xt}" y="${Y + 120}" text-anchor="${ancla}" ${enPaso(1, t + 80)}>${det}</text>`;
+  });
+  cont.innerHTML = SVG(W, 300, s);
+}
+document.querySelectorAll(".tuberia").forEach(armarTuberia);
+
+function contar(el) {
+  const fin = +(el.dataset.contar || el.dataset.valor), dur = 1300, t0 = performance.now();
+  if (sinMovimiento || document.documentElement.classList.contains("estatico")) { el.textContent = formato(fin); return; }
+  const cuadro = t => {
+    const u = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - u, 3);
+    el.textContent = formato(fin * e);
+    if (u < 1) requestAnimationFrame(cuadro);
+  };
+  requestAnimationFrame(cuadro);
+}
+
+/* ---------- Línea de recorrido ---------- */
+const recorrido = document.createElement("nav");
+recorrido.id = "recorrido"; recorrido.setAttribute("aria-label", "Avance de la presentación");
+const ANCHO_VIA = 1920 - 192;
+const xParada = n => (n - 1) / (TOTAL - 1) * ANCHO_VIA;
+recorrido.innerHTML = `<div class="via"></div><div class="hecho"></div>` +
+  Array.from({ length: TOTAL }, (_, i) => `<div class="parada" style="left:${xParada(i + 1)}px"></div>`).join("") +
+  BLOQUES.map((b, i) => {
+    const hasta = (BLOQUES[i + 1]?.desde ?? TOTAL + 1) - 1;
+    return `<div class="tramo" style="left:${(xParada(b.desde) + xParada(hasta)) / 2}px">${b.nombre}</div>`;
+  }).join("") + `<div id="marcador"></div>`;
+document.getElementById("escenario").appendChild(recorrido);
+
+function moverRecorrido(n, tramo) {
+  recorrido.classList.toggle("oculto", n === 1);
+  recorrido.querySelector(".hecho").style.width = xParada(n) + "px";
+  recorrido.querySelectorAll(".parada").forEach((p, i) => p.classList.toggle("pasada", i + 1 <= n));
+  recorrido.querySelectorAll(".tramo").forEach((t, i) => t.classList.toggle("actual", i === tramo));
+  const m = document.getElementById("marcador");
+  m.style.left = xParada(n) + "px"; m.textContent = `${n} / ${TOTAL}`;
+}
+
+/* ---------- Encabezado con la sigla del curso ---------- */
+const encabezado = document.createElement("header");
+encabezado.id = "encabezado";
+encabezado.innerHTML = `<span class="curso"><b>ICS2122</b><span>Taller de Investigación Operativa (Capstone)</span></span><span>Grupo 29, entrega final</span>`;
+document.getElementById("escenario").appendChild(encabezado);
+
+/* ---------- Controlador ---------- */
+const laminas = [...document.querySelectorAll(".lamina")];
+laminas.filter(l => l.classList.contains("absorcion")).forEach(armarAbsorcion);
+laminas.filter(l => l.classList.contains("objetivo")).forEach(l => {
+  l.alPaso = p => l.querySelector(".formula").classList.toggle("enfocar", p === 1);
+});
+/* 9: en el paso 1 los sectores se pintan uno tras otro; al volver al paso 0 vuelven a gris. */
+laminas.filter(l => l.classList.contains("sectores")).forEach(l => {
+  const mapa = l.querySelector(".mapa");
+  let relojes = [];
+  l.alPaso = p => {
+    relojes.forEach(clearTimeout); relojes = [];
+    for (let s = 1; s <= 5; s++) {
+      if (p < 1) mapa.classList.remove(`s-${s}`);
+      else if (!mapa.classList.contains(`s-${s}`)) relojes.push(setTimeout(() => mapa.classList.add(`s-${s}`), 250 + s * 260));
+    }
+  };
+});
+/* Cada lámina muestra los elementos de los pasos ya alcanzados y corre su propia lógica, si tiene. */
+laminas.forEach(l => {
+  l.aplicarPaso = p => {
+    l.querySelectorAll("[data-desde]").forEach(el => el.classList.toggle("visto", +el.dataset.desde <= p));
+    l.querySelectorAll("[data-contar-paso]").forEach(el => { if (+el.dataset.contarPaso === p) contar(el); });
+    if (l.alPaso) l.alPaso(p);
+  };
+});
+let actual = 0, paso = 0;
+
+function marcarHash() {
+  const n = laminas[actual].dataset.n;
+  history.replaceState(null, "", `#${n}${paso ? "." + paso : ""}`);
+}
+function mostrar(i, p = 0) {
+  const lam = laminas[i];
+  const n = +lam.dataset.n;
+  if (i > actual && CAMBIO_EXPOSITOR.has(n)) {
+    const b = document.getElementById("barrido"); b.classList.remove("pasa"); void b.offsetWidth; b.classList.add("pasa");
+  }
+  const anterior = laminas[actual];
+  anterior.classList.remove("activa");
+  /* Al salir, la lámina anterior vuelve a su estado inicial para que sus pasos se animen otra vez. */
+  if (anterior !== lam) setTimeout(() => {
+    if (!anterior.classList.contains("activa")) anterior.querySelectorAll(".visto").forEach(el => el.classList.remove("visto"));
+  }, 400);
+  lam.classList.add("activa");
+  actual = i; paso = p;
+  lam.querySelectorAll("[data-contar]").forEach(contar);
+  requestAnimationFrame(() => lam.aplicarPaso(paso));
+  moverRecorrido(n, +lam.dataset.tramo);
+  encabezado.classList.toggle("oculto", n === 1);
+  marcarHash();
+}
+function avanzar(d) {
+  const lam = laminas[actual], max = +(lam.dataset.pasos || 1) - 1;
+  if ((d > 0 && paso < max) || (d < 0 && paso > 0)) { paso += d; lam.aplicarPaso(paso); marcarHash(); return; }
+  const j = Math.min(laminas.length - 1, Math.max(0, actual + d));
+  if (j !== actual) mostrar(j, d < 0 ? +(laminas[j].dataset.pasos || 1) - 1 : 0);
+}
+document.addEventListener("keydown", e => {
+  if (["ArrowRight", "PageDown", " ", "Enter"].includes(e.key)) { e.preventDefault(); avanzar(1); }
+  if (["ArrowLeft", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); avanzar(-1); }
+});
+document.addEventListener("click", () => avanzar(1));
+let toqueX = null;
+document.addEventListener("touchstart", e => { toqueX = e.touches[0].clientX; }, { passive: true });
+document.addEventListener("touchend", e => {
+  if (toqueX === null) return;
+  const dx = e.changedTouches[0].clientX - toqueX;
+  if (Math.abs(dx) > 40) avanzar(dx < 0 ? 1 : -1);
+  toqueX = null;
+});
+
+function escalar() {
+  const s = Math.min(innerWidth / 1920, innerHeight / 1080);
+  document.getElementById("escenario").style.setProperty("--escala", s);
+}
+addEventListener("resize", escalar); escalar();
+
+function desdeHash() {
+  const [n, p] = location.hash.slice(1).split(".").map(Number);
+  const i = laminas.findIndex(l => +l.dataset.n === n);
+  laminas[actual].classList.remove("activa");
+  actual = i >= 0 ? i : 0;
+  mostrar(actual, p || 0);
+}
+/* ---------- Modo exportación: ?exportar quita el movimiento, ?sintexto oculta los textos, ?medir escribe
+   en el DOM la caja, la tipografía y el color de cada texto de la lámina visible (lo lee exportar_pptx.py) ---------- */
+const PARAMS = new URLSearchParams(location.search);
+if (PARAMS.has("exportar")) document.documentElement.classList.add("estatico");
+if (PARAMS.has("sintexto")) document.documentElement.classList.add("sintexto");
+if (PARAMS.has("sinmarco")) document.documentElement.classList.add("sinmarco");
+if (PARAMS.has("siniconos")) document.documentElement.classList.add("siniconos");
+
+function oculto(el) {
+  for (let e = el; e && e !== document.body; e = e.parentElement) {
+    const cs = getComputedStyle(e);
+    if (cs.display === "none" || cs.visibility === "hidden" || +cs.opacity === 0) return true;
+  }
+  return false;
+}
+const esBloque = el => el instanceof SVGTextElement ||
+  (!(el instanceof SVGElement) && !["inline", "inline-block", "contents"].includes(getComputedStyle(el).display));
+function tramos(el, salida = []) {
+  for (const n of el.childNodes) {
+    if (n.nodeType === Node.TEXT_NODE) {
+      const t = n.textContent.replace(/\s+/g, " ");
+      if (t.trim() || (t === " " && salida.length)) {
+        const cs = getComputedStyle(el);
+        salida.push({ nodo: n, t, familia: cs.fontFamily.split(",")[0].replace(/["']/g, "").trim(), px: parseFloat(cs.fontSize),
+          peso: +cs.fontWeight, cursiva: cs.fontStyle === "italic",
+          color: el instanceof SVGElement && cs.fill.startsWith("rgb") ? cs.fill : cs.color });
+      }
+    } else if (n.nodeType === Node.ELEMENT_NODE && !n.matches("i.ico, svg.ico-svg, aside") && !esBloque(n)) {
+      tramos(n, salida);
+    }
+  }
+  return salida;
+}
+function mezclar(css, alfa) {
+  const [r, g, b] = css.match(/[\d.]+/g).map(Number);
+  const fondo = [0xF3, 0xF4, 0xF4];
+  return `rgb(${[r, g, b].map((v, i) => Math.round(v * alfa + fondo[i] * (1 - alfa))).join(", ")})`;
+}
+function medir() {
+  const lam = laminas[actual], escala = parseFloat(getComputedStyle(document.getElementById("escenario")).getPropertyValue("--escala")) || 1;
+  const caja0 = document.getElementById("escenario").getBoundingClientRect();
+  const bloques = [];
+  /* Textos de la lámina y del encabezado (este último sale como texto editable en el .pptx). */
+  [...lam.querySelectorAll("*"), ...document.querySelectorAll("#encabezado *")].forEach(el => {
+    if (el.closest("aside, i.ico, .fijo") || !esBloque(el) || oculto(el)) return;  /* .fijo: queda en la imagen */
+    const runs = tramos(el);
+    if (!runs.length || !runs.some(r => r.t.trim())) return;
+    runs[0].t = runs[0].t.replace(/^\s+/, ""); runs[runs.length - 1].t = runs[runs.length - 1].t.replace(/\s+$/, "");
+    /* La caja es la unión de los textos propios: no incluye íconos ni bloques hijos. */
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    runs.forEach(run => { const rg = document.createRange(); rg.selectNodeContents(run.nodo);
+      [...rg.getClientRects()].forEach(q => { if (!q.width) return; x0 = Math.min(x0, q.left); y0 = Math.min(y0, q.top); x1 = Math.max(x1, q.right); y1 = Math.max(y1, q.bottom); }); });
+    if (!isFinite(x0)) return;
+    /* Transparencia heredada (p. ej. términos atenuados): se mezcla el color con el fondo, porque Canva no la conserva. */
+    let alfa = 1;
+    for (let e = el; e && e !== lam.parentElement; e = e.parentElement) alfa *= +getComputedStyle(e).opacity;
+    if (alfa < 0.99) runs.forEach(run => { run.color = mezclar(run.color, alfa); });
+    /* Tramos de distinto tamaño en un mismo bloque: Canva los iguala, así que cada uno va en su propia caja. */
+    if (new Set(runs.map(run => run.px)).size > 1) {
+      runs.forEach(run => {
+        const rg = document.createRange(); rg.selectNodeContents(run.nodo);
+        const q = rg.getBoundingClientRect(); const t = run.t.trim();
+        if (!t || !q.width) return;
+        const cs2 = getComputedStyle(run.nodo.parentElement);
+        bloques.push({ x: (q.left - caja0.left) / escala, y: (q.top - caja0.top) / escala, w: q.width / escala, h: q.height / escala,
+          alin: "left", interlineado: 1.2, lineas: 1, runs: [{ ...run, t, nodo: undefined }] });
+      });
+      return;
+    }
+    runs.forEach(run => delete run.nodo);
+    const r = { left: x0, top: y0, width: x1 - x0, height: y1 - y0 }, cs = getComputedStyle(el);
+    let alin = cs.textAlign;
+    if (el instanceof SVGTextElement) alin = { middle: "center", end: "right" }[el.getAttribute("text-anchor")] || "left";
+    const lh = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.2;
+    bloques.push({ x: (r.left - caja0.left) / escala, y: (r.top - caja0.top) / escala, w: r.width / escala, h: r.height / escala,
+      alin, interlineado: lh / parseFloat(cs.fontSize), lineas: Math.max(1, Math.round(r.height / escala / lh)), runs });
+  });
+  const iconos = [];
+  lam.querySelectorAll("svg.ico-svg").forEach(svg => {
+    if (oculto(svg)) return;
+    const q = svg.getBoundingClientRect();
+    if (!q.width) return;
+    let alfa = 1;
+    for (let e = svg; e && e !== lam.parentElement; e = e.parentElement) alfa *= +getComputedStyle(e).opacity;
+    let color = getComputedStyle(svg).stroke;
+    if (alfa < 0.99) color = mezclar(color, alfa);
+    iconos.push({ ico: svg.dataset.ico, color, x: (q.left - caja0.left) / escala, y: (q.top - caja0.top) / escala,
+      w: q.width / escala, h: q.height / escala });
+  });
+  const notas = lam.querySelector("aside.notas")?.textContent.replace(/\s+/g, " ").trim() || "";
+  const pre = document.createElement("script");
+  pre.type = "application/json"; pre.id = "medidas";
+  pre.textContent = JSON.stringify({ n: +lam.dataset.n, tramo: +lam.dataset.tramo, paso, pasos: +(lam.dataset.pasos || 1), notas, bloques, iconos });
+  document.body.appendChild(pre);
+}
+if (PARAMS.has("medir")) setTimeout(medir, +PARAMS.get("medir") || 2500);
+
+addEventListener("hashchange", desdeHash);
+document.body.classList.add("cargando");
+desdeHash();
+requestAnimationFrame(() => requestAnimationFrame(() => document.body.classList.remove("cargando")));
+</script>
+</body>
+</html>
