@@ -5,6 +5,7 @@ import numpy as np
 import gurobipy as gp
 from metodo_hibrido.recarga import opciones
 from metodo_hibrido.calendario import actividad, esperar, agregar_viaje
+from metodo_hibrido.energia import BATERIA, RESERVA
 
 # Pares y tríos usan 2 y 3; el estudio de 09-entrega3/octetos llega a grupos de 8.
 MAX_SECUENCIAS = 8
@@ -56,10 +57,10 @@ def resolver_conjunto(sequences,chain,d,starts,calendar,tariffs,limit=2.,deadlin
             if not initials or not finals:return None,dict(estado='sin_terminal')
             x=model.addVars(initials,vtype='B',name=f'inicial_{b}')
             z=model.addVars(finals,vtype='B',name=f'final_{b}')
-            energy=model.addVars(len(trips),lb=35,ub=350,name=f'energia_{b}')
+            energy=model.addVars(len(trips),lb=RESERVA,ub=BATERIA,name=f'energia_{b}')
             model.addConstr(x.sum()==1);model.addConstr(z.sum()==1)
-            model.addConstr(energy[0]==350-1.4*(trips[0]['distancia_servicio_km']+gp.quicksum(d[t,first][0]*x[t] for t in initials)))
-            model.addConstr(energy[len(trips)-1]-1.4*gp.quicksum(d[last,t][0]*z[t] for t in finals)>=35)
+            model.addConstr(energy[0]==BATERIA-1.4*(trips[0]['distancia_servicio_km']+gp.quicksum(d[t,first][0]*x[t] for t in initials)))
+            model.addConstr(energy[len(trips)-1]-1.4*gp.quicksum(d[last,t][0]*z[t] for t in finals)>=RESERVA)
             objective+=.5*(gp.quicksum(d[t,first][0]*x[t] for t in initials)+gp.quicksum(d[last,t][0]*z[t] for t in finals))
             for t in finals:
                 if t in calendar.physical:
@@ -77,8 +78,8 @@ def resolver_conjunto(sequences,chain,d,starts,calendar,tariffs,limit=2.,deadlin
                 model.addConstr(y.sum()<=1)
                 for k,c in enumerate(opts):
                     model.addConstr(q[k]<=c['maxq']*y[k])
-                    model.addGenConstrIndicator(y[k],True,energy[j-1]>=35+1.4*c['km1'])
-                    model.addGenConstrIndicator(y[k],True,energy[j-1]-1.4*c['km1']+q[k]<=350)
+                    model.addGenConstrIndicator(y[k],True,energy[j-1]>=RESERVA+1.4*c['km1'])
+                    model.addGenConstrIndicator(y[k],True,energy[j-1]-1.4*c['km1']+q[k]<=BATERIA)
                     occupancy[c['e']].append((c['start'],c['end'],y[k]))
                     connections[c['e']].append((c['start'],c['end'],y[k]))
                 model.addConstr(energy[j]==energy[j-1]-1.4*(km+trip['distancia_servicio_km'])+

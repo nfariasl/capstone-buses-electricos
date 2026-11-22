@@ -31,7 +31,9 @@ CASOS = Path(__file__).resolve().parent / 'casos'
 # Mismos parámetros de búsqueda que el método híbrido de la Entrega 2.
 BUSQUEDA = dict(local_limit=2., neighbors=8, per_pair=3, max_rounds=30, coordination='conjunta')
 TAMANOS = {'trios': 3, 'cuartetos': 4, 'quintetos': 5, 'octetos': 8}
-METODOS = ('solo_base', 'pares', 'pares_trios', 'trios', 'cuartetos', 'quintetos', 'octetos', 'mezcla', 'exacta')
+METODOS = ('solo_base', 'pares', 'pares_trios', 'trios', 'cuartetos', 'quintetos', 'octetos', 'mezcla', 'exacta',
+           'exacta_podada')
+EXACTAS = {'exacta', 'exacta_podada'}
 CON_SELECCION = {'trios', 'cuartetos', 'quintetos', 'octetos', 'mezcla'}
 CAMPOS = ['instancia', 'corridas', 'metodo', 'seleccion', 'semilla', 'presupuesto_s', 'buses', 'costo_total_usd', 'km',
           'carga_kwh', 'sesiones', 'tiempo_s', 'intentos', 'mejoras', 'motivo_fin', 'optimo', 'cota_usd', 'error']
@@ -78,16 +80,18 @@ def _auditar(plans, trips, params, carpeta):
     return export(carpeta, plans, trips, params)
 
 
-def correr_uno(trips, params, base, metodo, seleccion, semilla, presupuesto, carpeta=None):
+def correr_uno(trips, params, base, metodo, seleccion, semilla, presupuesto, carpeta=None, hilos_exacta=1):
     tick = time.perf_counter()
     extra = {}
     if metodo == 'solo_base':
         plans = base
-    elif metodo == 'exacta':
-        plans, info = resolver_exacto(trips, *params, limit=presupuesto)
+    elif metodo in EXACTAS:
+        plans, info = resolver_exacto(trips, *params, limit=presupuesto, podar=metodo == 'exacta_podada',
+                                      hilos=hilos_exacta)
         extra = dict(optimo=info['optimo'], cota_usd=info.get('cota_usd', ''), motivo_fin=f"estado_{info['estado']}")
-        if plans is None:
-            raise RuntimeError(f"Sin solución en el tiempo dado (estado {info['estado']})")
+        if plans is None:  # sin plan en el tiempo dado: igual se anota la cota inferior
+            return dict(extra, tiempo_s=round(time.perf_counter() - tick, 2),
+                        error=f"Sin solución en el tiempo dado (estado {info['estado']})")
     else:
         plans, extra = _heuristica(trips, params, base, metodo, seleccion, semilla, presupuesto)
     reporte = _auditar(plans, trips, params, carpeta)
@@ -114,7 +118,7 @@ def _hechas(salida):
 
 
 def correr(instancias, metodos, presupuestos, selecciones=('parecidos', 'azar'), semillas=(1, 2, 3),
-           salida=None, continuar=False, presupuesto_exacta=None, planes=None):
+           salida=None, continuar=False, presupuesto_exacta=None, planes=None, hilos_exacta=1):
     salida = Path(salida)
     if salida.exists() and not continuar:
         raise FileExistsError(f'{salida} ya existe; usa --continuar o elige otro nombre')
@@ -128,9 +132,9 @@ def correr(instancias, metodos, presupuestos, selecciones=('parecidos', 'azar'),
             writer.writeheader()
         for carpeta in instancias:
             trips, *params = load_instance(carpeta)
-            base = solve(trips, *params)[-1]
+            base = solve(trips, *params)[-1] if set(metodos) - EXACTAS else None  # la exacta no lo usa
             for metodo, seleccion, semilla in _corridas(metodos, selecciones, semillas):
-                tiempos = [presupuesto_exacta] if metodo == 'exacta' and presupuesto_exacta else presupuestos
+                tiempos = [presupuesto_exacta] if metodo in EXACTAS and presupuesto_exacta else presupuestos
                 for presupuesto in (tiempos if metodo != 'solo_base' else [0]):
                     clave = (Path(carpeta).name, metodo, seleccion, semilla, float(presupuesto))
                     if clave in hechas:
@@ -139,7 +143,8 @@ def correr(instancias, metodos, presupuestos, selecciones=('parecidos', 'azar'),
                                 corridas=len(trips))
                     try:
                         destino = _carpeta_planes(planes, *clave)
-                        fila.update(correr_uno(trips, params, base, metodo, seleccion, semilla, presupuesto, destino))
+                        fila.update(correr_uno(trips, params, base, metodo, seleccion, semilla, presupuesto, destino,
+                                               hilos_exacta))
                     except Exception as error:  # se registra y se sigue: la tabla debe decir qué falló
                         fila['error'] = f'{type(error).__name__}: {error}'[:300]
                     writer.writerow({k: fila.get(k, '') for k in CAMPOS})
@@ -162,13 +167,14 @@ def main():
     parser.add_argument('--semillas', type=int, nargs='*', default=[1, 2, 3])
     parser.add_argument('--salida', type=Path, required=True)
     parser.add_argument('--continuar', action='store_true')
+    parser.add_argument('--hilos-exacta', type=int, default=1, help='Hilos de Gurobi para la respuesta perfecta')
     parser.add_argument('--planes', type=Path, help='Carpeta donde guardar los planes auditados de cada corrida')
     args = parser.parse_args()
     if min(args.presupuestos) <= 0:
         parser.error('Los presupuestos deben ser positivos')
-    instancias = args.instancias or [CASOS / r['nombre'] for r in read_csv(CASOS / 'indice.csv')]
+    instancias = args.instancias or sorted(p for p in CASOS.iterdir() if (p / 'escenario.json').exists())
     correr(instancias, args.metodos, args.presupuestos, args.selecciones, args.semillas, args.salida,
-           args.continuar, args.presupuesto_exacta, args.planes)
+           args.continuar, args.presupuesto_exacta, args.planes, args.hilos_exacta)
 
 
 if __name__ == '__main__':

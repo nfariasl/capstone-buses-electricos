@@ -1,0 +1,89 @@
+{
+  "rutas": [
+    "408e",
+    "502c",
+    "B30N",
+    "I08N",
+    "J01c",
+    "J07c",
+    "J18c",
+    "J22"
+  ],
+  "service_id": "L",
+  "terminales_espera": [
+    "T01",
+    "T02",
+    "T03",
+    "T04"
+  ],
+  "capacidad_fisica": {
+    "E1": 150,
+    "E2": 180,
+    "E3": 120,
+    "E4": 100,
+    "E5": 150
+  },
+  "conexiones": {
+    "E1": 150,
+    "E2": 180,
+    "E3": 120,
+    "E4": 100,
+    "E5": 150
+  },
+  "tarifas": [
+    [
+      0,
+      8,
+      0.1
+    ],
+    [
+      8,
+      14,
+      0.15
+    ],
+    [
+      14,
+      17,
+      0.22
+    ],
+    [
+      17,
+      19,
+      0.15
+    ],
+    [
+      19,
+      22,
+      0.22
+    ],
+    [
+      22,
+      24,
+      0.11
+    ]
+  ],
+  "inicio_horizonte_s": -7086,
+  "fin_horizonte_s": 98901,
+  "origen": "Caso por rutas de la instancia de 212 rutas; rutas completas",
+  "parametros": {
+    "bateria_kwh": 350,
+    "reserva_kwh": 35,
+    "consumo_kwh_km": 1.4,
+    "velocidad_vacio_kmh": 18,
+    "potencia_kw": 180,
+    "bloque_s": 300,
+    "costo_bus": 250,
+    "costo_km": 0.5,
+    "costo_sesion": 5
+  },
+  "fuentes_sha256": {
+    "corridas": "d501f7777c4e31180ae3089a18a9e8d43fcd073c59a99a06fd4bfd9b85ae3fa3",
+    "traslados": "45decde19bb0abf83aa5de506ea6e28333ea7dd3eafbb4a6bff89c2f89d46a3b",
+    "electroterminales": "ad980a28f16a6fa0773401e893b25999bb1665ab75916c0cf781e34f96b3da80",
+    "depots": "edf1513ee6f94590ec8d287dc5b02de4939051c4f07a9ca42e2d00d6ed9870be",
+    "cargadores": "b3587b008d21d2fbbf89fbaa4d9e0d9bc8678a37e707ebb8ef30f0997e69b8b1",
+    "tarifas": "5e443c862bf89999cef06a0708b6c1e3da37e96b6ee9afebf2ec58c50fc9f65a",
+    "resumen": "71bf878e8d8eb69ebfbb86fbb58f42c82231437f70dc5f5d6390986cbd2c94ba"
+  },
+  "corridas_origen_sha256": "eb56112bf12b43bb0223f3e49f5b89a10890a51c76ebc8ec869034d25986ac9c"
+}

@@ -4,16 +4,28 @@ Usa el mismo costo que el revisor y el mismo catálogo de recargas que la mejora
 (recarga.opciones con interior=True), así que su óptimo es la regla para medir a los demás métodos.
 Cada jornada parte del terminal de espera más cercano (no tienen límite de capacidad, así que es
 óptimo) y el modelo elige dónde termina, respetando las plazas de los electroterminales.
+
+Con podar=True (casos medianos) el modelo cabe en un computador de 8 GB: de cada par de servicios se
+dejan solo las recargas no dominadas y no se escriben las restricciones de capacidad. Una recarga A
+domina a B si va y vuelve con menos o iguales km, puede cargar al menos lo mismo y es igual o más
+barata por kWh; cualquier plan que use B se cambia por A cargando menos y queda igual de factible y
+no más caro. Así el modelo podado sin capacidades es una relajación con el mismo óptimo que el
+modelo completo sin capacidades: su cota inferior vale para el modelo completo y, si su plan pasa
+el revisor (que sí revisa conexiones y plazas), ese plan es óptimo también para el modelo completo.
 """
 from collections import defaultdict
 import gurobipy as gp
 from metodo_hibrido.calendario import Calendario
 from metodo_hibrido.conjunta import armar_plan
 from metodo_hibrido.recarga import opciones
+from metodo_hibrido.energia import BATERIA as _BATERIA, CONSUMO, RESERVA as _RESERVA
 
-BATERIA, RESERVA, CONSUMO = 350, 35, 1.4
 COSTO_BUS, COSTO_KM, COSTO_SESION = 250, .5, 5
 BLOQUE = 300
+# Margen numérico: con indicadores, Gurobi acepta violaciones de ~1e-4 kWh, que el revisor rechaza
+# (pasó con 4 hilos: 34,9999 kWh contra una reserva de 35). El modelo usa una batería un poco más estrecha.
+MARGEN_KWH = 1e-3
+BATERIA, RESERVA = _BATERIA - MARGEN_KWH, _RESERVA + MARGEN_KWH
 
 
 def _extremos(trip, d, starts, calendar):
@@ -28,7 +40,28 @@ def _extremos(trip, d, starts, calendar):
     return min(inicios), sorted(finales)
 
 
-def _enlaces(trips, d, calendar, tariffs):
+def _no_dominadas(lista):
+    """Frontera de Pareto en (km1, km2, -maxq, price): menos km, más carga posible, más barata."""
+    lista = sorted(lista, key=lambda c: (c['km1'] + c['km2'], -c['maxq'], c['price'], c['km1']))
+    frontera = []
+    for c in lista:
+        if not any(f['km1'] <= c['km1'] and f['km2'] <= c['km2'] and f['maxq'] >= c['maxq']
+                   and f['price'] <= c['price'] for f in frontera):
+            frontera.append(c)
+    return frontera
+
+
+def _podar(lista):
+    """Primero, dentro de cada electroterminal (mismos km), la más barata para cada carga máxima."""
+    mejor = {}
+    for c in lista:
+        clave = c['e'], c['maxq']
+        if clave not in mejor or c['price'] < mejor[clave]['price']:
+            mejor[clave] = c
+    return _no_dominadas(mejor.values())
+
+
+def _enlaces(trips, d, calendar, tariffs, podar=False):
     """Encadenamientos directos (i, j, km) y con recarga (i, j, opción) dentro de cada sector."""
     directos, recargas = [], []
     for i, a in enumerate(trips):
@@ -41,8 +74,8 @@ def _enlaces(trips, d, calendar, tariffs):
             if directo is not None and a['fin_s'] + directo[1] <= b['inicio_s']:
                 directos.append((i, j, directo[0]))
             if all(d.get((end, e)) is not None and d.get((e, start)) is not None for e in calendar.physical):
-                recargas += [(i, j, c) for c in opciones(end, start, a['fin_s'], b['inicio_s'], d, calendar, tariffs,
-                                                         interior=True)]
+                lista = opciones(end, start, a['fin_s'], b['inicio_s'], d, calendar, tariffs, interior=True)
+                recargas += [(i, j, c) for c in (_podar(lista) if podar else lista)]
     return directos, recargas
 
 
@@ -92,18 +125,24 @@ def _jornadas(trips, ext, directos, recargas, u, v, x, y, q, calendar, d):
     return plans
 
 
-def resolver_exacto(trips, d, starts, physical, plugs, tariffs, t0, horizon, limit=600., gap=0., hilos=1):
-    """Devuelve (planes o None, info). info['optimo'] dice si Gurobi demostró el óptimo."""
+def resolver_exacto(trips, d, starts, physical, plugs, tariffs, t0, horizon, limit=600., gap=0., hilos=1,
+                    podar=False):
+    """Devuelve (planes o None, info). info['optimo'] dice si Gurobi demostró el óptimo.
+
+    info['cota_usd'] es la cota inferior de Gurobi, también cuando no alcanzó a encontrar un plan.
+    """
     calendar = Calendario(physical, plugs, t0, horizon)
     n = len(trips)
     ext = [_extremos(t, d, starts, calendar) for t in trips]
-    directos, recargas = _enlaces(trips, d, calendar, tariffs)
+    directos, recargas = _enlaces(trips, d, calendar, tariffs, podar)
     model = gp.Model('respuesta_perfecta')
     model.Params.OutputFlag = 0
     model.Params.Threads = hilos
     model.Params.TimeLimit = limit
     model.Params.MIPGap = gap
     model.Params.FeasibilityTol = 1e-8
+    if podar:
+        model.Params.NodefileStart = 1.  # el árbol pasa a disco sobre 1 GB, para no agotar la memoria
     try:
         u = model.addVars(n, vtype='B', name='inicio')
         v = model.addVars([(j, f) for j in range(n) for _, f in ext[j][1]], vtype='B', name='final')
@@ -136,7 +175,7 @@ def resolver_exacto(trips, d, starts, physical, plugs, tariffs, t0, horizon, lim
             model.addGenConstrIndicator(y[a], True, e[i] - CONSUMO * c['km1'] + q[a] <= BATERIA)
             model.addGenConstrIndicator(y[a], True, e[j] <= e[i] + q[a]
                                         - CONSUMO * (c['km1'] + c['km2'] + trips[j]['distancia_servicio_km']))
-        capacidades = _capacidades(model, recargas, y, llegadas, physical, plugs)
+        capacidades = 0 if podar else _capacidades(model, recargas, y, llegadas, physical, plugs)
         km = (gp.quicksum(ext[j][0][0] * u[j] for j in range(n))
               + gp.quicksum(km_fin * v[j, f] for j in range(n) for km_fin, f in ext[j][1])
               + gp.quicksum(km_ * x[a] for a, (_, _, km_) in enumerate(directos))
@@ -149,7 +188,11 @@ def resolver_exacto(trips, d, starts, physical, plugs, tariffs, t0, horizon, lim
                     variables=model.NumVars, restricciones=model.NumConstrs + model.NumGenConstrs,
                     restricciones_capacidad=capacidades, enlaces_directos=len(directos), enlaces_recarga=len(recargas),
                     tiempo_solver_s=model.Runtime)
-        if not model.SolCount:
+        if model.SolCount == 0:
+            try:  # sin plan, la cota existe solo si Gurobi alcanzó a resolver la relajación inicial
+                info['cota_usd'] = model.ObjBound
+            except gp.GurobiError:
+                pass
             return None, info
         info.update(objetivo_usd=model.ObjVal, cota_usd=model.ObjBound, brecha=model.MIPGap)
         return _jornadas(trips, ext, directos, recargas, u, v, x, y, q, calendar, d), info

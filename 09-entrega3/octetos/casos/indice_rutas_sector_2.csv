@@ -1,0 +1,5 @@
+﻿nombre,tipo,sector,rutas,corridas
+rutas_06_sector_2,por_rutas,2,J07c|B30N|J01c|I08N|J22|502c,129
+rutas_08_sector_2,por_rutas,2,J07c|B30N|J01c|I08N|J22|502c|408e|J18c,200
+rutas_10_sector_2,por_rutas,2,J07c|B30N|J01c|I08N|J22|502c|408e|J18c|422c|414e,293
+rutas_12_sector_2,por_rutas,2,J07c|B30N|J01c|I08N|J22|502c|408e|J18c|422c|414e|J07e|J03,442

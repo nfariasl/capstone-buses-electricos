@@ -1,0 +1,256 @@
+=== 2026-11-22 01:37:35 inicio: recarga 150 exacta (batería 150 kWh)
+Set parameter Username
+Academic license - for non-commercial use only - expires 2027-11-10
+{"instancia": "bat150_chico_02_sector_2_2_rutas", "metodo": "exacta_podada", "seleccion": "", "semilla": 0, "presupuesto_s": 900.0, "buses": null, "costo_total_usd": null, "tiempo_s": null, "error": "AssertionError: SOC inválido 19 18: 34.99990607598502"}
+=== 2026-11-22 02:08:37 inicio: recarga 150 exacta (batería 150 kWh)
+Set parameter Username
+Academic license - for non-commercial use only - expires 2027-11-10
+{"instancia": "bat150_chico_02_sector_2_2_rutas", "metodo": "exacta_podada", "seleccion": "", "semilla": 0, "presupuesto_s": 900.0, "buses": 29, "costo_total_usd": 8933.0222, "tiempo_s": 915.19, "error": null}
+{"instancia": "bat150_chico_03_sector_3_3_rutas", "metodo": "exacta_podada", "seleccion": "", "semilla": 0, "presupuesto_s": 900.0, "buses": 26, "costo_total_usd": 8422.4405, "tiempo_s": 776.0, "error": null}
+{"instancia": "bat150_chico_04_sector_4_3_rutas", "metodo": "exacta_podada", "seleccion": "", "semilla": 0, "presupuesto_s": 900.0, "buses": 42, "costo_total_usd": 14157.2489, "tiempo_s": 955.43, "error": null}
+{"instancia": "bat150_chico_05_sector_5_4_rutas", "metodo": "exacta_podada", "seleccion": "", "semilla": 0, "presupuesto_s": 900.0, "buses": 49, "costo_total_usd": 16645.9103, "tiempo_s": 950.13, "error": null}
+{"instancia": "bat150_chico_06_sector_4_4_rutas", "metodo": "exacta_podada", "seleccion": "", "semilla": 0, "presupuesto_s": 900.0, "buses": 29, "costo_total_usd": 9055.1167, "tiempo_s": 945.53, "error": null}
+=== 2026-11-22 10:29:02 fin: recarga 150 exacta (código 0)
+=== 2026-11-22 10:29:02 inicio: 10 rutas exacta (batería 350 kWh)
+Set parameter Username
+Academic license - for non-commercial use only - expires 2027-11-10
+{"instancia": "rutas_10_sector_2", "metodo": "exacta_podada", "seleccion": "", "semilla": 0, "presupuesto_s": 3600.0, "buses": 60, "costo_total_usd": 18204.2374, "tiempo_s": 257.58, "error": null}
+=== 2026-11-22 10:33:33 fin: 10 rutas exacta (código 0)
+=== 2026-11-22 10:33:33 inicio: mediano 200 exacta (batería 350 kWh)
+Set parameter Username
+Academic license - for non-commercial use only - expires 2027-11-10
+{"instancia": "mediano_200_sector_1_2_rutas", "metodo": "exacta_podada", "seleccion": "", "semilla": 0, "presupuesto_s": 2400.0, "buses": 24, "costo_total_usd": 8177.9358, "tiempo_s": 78.96, "error": null}
+=== 2026-11-22 10:34:57 fin: mediano 200 exacta (código 0)
+=== 2026-11-22 10:34:57 inicio: recarga 150 heurísticas (batería 150 kWh)
+{"instancia": "bat150_chico_02_sector_2_2_rutas", "metodo": "solo_base", "seleccion": "", "semilla": 0, "presupuesto_s": 0.0, "buses": 33, "costo_total_usd": 9957.266, "tiempo_s": 0.0, "error": null}
+Set parameter Username
+Academic license - for non-commercial use only - expires 2027-11-10
+Intercambios: 452 intentos, 19 mejoras aceptadas.
+Intercambios: 848 intentos, 22 mejoras aceptadas.
+Trios: 250 intentos, 2 mejoras aceptadas.
+Trios: 485 intentos, 3 mejoras aceptadas.
+{"instancia": "bat150_chico_02_sector_2_2_rutas", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 120.0, "buses": 31, "costo_total_usd": 9390.1882, "tiempo_s": 120.02, "error": null}
+Grupos de 4: 205 intentos, 8 mejoras aceptadas.
+Grupos de 4: 384 intentos, 15 mejoras aceptadas.
+Grupos de 4: 575 intentos, 17 mejoras aceptadas.
+Grupos de 4: 739 intentos, 17 mejoras aceptadas.
+Grupos de 4: 955 intentos, 17 mejoras aceptadas.
+{"instancia": "bat150_chico_02_sector_2_2_rutas", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 120.0, "buses": 31, "costo_total_usd": 9360.8801, "tiempo_s": 120.01, "error": null}
+{"instancia": "bat150_chico_03_sector_3_3_rutas", "metodo": "solo_base", "seleccion": "", "semilla": 0, "presupuesto_s": 0.0, "buses": 40, "costo_total_usd": 12241.617, "tiempo_s": 0.0, "error": null}
+Intercambios: 418 intentos, 41 mejoras aceptadas.
+Intercambios: 861 intentos, 53 mejoras aceptadas.
+Trios: 200 intentos, 2 mejoras aceptadas.
+Trios: 405 intentos, 3 mejoras aceptadas.
+{"instancia": "bat150_chico_03_sector_3_3_rutas", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 120.0, "buses": 28, "costo_total_usd": 8922.8134, "tiempo_s": 120.02, "error": null}
+Grupos de 4: 198 intentos, 17 mejoras aceptadas.
+Grupos de 4: 414 intentos, 17 mejoras aceptadas.
+Grupos de 4: 619 intentos, 18 mejoras aceptadas.
+Grupos de 4: 829 intentos, 18 mejoras aceptadas.
+Grupos de 4: 1052 intentos, 19 mejoras aceptadas.
+{"instancia": "bat150_chico_03_sector_3_3_rutas", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 120.0, "buses": 28, "costo_total_usd": 9082.8845, "tiempo_s": 120.01, "error": null}
+{"instancia": "bat150_chico_04_sector_4_3_rutas", "metodo": "solo_base", "seleccion": "", "semilla": 0, "presupuesto_s": 0.0, "buses": 65, "costo_total_usd": 20285.4063, "tiempo_s": 0.0, "error": null}
+Intercambios: 677 intentos, 42 mejoras aceptadas.
+Intercambios: 1281 intentos, 48 mejoras aceptadas.
+Trios: 327 intentos, 11 mejoras aceptadas.
+Trios: 658 intentos, 13 mejoras aceptadas.
+{"instancia": "bat150_chico_04_sector_4_3_rutas", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 120.0, "buses": 47, "costo_total_usd": 15352.3274, "tiempo_s": 120.04, "error": null}
+Grupos de 4: 155 intentos, 31 mejoras aceptadas.
+Grupos de 4: 406 intentos, 40 mejoras aceptadas.
+Grupos de 4: 695 intentos, 41 mejoras aceptadas.
+Grupos de 4: 917 intentos, 42 mejoras aceptadas.
+Grupos de 4: 1089 intentos, 44 mejoras aceptadas.
+{"instancia": "bat150_chico_04_sector_4_3_rutas", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 120.0, "buses": 46, "costo_total_usd": 15244.5998, "tiempo_s": 120.02, "error": null}
+{"instancia": "bat150_chico_05_sector_5_4_rutas", "metodo": "solo_base", "seleccion": "", "semilla": 0, "presupuesto_s": 0.0, "buses": 64, "costo_total_usd": 20457.7794, "tiempo_s": 0.0, "error": null}
+Intercambios: 680 intentos, 36 mejoras aceptadas.
+Intercambios: 1177 intentos, 45 mejoras aceptadas.
+Trios: 623 intentos, 9 mejoras aceptadas.
+Trios: 1103 intentos, 12 mejoras aceptadas.
+{"instancia": "bat150_chico_05_sector_5_4_rutas", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 120.0, "buses": 51, "costo_total_usd": 17219.3059, "tiempo_s": 120.1, "error": null}
+Grupos de 4: 293 intentos, 13 mejoras aceptadas.
+Grupos de 4: 717 intentos, 16 mejoras aceptadas.
+Grupos de 4: 940 intentos, 22 mejoras aceptadas.
+Grupos de 4: 1384 intentos, 23 mejoras aceptadas.
+Grupos de 4: 1543 intentos, 26 mejoras aceptadas.
+{"instancia": "bat150_chico_05_sector_5_4_rutas", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 120.0, "buses": 49, "costo_total_usd": 16863.7276, "tiempo_s": 120.02, "error": null}
+{"instancia": "bat150_chico_06_sector_4_4_rutas", "metodo": "solo_base", "seleccion": "", "semilla": 0, "presupuesto_s": 0.0, "buses": 42, "costo_total_usd": 12464.91, "tiempo_s": 0.0, "error": null}
+Intercambios: 527 intentos, 53 mejoras aceptadas.
+Intercambios: 1062 intentos, 60 mejoras aceptadas.
+Trios: 355 intentos, 3 mejoras aceptadas.
+Trios: 689 intentos, 3 mejoras aceptadas.
+{"instancia": "bat150_chico_06_sector_4_4_rutas", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 120.0, "buses": 31, "costo_total_usd": 9544.8247, "tiempo_s": 120.02, "error": null}
+Grupos de 4: 157 intentos, 21 mejoras aceptadas.
+Grupos de 4: 371 intentos, 23 mejoras aceptadas.
+Grupos de 4: 630 intentos, 24 mejoras aceptadas.
+Grupos de 4: 844 intentos, 27 mejoras aceptadas.
+Grupos de 4: 1032 intentos, 27 mejoras aceptadas.
+{"instancia": "bat150_chico_06_sector_4_4_rutas", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 120.0, "buses": 31, "costo_total_usd": 9590.5635, "tiempo_s": 120.01, "error": null}
+=== 2026-11-22 10:54:58 fin: recarga 150 heurísticas (código 0)
+=== 2026-11-22 10:54:58 inicio: 10 rutas heurísticas (batería 350 kWh)
+{"instancia": "rutas_10_sector_2", "metodo": "solo_base", "seleccion": "", "semilla": 0, "presupuesto_s": 0.0, "buses": 61, "costo_total_usd": 18565.7879, "tiempo_s": 0.0, "error": null}
+Set parameter Username
+Academic license - for non-commercial use only - expires 2027-11-10
+Intercambios: 461 intentos, 31 mejoras aceptadas.
+Intercambios: 929 intentos, 38 mejoras aceptadas.
+Intercambios: 1392 intentos, 46 mejoras aceptadas.
+Intercambios: 1831 intentos, 46 mejoras aceptadas.
+Intercambios: 2264 intentos, 52 mejoras aceptadas.
+Intercambios: 2706 intentos, 59 mejoras aceptadas.
+Intercambios: 3172 intentos, 59 mejoras aceptadas.
+Trios: 268 intentos, 1 mejoras aceptadas.
+Trios: 518 intentos, 1 mejoras aceptadas.
+Trios: 806 intentos, 1 mejoras aceptadas.
+Trios: 1114 intentos, 1 mejoras aceptadas.
+Trios: 1438 intentos, 1 mejoras aceptadas.
+Trios: 1723 intentos, 1 mejoras aceptadas.
+Trios: 2030 intentos, 1 mejoras aceptadas.
+{"instancia": "rutas_10_sector_2", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 300.0, "buses": 61, "costo_total_usd": 18472.5235, "tiempo_s": 300.03, "error": null}
+Grupos de 4: 196 intentos, 7 mejoras aceptadas.
+Grupos de 4: 408 intentos, 8 mejoras aceptadas.
+Grupos de 4: 636 intentos, 11 mejoras aceptadas.
+Grupos de 4: 864 intentos, 11 mejoras aceptadas.
+Grupos de 4: 1075 intentos, 11 mejoras aceptadas.
+Grupos de 4: 1296 intentos, 11 mejoras aceptadas.
+Grupos de 4: 1523 intentos, 11 mejoras aceptadas.
+Grupos de 4: 1748 intentos, 11 mejoras aceptadas.
+Grupos de 4: 1961 intentos, 11 mejoras aceptadas.
+Grupos de 4: 2185 intentos, 11 mejoras aceptadas.
+Grupos de 4: 2359 intentos, 14 mejoras aceptadas.
+Grupos de 4: 2582 intentos, 14 mejoras aceptadas.
+Grupos de 4: 2796 intentos, 14 mejoras aceptadas.
+Grupos de 4: 2999 intentos, 14 mejoras aceptadas.
+{"instancia": "rutas_10_sector_2", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 300.0, "buses": 60, "costo_total_usd": 18307.5232, "tiempo_s": 300.02, "error": null}
+=== 2026-11-22 11:04:58 fin: 10 rutas heurísticas (código 0)
+=== 2026-11-22 11:04:58 inicio: mediano 200 heurísticas (batería 350 kWh)
+{"instancia": "mediano_200_sector_1_2_rutas", "metodo": "solo_base", "seleccion": "", "semilla": 0, "presupuesto_s": 0.0, "buses": 24, "costo_total_usd": 8190.1152, "tiempo_s": 0.0, "error": null}
+Set parameter Username
+Academic license - for non-commercial use only - expires 2027-11-10
+Intercambios: 1019 intentos, 2 mejoras aceptadas.
+Trios: 575 intentos, 0 mejoras aceptadas.
+{"instancia": "mediano_200_sector_1_2_rutas", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 300.0, "buses": 24, "costo_total_usd": 8180.3823, "tiempo_s": 62.09, "error": null}
+Grupos de 4: 427 intentos, 1 mejoras aceptadas.
+Grupos de 4: 825 intentos, 1 mejoras aceptadas.
+Grupos de 4: 1232 intentos, 1 mejoras aceptadas.
+Grupos de 4: 1659 intentos, 1 mejoras aceptadas.
+Grupos de 4: 2106 intentos, 1 mejoras aceptadas.
+{"instancia": "mediano_200_sector_1_2_rutas", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 300.0, "buses": 24, "costo_total_usd": 8180.3823, "tiempo_s": 102.92, "error": null}
+=== 2026-11-22 11:07:43 fin: mediano 200 heurísticas (código 0)
+=== 2026-11-22 11:07:43 inicio: recarga 120 exacta (batería 120 kWh)
+Set parameter Username
+Academic license - for non-commercial use only - expires 2027-11-10
+{"instancia": "bat120_chico_02_sector_2_2_rutas", "metodo": "exacta_podada", "seleccion": "", "semilla": 0, "presupuesto_s": 900.0, "buses": 31, "costo_total_usd": 9963.7093, "tiempo_s": 914.6, "error": null}
+{"instancia": "bat120_chico_03_sector_3_3_rutas", "metodo": "exacta_podada", "seleccion": "", "semilla": 0, "presupuesto_s": 900.0, "buses": 34, "costo_total_usd": 11021.7702, "tiempo_s": 929.27, "error": null}
+{"instancia": "bat120_chico_04_sector_4_3_rutas", "metodo": "exacta_podada", "seleccion": "", "semilla": 0, "presupuesto_s": 900.0, "buses": 58, "costo_total_usd": 19157.0255, "tiempo_s": 944.25, "error": null}
+{"instancia": "bat120_chico_05_sector_5_4_rutas", "metodo": "exacta_podada", "seleccion": "", "semilla": 0, "presupuesto_s": 900.0, "buses": 57, "costo_total_usd": 19124.2012, "tiempo_s": 951.95, "error": null}
+{"instancia": "bat120_chico_06_sector_4_4_rutas", "metodo": "exacta_podada", "seleccion": "", "semilla": 0, "presupuesto_s": 900.0, "buses": 32, "costo_total_usd": 10047.196, "tiempo_s": 939.8, "error": null}
+=== 2026-11-22 12:25:43 fin: recarga 120 exacta (código 0)
+=== 2026-11-22 12:25:43 inicio: recarga 120 heurísticas (batería 120 kWh)
+{"instancia": "bat120_chico_02_sector_2_2_rutas", "metodo": "solo_base", "seleccion": "", "semilla": 0, "presupuesto_s": 0.0, "buses": 39, "costo_total_usd": 11910.1162, "tiempo_s": 0.0, "error": null}
+Set parameter Username
+Academic license - for non-commercial use only - expires 2027-11-10
+Intercambios: 545 intentos, 24 mejoras aceptadas.
+Intercambios: 1033 intentos, 26 mejoras aceptadas.
+Trios: 311 intentos, 4 mejoras aceptadas.
+Trios: 589 intentos, 5 mejoras aceptadas.
+{"instancia": "bat120_chico_02_sector_2_2_rutas", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 120.0, "buses": 32, "costo_total_usd": 10198.0396, "tiempo_s": 120.02, "error": null}
+Grupos de 4: 342 intentos, 9 mejoras aceptadas.
+Grupos de 4: 570 intentos, 15 mejoras aceptadas.
+Grupos de 4: 758 intentos, 17 mejoras aceptadas.
+Grupos de 4: 969 intentos, 18 mejoras aceptadas.
+Grupos de 4: 1177 intentos, 19 mejoras aceptadas.
+{"instancia": "bat120_chico_02_sector_2_2_rutas", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 120.0, "buses": 32, "costo_total_usd": 10226.1742, "tiempo_s": 120.02, "error": null}
+{"instancia": "bat120_chico_03_sector_3_3_rutas", "metodo": "solo_base", "seleccion": "", "semilla": 0, "presupuesto_s": 0.0, "buses": 47, "costo_total_usd": 14228.0084, "tiempo_s": 0.0, "error": null}
+Intercambios: 456 intentos, 36 mejoras aceptadas.
+Intercambios: 859 intentos, 45 mejoras aceptadas.
+Trios: 389 intentos, 2 mejoras aceptadas.
+Trios: 747 intentos, 2 mejoras aceptadas.
+{"instancia": "bat120_chico_03_sector_3_3_rutas", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 120.0, "buses": 36, "costo_total_usd": 11508.0834, "tiempo_s": 120.04, "error": null}
+Grupos de 4: 321 intentos, 10 mejoras aceptadas.
+Grupos de 4: 706 intentos, 11 mejoras aceptadas.
+Grupos de 4: 1054 intentos, 16 mejoras aceptadas.
+Grupos de 4: 1458 intentos, 16 mejoras aceptadas.
+Grupos de 4: 1695 intentos, 19 mejoras aceptadas.
+{"instancia": "bat120_chico_03_sector_3_3_rutas", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 120.0, "buses": 36, "costo_total_usd": 11550.0875, "tiempo_s": 120.02, "error": null}
+{"instancia": "bat120_chico_04_sector_4_3_rutas", "metodo": "solo_base", "seleccion": "", "semilla": 0, "presupuesto_s": 0.0, "buses": 79, "costo_total_usd": 24145.3147, "tiempo_s": 0.0, "error": null}
+Intercambios: 599 intentos, 27 mejoras aceptadas.
+Intercambios: 1289 intentos, 43 mejoras aceptadas.
+Trios: 735 intentos, 20 mejoras aceptadas.
+Trios: 1025 intentos, 23 mejoras aceptadas.
+{"instancia": "bat120_chico_04_sector_4_3_rutas", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 120.0, "buses": 59, "costo_total_usd": 19398.5172, "tiempo_s": 120.05, "error": null}
+Grupos de 4: 275 intentos, 17 mejoras aceptadas.
+Grupos de 4: 659 intentos, 26 mejoras aceptadas.
+Grupos de 4: 1026 intentos, 32 mejoras aceptadas.
+Grupos de 4: 1366 intentos, 35 mejoras aceptadas.
+Grupos de 4: 1616 intentos, 35 mejoras aceptadas.
+{"instancia": "bat120_chico_04_sector_4_3_rutas", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 120.0, "buses": 58, "costo_total_usd": 19161.6226, "tiempo_s": 120.02, "error": null}
+{"instancia": "bat120_chico_05_sector_5_4_rutas", "metodo": "solo_base", "seleccion": "", "semilla": 0, "presupuesto_s": 0.0, "buses": 73, "costo_total_usd": 22967.0459, "tiempo_s": 0.0, "error": null}
+Intercambios: 956 intentos, 25 mejoras aceptadas.
+Intercambios: 1801 intentos, 37 mejoras aceptadas.
+Trios: 737 intentos, 10 mejoras aceptadas.
+Trios: 1502 intentos, 11 mejoras aceptadas.
+{"instancia": "bat120_chico_05_sector_5_4_rutas", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 120.0, "buses": 57, "costo_total_usd": 19238.1205, "tiempo_s": 120.05, "error": null}
+Grupos de 4: 358 intentos, 9 mejoras aceptadas.
+Grupos de 4: 685 intentos, 15 mejoras aceptadas.
+Grupos de 4: 1132 intentos, 15 mejoras aceptadas.
+Grupos de 4: 1565 intentos, 15 mejoras aceptadas.
+Grupos de 4: 1971 intentos, 15 mejoras aceptadas.
+{"instancia": "bat120_chico_05_sector_5_4_rutas", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 120.0, "buses": 59, "costo_total_usd": 19750.6995, "tiempo_s": 120.14, "error": null}
+{"instancia": "bat120_chico_06_sector_4_4_rutas", "metodo": "solo_base", "seleccion": "", "semilla": 0, "presupuesto_s": 0.0, "buses": 46, "costo_total_usd": 14165.0654, "tiempo_s": 0.0, "error": null}
+Intercambios: 422 intentos, 55 mejoras aceptadas.
+Intercambios: 831 intentos, 71 mejoras aceptadas.
+Trios: 225 intentos, 4 mejoras aceptadas.
+Trios: 445 intentos, 6 mejoras aceptadas.
+{"instancia": "bat120_chico_06_sector_4_4_rutas", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 120.0, "buses": 35, "costo_total_usd": 10808.272, "tiempo_s": 120.05, "error": null}
+Grupos de 4: 132 intentos, 28 mejoras aceptadas.
+Grupos de 4: 295 intentos, 35 mejoras aceptadas.
+Grupos de 4: 468 intentos, 41 mejoras aceptadas.
+Grupos de 4: 678 intentos, 43 mejoras aceptadas.
+Grupos de 4: 870 intentos, 43 mejoras aceptadas.
+{"instancia": "bat120_chico_06_sector_4_4_rutas", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 120.0, "buses": 34, "costo_total_usd": 10714.3279, "tiempo_s": 120.03, "error": null}
+=== 2026-11-22 12:45:46 fin: recarga 120 heurísticas (código 0)
+=== 2026-11-22 12:45:46 inicio: rutas 6, 8 y 12 exacta (batería 350 kWh)
+Set parameter Username
+Academic license - for non-commercial use only - expires 2027-11-10
+{"instancia": "rutas_06_sector_2", "metodo": "exacta_podada", "seleccion": "", "semilla": 0, "presupuesto_s": 3600.0, "buses": 24, "costo_total_usd": 7506.3014, "tiempo_s": 50.64, "error": null}
+{"instancia": "rutas_08_sector_2", "metodo": "exacta_podada", "seleccion": "", "semilla": 0, "presupuesto_s": 3600.0, "buses": 38, "costo_total_usd": 11517.036, "tiempo_s": 184.76, "error": null}
+09-entrega3/octetos/correr_noche.sh: line 21: 67416 Terminated: 15          BATERIA_KWH=$bateria "$PY" "$CORRER" "$@" --salida "$csv" $seguir
+=== 2026-11-22 13:23:49 fin: rutas 6, 8 y 12 exacta (código 0)
+=== 2026-11-22 13:23:49 inicio: rutas 6, 8 y 12 heurísticas (batería 350 kWh)
+Fatal Python error: init_import_site: Failed to import the site module
+Python runtime state: initialized
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 1176, in exec_module
+  File "<frozen site>", line 636, in <module>
+  File "<frozen site>", line 619, in main
+  File "<frozen site>", line 538, in venv
+TimeoutError: [Errno 60] Operation timed out
+=== 2026-11-22 13:30:13 fin: rutas 6, 8 y 12 heurísticas (código 0)
+=== 2026-11-22 13:30:13 inicio: medianos 250 a 400 exacta (batería 350 kWh)
+Fatal Python error: init_import_site: Failed to import the site module
+Python runtime state: initialized
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 1176, in exec_module
+  File "<frozen site>", line 636, in <module>
+  File "<frozen site>", line 619, in main
+  File "<frozen site>", line 538, in venv
+TimeoutError: [Errno 60] Operation timed out
+=== 2026-11-22 13:30:13 fin: medianos 250 a 400 exacta (código 0)
+=== 2026-11-22 13:30:13 inicio: medianos 250 a 400 heurísticas (batería 350 kWh)
+Fatal Python error: init_import_site: Failed to import the site module
+Python runtime state: initialized
+Traceback (most recent call last):
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 1176, in exec_module
+  File "<frozen site>", line 636, in <module>
+  File "<frozen site>", line 619, in main
+  File "<frozen site>", line 538, in venv
+TimeoutError: [Errno 60] Operation timed out
+=== 2026-11-22 13:30:13 fin: medianos 250 a 400 heurísticas (código 0)
+=== 2026-11-22 13:30:13 noche terminada

@@ -3,11 +3,25 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from correr_metodos import CASOS, correr
+from correr_metodos import correr
+from crear_casos import crear_casos
 from metodo_hibrido.caso_base import read_csv
 
-CASO = CASOS / 'muy_chico_03_ruta_I10N'
+NOMBRE_CASO = 'muy_chico_03_ruta_I10N'
 METODOS = ['solo_base', 'pares', 'cuartetos']
+CASO = None
+
+
+def setUpModule():
+    # Los casos muy chicos ya no se guardan en el repositorio: se recrean desde la instancia de 212 rutas.
+    global CASO, _CARPETA
+    _CARPETA = tempfile.TemporaryDirectory()
+    crear_casos(Path(_CARPETA.name) / 'casos')
+    CASO = Path(_CARPETA.name) / 'casos' / NOMBRE_CASO
+
+
+def tearDownModule():
+    _CARPETA.cleanup()
 
 
 class Corridas(unittest.TestCase):

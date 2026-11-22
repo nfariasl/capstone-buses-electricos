@@ -2,7 +2,6 @@
 import math
 import numpy as np
 
-BATERIA, MINIMO, CONSUMO = 350., 35., 1.4
 BLOQUE, MAX_CARGA = 300, 15.
 EPS = 1e-7
 

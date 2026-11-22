@@ -1,0 +1,4 @@
+﻿instancia,corridas,metodo,seleccion,semilla,presupuesto_s,buses,costo_total_usd,km,carga_kwh,sesiones,tiempo_s,intentos,mejoras,motivo_fin,optimo,cota_usd,error
+rutas_10_sector_2,293,exacta_podada,,0,3600.0,60,18204.2374,6408.4748,0.0,0,257.58,,,estado_2,True,18204.237416963362,
+rutas_06_sector_2,129,exacta_podada,,0,3600.0,24,7506.3014,3012.6028,0.0,0,50.64,,,estado_2,True,7506.301413640335,
+rutas_08_sector_2,200,exacta_podada,,0,3600.0,38,11517.036,4034.0719,0.0,0,184.76,,,estado_2,True,11517.035973533388,

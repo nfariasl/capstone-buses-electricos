@@ -4,12 +4,15 @@ Cada caso es un subconjunto de rutas completas de la instancia de 212 rutas, de 
   - 6 muy chicos: 1 ruta de 15 a 40 corridas, donde se puede buscar la respuesta perfecta;
   - 5 chicos: 2, 3 o 4 rutas de 25 a 80 corridas cada una;
   - con --medianos, una escalera de 4 casos de ~200, 250, 300 y 400 corridas de un mismo sector, donde
-    cada caso contiene al anterior; sirve para ver hasta dónde llega la respuesta perfecta.
+    cada caso contiene al anterior; sirve para ver hasta dónde llega la respuesta perfecta;
+  - con --rutas 6 8 10 12, una escalera por número de rutas en un sector (por omisión el 2), sumando
+    primero las rutas con menos corridas; así un caso de 10 rutas queda en ~300 corridas.
 Las corridas se copian sin cambios y el horizonte es el de la instancia de origen.
 
 Uso, desde la raíz del proyecto:
   .venv-optimizacion/bin/python 09-entrega3/octetos/crear_casos.py
   .venv-optimizacion/bin/python 09-entrega3/octetos/crear_casos.py --medianos
+  .venv-optimizacion/bin/python 09-entrega3/octetos/crear_casos.py --rutas 6 8 10 12 --sector 2
 """
 import argparse
 import hashlib
@@ -113,6 +116,21 @@ def elegir_medianos(corridas, usadas):
     return casos
 
 
+def elegir_por_rutas(corridas, sector, cuantas):
+    """Escalera de casos de un sector con cuantas[k] rutas: las de menos corridas primero (empate: nombre)."""
+    conteo, sectores = _rutas(corridas)
+    orden = sorted((n, r) for r, n in conteo.items() if sectores[r] == sector)
+    if not orden:
+        raise ValueError(f'El sector {sector} no tiene rutas')
+    casos = []
+    for k in sorted(cuantas):
+        if k > len(orden):
+            raise ValueError(f'El sector {sector} tiene {len(orden)} rutas; se pidieron {k}')
+        rutas = [r for _, r in orden[:k]]
+        casos.append(dict(tipo='por_rutas', sector=sector, rutas=rutas, nombre=f'rutas_{k:02d}_sector_{sector}'))
+    return casos
+
+
 def _distancias_del_caso(distancias, paradas):
     """Conserva los pares cuyos extremos de parada pertenecen al caso; terminales y electroterminales, todos."""
     def sirve(extremo):
@@ -137,6 +155,12 @@ def crear_medianos(destino=DESTINO, origen=INSTANCIA_212):
     corridas = read_csv(Path(origen) / 'corridas.csv')
     usadas = {r for c in elegir_casos(corridas) for r in c['rutas']}
     return _crear(elegir_medianos(corridas, usadas), corridas, Path(destino), Path(origen), 'indice_medianos.csv')
+
+
+def crear_por_rutas(cuantas, sector='2', destino=DESTINO, origen=INSTANCIA_212):
+    corridas = read_csv(Path(origen) / 'corridas.csv')
+    return _crear(elegir_por_rutas(corridas, sector, cuantas), corridas, Path(destino), Path(origen),
+                  f'indice_rutas_sector_{sector}.csv')
 
 
 def _crear(casos, corridas, destino, origen, nombre_indice):
@@ -166,9 +190,14 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--destino', type=Path, default=DESTINO)
     parser.add_argument('--medianos', action='store_true', help='crea solo la escalera de casos medianos')
+    parser.add_argument('--rutas', type=int, nargs='+', help='crea solo una escalera con estos números de rutas')
+    parser.add_argument('--sector', default='2', help='sector de la escalera por número de rutas')
     args = parser.parse_args()
-    crear = crear_medianos if args.medianos else crear_casos
-    for fila in crear(args.destino):
+    if args.rutas:
+        filas = crear_por_rutas(args.rutas, args.sector, args.destino)
+    else:
+        filas = (crear_medianos if args.medianos else crear_casos)(args.destino)
+    for fila in filas:
         print(f"{fila['nombre']:<34} sector {fila['sector']}  {fila['corridas']:>4} corridas  {fila['rutas']}")
 
 

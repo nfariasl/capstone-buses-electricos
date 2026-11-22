@@ -1,0 +1,4 @@
+﻿instancia,corridas,metodo,seleccion,semilla,presupuesto_s,buses,costo_total_usd,km,carga_kwh,sesiones,tiempo_s,intentos,mejoras,motivo_fin,optimo,cota_usd,error
+mediano_200_sector_1_2_rutas,200,solo_base,,0,0.0,24,8190.1152,4360.8901,31.1347,1,0.0,,,,,,
+mediano_200_sector_1_2_rutas,200,pares_trios,,0,300.0,24,8180.3823,4360.7647,0.0,0,62.09,2159,2,sin_mejoras_en_vecindario|sin_mejoras_en_vecindario,,,
+mediano_200_sector_1_2_rutas,200,cuartetos,azar,1,300.0,24,8180.3823,4360.7647,0.0,0,102.92,2159,1,sin_mejoras_en_vecindario,,,

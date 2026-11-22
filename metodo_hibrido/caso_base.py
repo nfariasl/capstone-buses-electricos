@@ -12,8 +12,9 @@ from collections import Counter
 from pathlib import Path
 
 from metodo_hibrido.verificar import verificar
+from metodo_hibrido.energia import BATERIA, CONSUMO, RESERVA
 
-BATTERY, RESERVE, RATE = 350.0, 35.0, 1.4
+BATTERY, RESERVE, RATE = BATERIA, RESERVA, CONSUMO
 BLOCK, PER_BLOCK, EPS = 300, 15.0, 1e-7
 
 
@@ -293,7 +294,7 @@ def solve(trips, distances, starts, physical, plugs, prices, t0, horizon, progre
 def load_instance(folder):
     folder = Path(folder)
     spec = json.loads((folder/'escenario.json').read_text(encoding='utf-8-sig'))
-    fixed = dict(bateria_kwh=350, reserva_kwh=35, consumo_kwh_km=1.4, velocidad_vacio_kmh=18,
+    fixed = dict(bateria_kwh=BATERIA, reserva_kwh=RESERVA, consumo_kwh_km=1.4, velocidad_vacio_kmh=18,
                  potencia_kw=180, bloque_s=300, costo_bus=250, costo_km=.5, costo_sesion=5)
     for key, value in spec.get('parametros', {}).items():
         if key in fixed and value != fixed[key]:
