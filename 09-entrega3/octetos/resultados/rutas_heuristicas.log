@@ -1,0 +1,92 @@
+=== 2026-11-23 00:05:52 inicio: heurísticas en rutas 6, 8 y 12
+{"instancia": "rutas_06_sector_2", "metodo": "solo_base", "seleccion": "", "semilla": 0, "presupuesto_s": 0.0, "buses": 24, "costo_total_usd": 7638.1061, "tiempo_s": 0.0, "error": null}
+Set parameter Username
+Academic license - for non-commercial use only - expires 2027-11-10
+Intercambios: 464 intentos, 26 mejoras aceptadas.
+Intercambios: 898 intentos, 29 mejoras aceptadas.
+Intercambios: 1360 intentos, 32 mejoras aceptadas.
+Intercambios: 1832 intentos, 33 mejoras aceptadas.
+Intercambios: 2286 intentos, 33 mejoras aceptadas.
+Trios: 288 intentos, 0 mejoras aceptadas.
+Trios: 500 intentos, 0 mejoras aceptadas.
+Trios: 778 intentos, 0 mejoras aceptadas.
+Trios: 1052 intentos, 0 mejoras aceptadas.
+{"instancia": "rutas_06_sector_2", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 300.0, "buses": 24, "costo_total_usd": 7512.3227, "tiempo_s": 217.47, "error": null}
+Grupos de 4: 206 intentos, 4 mejoras aceptadas.
+Grupos de 4: 432 intentos, 5 mejoras aceptadas.
+Grupos de 4: 643 intentos, 5 mejoras aceptadas.
+Grupos de 4: 876 intentos, 5 mejoras aceptadas.
+Grupos de 4: 1146 intentos, 7 mejoras aceptadas.
+Grupos de 4: 1405 intentos, 7 mejoras aceptadas.
+Grupos de 4: 1650 intentos, 7 mejoras aceptadas.
+Grupos de 4: 1891 intentos, 9 mejoras aceptadas.
+Grupos de 4: 2089 intentos, 9 mejoras aceptadas.
+Grupos de 4: 2286 intentos, 9 mejoras aceptadas.
+Grupos de 4: 2508 intentos, 10 mejoras aceptadas.
+Grupos de 4: 2774 intentos, 10 mejoras aceptadas.
+Grupos de 4: 2991 intentos, 10 mejoras aceptadas.
+Grupos de 4: 3273 intentos, 10 mejoras aceptadas.
+{"instancia": "rutas_06_sector_2", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 300.0, "buses": 24, "costo_total_usd": 7578.3501, "tiempo_s": 300.01, "error": null}
+{"instancia": "rutas_08_sector_2", "metodo": "solo_base", "seleccion": "", "semilla": 0, "presupuesto_s": 0.0, "buses": 41, "costo_total_usd": 12348.5558, "tiempo_s": 0.0, "error": null}
+Intercambios: 364 intentos, 34 mejoras aceptadas.
+Intercambios: 722 intentos, 39 mejoras aceptadas.
+Intercambios: 1128 intentos, 46 mejoras aceptadas.
+Intercambios: 1526 intentos, 49 mejoras aceptadas.
+Intercambios: 1936 intentos, 52 mejoras aceptadas.
+Intercambios: 2252 intentos, 52 mejoras aceptadas.
+Intercambios: 2641 intentos, 54 mejoras aceptadas.
+Trios: 210 intentos, 2 mejoras aceptadas.
+Trios: 416 intentos, 2 mejoras aceptadas.
+Trios: 664 intentos, 2 mejoras aceptadas.
+Trios: 894 intentos, 2 mejoras aceptadas.
+Trios: 1105 intentos, 2 mejoras aceptadas.
+Trios: 1323 intentos, 2 mejoras aceptadas.
+Trios: 1532 intentos, 2 mejoras aceptadas.
+{"instancia": "rutas_08_sector_2", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 300.0, "buses": 39, "costo_total_usd": 11784.1068, "tiempo_s": 300.04, "error": null}
+Grupos de 4: 153 intentos, 10 mejoras aceptadas.
+Grupos de 4: 352 intentos, 10 mejoras aceptadas.
+Grupos de 4: 523 intentos, 14 mejoras aceptadas.
+Grupos de 4: 717 intentos, 14 mejoras aceptadas.
+Grupos de 4: 919 intentos, 14 mejoras aceptadas.
+Grupos de 4: 1062 intentos, 16 mejoras aceptadas.
+Grupos de 4: 1241 intentos, 16 mejoras aceptadas.
+Grupos de 4: 1426 intentos, 16 mejoras aceptadas.
+Grupos de 4: 1604 intentos, 16 mejoras aceptadas.
+Grupos de 4: 1779 intentos, 16 mejoras aceptadas.
+Grupos de 4: 1956 intentos, 16 mejoras aceptadas.
+Grupos de 4: 2137 intentos, 16 mejoras aceptadas.
+Grupos de 4: 2338 intentos, 16 mejoras aceptadas.
+Grupos de 4: 2513 intentos, 16 mejoras aceptadas.
+{"instancia": "rutas_08_sector_2", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 300.0, "buses": 40, "costo_total_usd": 12084.9444, "tiempo_s": 300.01, "error": null}
+{"instancia": "rutas_12_sector_2", "metodo": "solo_base", "seleccion": "", "semilla": 0, "presupuesto_s": 0.0, "buses": 84, "costo_total_usd": 27378.0674, "tiempo_s": 0.0, "error": null}
+Intercambios: 577 intentos, 27 mejoras aceptadas.
+Intercambios: 1164 intentos, 27 mejoras aceptadas.
+Intercambios: 1665 intentos, 29 mejoras aceptadas.
+Intercambios: 2204 intentos, 31 mejoras aceptadas.
+Intercambios: 2749 intentos, 31 mejoras aceptadas.
+Intercambios: 3245 intentos, 34 mejoras aceptadas.
+Intercambios: 3862 intentos, 34 mejoras aceptadas.
+Trios: 331 intentos, 4 mejoras aceptadas.
+Trios: 617 intentos, 4 mejoras aceptadas.
+Trios: 900 intentos, 4 mejoras aceptadas.
+Trios: 1267 intentos, 5 mejoras aceptadas.
+Trios: 1515 intentos, 6 mejoras aceptadas.
+Trios: 1638 intentos, 6 mejoras aceptadas.
+Trios: 1816 intentos, 6 mejoras aceptadas.
+{"instancia": "rutas_12_sector_2", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 300.0, "buses": 84, "costo_total_usd": 27317.201, "tiempo_s": 300.05, "error": null}
+Grupos de 4: 201 intentos, 6 mejoras aceptadas.
+Grupos de 4: 478 intentos, 7 mejoras aceptadas.
+Grupos de 4: 713 intentos, 7 mejoras aceptadas.
+Grupos de 4: 957 intentos, 7 mejoras aceptadas.
+Grupos de 4: 1234 intentos, 7 mejoras aceptadas.
+Grupos de 4: 1514 intentos, 7 mejoras aceptadas.
+Grupos de 4: 1804 intentos, 7 mejoras aceptadas.
+Grupos de 4: 2000 intentos, 7 mejoras aceptadas.
+Grupos de 4: 2338 intentos, 9 mejoras aceptadas.
+Grupos de 4: 2588 intentos, 10 mejoras aceptadas.
+Grupos de 4: 2829 intentos, 10 mejoras aceptadas.
+Grupos de 4: 3055 intentos, 10 mejoras aceptadas.
+Grupos de 4: 3318 intentos, 10 mejoras aceptadas.
+Grupos de 4: 3561 intentos, 10 mejoras aceptadas.
+{"instancia": "rutas_12_sector_2", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 300.0, "buses": 84, "costo_total_usd": 27352.9172, "tiempo_s": 300.03, "error": null}
+=== 2026-11-23 00:35:01 fin: heurísticas en rutas 6, 8 y 12 (código 0)
