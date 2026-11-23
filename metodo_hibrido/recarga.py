@@ -4,7 +4,7 @@ import time
 from collections import defaultdict
 import gurobipy as gp
 from metodo_hibrido.calendario import Calendario, actividad, agregar_viaje, esperar, precio
-from metodo_hibrido.energia import BATERIA, RESERVA
+from metodo_hibrido.energia import BATERIA, CONSUMO, RESERVA
 
 def ocupaciones(plan):
     for a in plan['actividades']:
@@ -62,15 +62,15 @@ def resolver_jornada(trips, chain, d, starts, calendar, tariffs, limit=2., conse
     if not initial or not finals:model.dispose();return None,dict(estado='sin_terminal')
     x=model.addVars(initial,vtype='B',name='salida'); z=model.addVars(finals,vtype='B',name='retorno')
     model.addConstr(x.sum()==1);model.addConstr(z.sum()==1)
-    model.addConstr(energy[0]==BATERIA-1.4*(gp.quicksum(d[t,first][0]*x[t] for t in initial)+trips[0]['distancia_servicio_km']))
-    model.addConstr(energy[n-1]-1.4*gp.quicksum(d[last,t][0]*z[t] for t in finals)>=RESERVA)
+    model.addConstr(energy[0]==BATERIA-CONSUMO*(gp.quicksum(d[t,first][0]*x[t] for t in initial)+trips[0]['distancia_servicio_km']))
+    model.addConstr(energy[n-1]-CONSUMO*gp.quicksum(d[last,t][0]*z[t] for t in finals)>=RESERVA)
     objective=.5*(gp.quicksum(d[t,first][0]*x[t] for t in initial)+gp.quicksum(d[last,t][0]*z[t] for t in finals))
     choices={}; count=0
     for j,trip in enumerate(trips):
         if deadline is not None and time.perf_counter()>=deadline:
             model.dispose();return None,dict(estado='presupuesto')
         if conservative:
-            model.addConstr(energy[j]>=RESERVA+1.4*min(d['S:'+trip['fin_stop_id'],t][0] for t in starts))
+            model.addConstr(energy[j]>=RESERVA+CONSUMO*min(d['S:'+trip['fin_stop_id'],t][0] for t in starts))
         if j==0:continue
         prev=trips[j-1]; origin='S:'+prev['fin_stop_id'];target='S:'+trip['inicio_stop_id']
         km,dt=d[origin,target]
@@ -82,10 +82,10 @@ def resolver_jornada(trips, chain, d, starts, calendar, tariffs, limit=2., conse
         model.addConstr(y.sum()<=1)
         for k,c in enumerate(opts):
             model.addConstr(q[k]<=c['maxq']*y[k])
-            model.addGenConstrIndicator(y[k],True,energy[j-1]>=RESERVA+1.4*c['km1'])
-            model.addGenConstrIndicator(y[k],True,energy[j-1]-1.4*c['km1']+q[k]<=BATERIA)
-        model.addConstr(energy[j]==energy[j-1]-1.4*(km+trip['distancia_servicio_km'])+
-                        gp.quicksum(q[k]-1.4*(c['km1']+c['km2']-km)*y[k] for k,c in enumerate(opts)))
+            model.addGenConstrIndicator(y[k],True,energy[j-1]>=RESERVA+CONSUMO*c['km1'])
+            model.addGenConstrIndicator(y[k],True,energy[j-1]-CONSUMO*c['km1']+q[k]<=BATERIA)
+        model.addConstr(energy[j]==energy[j-1]-CONSUMO*(km+trip['distancia_servicio_km'])+
+                        gp.quicksum(q[k]-CONSUMO*(c['km1']+c['km2']-km)*y[k] for k,c in enumerate(opts)))
         objective+=.5*km+gp.quicksum((5+.5*(c['km1']+c['km2']-km))*y[k]+c['price']*q[k] for k,c in enumerate(opts))
         choices[j]=(opts,y,q);count+=len(opts)
     model.setObjective(objective)

@@ -64,10 +64,10 @@ Diego Barrios, Gustavo Anguita, Cristobal Rehbein y Ricardo Palma. Ayudante: Max
 | Distancia al óptimo en casos chicos (exacta) | ✅ 0,13 % en promedio; en 6, 8 y 10 rutas (5 min), cuartetos queda a 0,96 %, **4,93 %** y 0,57 % | §5.3 |
 | Casos con recarga forzada (150 y 120 kWh) | ✅ Corridos | §5.4 |
 | KPI y uso de electroterminales | ✅ Recalculados el 22-nov sobre el plan de cuartetos (semilla 1) | §5.5 |
-| Sensibilidad | ✅ Corrida el 22/23-nov (11 escenarios + base); solo cerrar E2, E4 o E1 mueve el costo | §5.7, §9 C |
+| Sensibilidad | ✅ 11 escenarios de capacidad y tarifa (22/23-nov) + batería, consumo, costo por bus y km ±20 % y costo de espera (23-nov) | §5.7, §9 C |
 | Repetibilidad del día siguiente | ✅ Calculada por electroterminal (22-nov): en día laboral se cubre el 45 % | §9 D |
-| Incertidumbre (atrasos, Monte Carlo) | 🔴 Sin empezar | §9 E |
-| Deck final (15 min) | 🟡 Láminas 1–11 hechas; **faltan las 12–20** | §9 A |
+| Incertidumbre (atrasos, Monte Carlo) | ✅ Simulada el 23-nov; va en el anexo A6 del deck | §9 E |
+| Deck final (15 min) | 🟡 21 láminas + 6 anexos llenos, en HTML y en Canva (74 págs., 23-nov); falta ensayar | §9 A |
 | Informe final (45 págs., 200 pts) | 🔴 **Sin empezar** en el repo | §9 F |
 | Repositorio final | 🟡 Público y ordenado; falta la etiqueta `entrega-3` | §9 H |
 
@@ -173,6 +173,8 @@ El plan completo está en `09-entrega3/PLAN-ENTREGA3.md`. Lo que se hizo:
     00:05 a 00:35): plan inicial, pares + tríos y cuartetos al azar (semilla 1, 5 min) en
     `octetos/resultados/casos_rutas.csv`. Con eso la distancia al óptimo se mide en 129, 200 y 293
     corridas (§5.3).
+12. **23-nov · Anexos A1–A5 del deck** (`09-entrega3/presentacion/deck.html`): MILP de recarga, familias de
+    métodos, supuestos, tabla de casos medianos y recarga forzada, y sectores fijos. Sin «PENDIENTE» en el deck.
 
 ---
 
@@ -440,45 +442,44 @@ Cada tarea dice qué hay que hacer, con qué archivos y cuándo está terminada.
 
 ### A. Presentación final (urgente: alrededor del 24-nov, por confirmar)
 
-**Estado.** `09-entrega3/presentacion/deck.html` tiene 11 láminas: portada, contexto, problema,
-objetivo, datos, KPIs, caso base, método, sectores, absorción e implementación. Sus notas suman 7:20.
-La versión que se edita está en Canva (`DAHbqgcw7t8`).
+**Estado (23-nov).** `09-entrega3/presentacion/deck.html` tiene **21 láminas y 6 anexos**; Canva
+(`DAHbqgcw7t8`, mismo link de siempre) tiene la versión exportada el 23-nov en la madrugada, con
+transiciones Disolver y barrido rojo al entrar a las láminas 8 y 15. Las notas declaran ~13:40,
+recortadas a 2,3 palabras por segundo y repartidas según el puntaje de la rúbrica.
+
+| Bloque (pts) | Láminas | Contenido |
+|---|---|---|
+| Problema (10) | 1–4 | Portada, contexto, problema (define «corrida»), objetivo |
+| Datos (5) | 5 | Curva del día (piso de 6.601) y Real / Enunciado / Supuesto |
+| KPIs (4) | 6 | Seis KPI contra el caso base |
+| Caso base (5) | 7 | Reglas, 8.684 buses |
+| Metodología (8) | 8–10, 12 | Exacto contra híbrido, sectores, absorción, fortalezas y debilidades |
+| Implementación (5) | 11, 13, 14 | Auditoría (y lo que no certifica), procedimiento, decisiones técnicas |
+| Resultados (18) | 15–20 | Resultado L/S/D, ahorro, óptimo, casos medianos y recarga forzada, sensibilidad, día siguiente |
+| Cierre (5) | 21 | Conclusiones y piloto |
+| Anexos | A1–A6 | A1 MILP de recarga, A2 familias de métodos, A3 supuestos, A4 casos medianos y recarga forzada, A5 sectores, A6 incertidumbre |
 
 **Por hacer:**
-1. **Láminas 12 a 20** en Canva. Seguir `ASIGNACION-LAMINAS-12-20.md`, que da para cada una el
-   mensaje, los pasos, las cifras con su archivo de origen y qué evitar. Entre las nueve deben durar
-   6:40 como máximo.
+1. ✅ **Canva al día (23-nov, 09:25)** en `DAHbqgcw7t8`, mismo link, 74 páginas: 1–48 = láminas 1–15 (sin tocar),
+   49–58 = láminas 16–18 (exportadas 08:59), 59–74 = lámina 19 cerrada, 20, 21 y anexos A1–A6 (`--desde 19`,
+   09:17). Los dos importados temporales están en la papelera. Transiciones: Disolver 0,5 s puesto a mano
+   en las páginas 49–73 (23-nov); el Revelar rojo de las páginas 20 y 44 sigue. Ojo: seleccionar varias páginas
+   y elegir transición solo la aplica a una; hay que ir página por página. Para reimportar: `exportar_pptx.py --desde N`, subir el .pptx en canva.com, `insert_pages` al final
+   con `page_numbers` **al revés**, verificar con las notas de cada página y borrar las viejas.
+3. ✅ **Anexos A1–A5 llenos (23-nov)** en `deck.html` y en Canva: A1 formulación del MILP de
+   recarga (`metodo_hibrido/conjunta.py`); A2 las seis familias con su razón de descarte
+   (`04-documentos/pdf/discusion_metodologica.pdf`); A3 seis supuestos con su porqué y su efecto; A4 tablas
+   de 6/8/10/12 rutas y de recarga forzada (`octetos/resultados/casos_rutas*.csv`, `INFORME-COLA-NOCTURNA.md`
+   §3–5); A5 buses y carga por sector (`kpi/resultados/kpi_por_sector.csv`). Falta medir cuánto darían los
+   intercambios entre sectores (A5 lo declara como no medido).
+4. **Parciales de la rúbrica:** el impacto o escala de RED en el bloque Problema y la composición del
+   costo del caso base (la lámina 16 muestra el ahorro por componente, no el % de cada uno).
+5. **Definir expositores** (decisión D7; el tercero entra en la lámina 15) y **ensayar 3 veces** con
+   cronómetro, con meta de 14:00 a 14:30. Si se pasa, se corta contenido; no se habla más rápido.
+6. Detalle de lo que faltaba y lo resuelto: `09-entrega3/presentacion/AUDITORIA-OMISIONES.md`.
 
-   | Lámina | Tema |
-   |---|---|
-   | 12 | Resultado del día laboral |
-   | 13 | Sábado, domingo y semana |
-   | 14 | De dónde sale el ahorro |
-   | 15 | Distancia al óptimo |
-   | 16 | Sensibilidad (resultados listos en §5.7) |
-   | 17 | Recarga forzada |
-   | 18 | El día siguiente |
-   | 19 | Conclusiones |
-   | 20 | Implementación, piloto y limitaciones |
-
-2. **Arreglos a las láminas 1 a 11**, según `AUDITORIA-RUBRICA.md`:
-   - 3: definir «corrida»;
-   - 5: título del eje vertical;
-   - 7: peso de cada costo del caso base;
-   - 8: debilidades del híbrido y equipo de cómputo;
-   - 11 (implementación), el mayor riesgo: falta cómo reproducirlo, cuánto demora, en qué equipo y la
-     lista de lo que los auditores no certifican.
-3. **Anexos** para el banco de preguntas: MILP de recarga, por qué se descartaron las otras familias de
-   métodos, sectores fijos, atrasos, 18 km/h, transformador, espera, tiempo y equipo, y cómo lo
-   implementaría RED.
-4. **Definir expositores** (decisión D7) y **ensayar 3 veces** con cronómetro, con meta de 14:00 a
-   14:30. Si un ensayo se pasa, se corta contenido, empezando por la lámina 20; no se habla más rápido.
-
-**Terminado cuando:**
-- las 20 láminas están numeradas «n / 20»;
-- cada gráfico tiene leyenda, ejes y unidades;
-- las cifras son las mismas del informe;
-- un ensayo completo cae dentro del tiempo.
+**Terminado cuando:** Canva tiene la última versión, los anexos están llenos o borrados y un ensayo
+completo cae dentro del tiempo.
 
 ### B. KPI sobre el plan de cuartetos — ✅ HECHO (22-nov, noche)
 
@@ -530,15 +531,26 @@ python3 09-entrega3/sensibilidad/resumir.py 09-entrega3/sensibilidad/resultados/
 Las instancias de los escenarios y los planes exportados (1,3 GB) no están en GitHub: se recrean con
 esas órdenes.
 
-**Lo que queda (opcional):**
-1. Pasar la tabla a la lámina 16 y al capítulo 9 del informe, con un gráfico de tornado o de barras.
-2. Más semillas en plazas +50 % y en los cierres, para separar el efecto del ruido (~0,10 %).
-3. Escenarios de prioridad 1 que no se pueden correr sin tocar código: consumo, estado de carga inicial
-   y final, velocidad en vacío y costo de espera (ver `PLAN-ENTREGA3.md` §6.1).
-4. **Limitaciones que hay que declarar:**
-   - el caso base no lee `escenario.json`, así que no se puede comparar contra él en cada escenario sin
-     modificar `codigo/tres_fases/caso_base.py`;
-   - consumo, batería, velocidad en vacío, potencia y costos por bus y por km están fijos en el código.
+**Agregado el 23-nov:**
+- **Costo de espera (D2)**, con `09-entrega3/kpi/costo_espera.py` (3 pruebas): cobrar 0,03 USD/min de
+  espera entre corridas suma ~1,9 % al costo de ambos planes; el ahorro del día laboral pasa de −14,54 %
+  a −14,59 % (sábado −16,53 %, domingo −16,35 %). Salida: `kpi/resultados/costo_espera.csv`.
+- **Costo por bus y por km ±20 %**, con `sensibilidad/evaluar_costos.py`, sin reoptimizar: el ahorro del
+  día laboral queda entre −14,07 % y −15,08 %. Salida: `sensibilidad/resultados/costos_evaluados.csv`.
+- **Batería y consumo:** el consumo ahora se lee de `CONSUMO_KWH_KM` (como la batería de `BATERIA_KWH`;
+  ver `metodo_hibrido/energia.py`; las 46 pruebas del método pasan). `crear_escenarios.py` agrega
+  `bateria_300`, `bateria_250` (reserva 10 %), `consumo_+10` y `consumo_+20`, y `correr_fisicos.sh` los
+  corre con la base en la misma tanda (23-nov). Contra esa base (7.384 buses): batería de 300 kWh
+  +17,0 % de buses (+13,8 % de costo), 250 kWh +29,4 % (+25,2 %), consumo +10 % +10,7 % (+8,7 %) y
+  +20 % +18,4 % (+15,3 %). Salida: `sensibilidad/resultados/fisicos_417_L.csv`; tabla en
+  `sensibilidad/README.md`; en la presentación, lámina 19.
+
+**Lo que queda:**
+1. **Limitación que hay que declarar:** el caso base (`codigo/tres_fases/caso_base.py`) no lee
+   `escenario.json` ni las variables de entorno, así que en los escenarios de batería y consumo no se
+   sabe si el ahorro contra el caso base se mantiene (se decidió no hacerlo el 23-nov).
+2. Velocidad en vacío, potencia y estado de carga inicial siguen fijos en el código.
+3. Más semillas en plazas +50 % y en los cierres, para separar el efecto del ruido (~0,10 %).
 
 **Terminado cuando:** hay una tabla con buses, costo y Δ % de cada escenario contra el escenario base, con
 la justificación de cada parámetro y lo que implica para RED.
@@ -566,14 +578,24 @@ primera salida, que se repite igual). Plan de cuartetos:
   de transformador y no cuenta el viaje en vacío hasta el electroterminal (6.651 buses terminan en
   terminales sin cargadores). La brecha real es al menos esta.
 
-### E. Incertidumbre (T9; sin empezar)
+### E. Incertidumbre (T9) — ✅ HECHO (23-nov)
 
-Hacer un Monte Carlo sobre el plan fijo:
-- variar las duraciones de las corridas (±10 a 20 %) y el consumo;
-- medir las salidas atrasadas, el atraso medio y máximo, y los buses que bajan de la reserva de 35 kWh.
+`09-entrega3/incertidumbre/simular_atrasos.py` (3 pruebas) simula el día del plan con tiempos de viaje
+aleatorios (lognormal de media 1, variabilidad de 10, 20 y 30 %, 20 réplicas), contra el caso base. Un
+bus nunca sale antes de su horario y, si llega tarde a cargar, carga solo hasta la hora reservada.
+Validado: sin variabilidad reproduce los dos planes exactos.
 
-Lee `04_final/actividades.csv`, que no está en GitHub. Si no hay tiempo, se declara como limitación y
-trabajo futuro.
+| Variabilidad | Corridas con más de 5 min de atraso (caso base → plan) | Buses bajo la reserva (caso base → plan) |
+|---|---|---|
+| 10 % | 4,4 % → 16,8 % | 4 → 778 |
+| 20 % | 12,3 % → 31,6 % | 40 → 825 |
+| 30 % | 18,7 % → 38,3 % | 111 → 838 |
+
+**Lectura:** el plan es más frágil que el caso base: tiene 15 % menos buses y carga lo justo (1.445
+buses terminan a menos de 1 kWh de la reserva, contra 47). Antes de operarlo hay que agregar holgura
+(margen de energía o buses de reserva); cuánto ahorro cuesta esa holgura queda por medir. Detalle en
+`09-entrega3/incertidumbre/README.md`. En la presentación va en el **anexo A6** (los lineamientos lo
+nombran en el contenido general, pero la rúbrica no le da puntaje propio).
 
 ### F. Informe final (200 pts, reprobatorio; alrededor del 27-nov, por confirmar)
 

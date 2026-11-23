@@ -58,3 +58,14 @@ def test_no_pisa_escenarios_existentes(tmp_path):
     ce.crear(CASO, tmp_path, ['plazas_+20'])
     with pytest.raises(FileExistsError):
         ce.crear(CASO, tmp_path, ['plazas_+20'])
+
+
+def test_escenarios_fisicos_declaran_parametros_y_entorno(tmp_path):
+    ce.crear(CASO, tmp_path, ['bateria_250', 'consumo_+20'])
+    bateria = _spec(tmp_path / 'bateria_250')
+    assert bateria['parametros']['bateria_kwh'] == 250 and bateria['parametros']['reserva_kwh'] == 25
+    assert bateria['sensibilidad']['entorno'] == {'BATERIA_KWH': '250', 'RESERVA_KWH': '25'}
+    consumo = _spec(tmp_path / 'consumo_+20')
+    assert consumo['parametros']['consumo_kwh_km'] == pytest.approx(1.68)
+    assert consumo['sensibilidad']['entorno'] == {'CONSUMO_KWH_KM': '1.68'}
+    assert consumo['capacidad_fisica'] == json.loads((CASO / 'escenario.json').read_text(encoding='utf-8-sig'))['capacidad_fisica']

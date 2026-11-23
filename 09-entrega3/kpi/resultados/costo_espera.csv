@@ -1,0 +1,7 @@
+﻿plan,dia,minutos_espera,costo_espera_usd,costo_informado_usd,costo_con_espera_usd,pct_espera,ahorro_sin_espera_pct,ahorro_con_espera_pct
+caso_base,L,1937283.1,58118.49,3062716.91,3120835.4,1.9,,
+caso_base,S,802400.7,24072.02,2040215.64,2064287.66,1.18,,
+caso_base,D,656840.0,19705.2,1765183.77,1784888.97,1.12,,
+metodo,L,1611154.6,48334.64,2617244.92,2665579.56,1.85,-14.54,-14.59
+metodo,S,612565.3,18376.96,1704731.41,1723108.37,1.08,-16.44,-16.53
+metodo,D,594204.8,17826.14,1475231.04,1493057.19,1.21,-16.43,-16.35

@@ -5,7 +5,7 @@ import numpy as np
 import gurobipy as gp
 from metodo_hibrido.recarga import opciones
 from metodo_hibrido.calendario import actividad, esperar, agregar_viaje
-from metodo_hibrido.energia import BATERIA, RESERVA
+from metodo_hibrido.energia import BATERIA, CONSUMO, RESERVA
 
 # Pares y tríos usan 2 y 3; el estudio de 09-entrega3/octetos llega a grupos de 8.
 MAX_SECUENCIAS = 8
@@ -59,8 +59,8 @@ def resolver_conjunto(sequences,chain,d,starts,calendar,tariffs,limit=2.,deadlin
             z=model.addVars(finals,vtype='B',name=f'final_{b}')
             energy=model.addVars(len(trips),lb=RESERVA,ub=BATERIA,name=f'energia_{b}')
             model.addConstr(x.sum()==1);model.addConstr(z.sum()==1)
-            model.addConstr(energy[0]==BATERIA-1.4*(trips[0]['distancia_servicio_km']+gp.quicksum(d[t,first][0]*x[t] for t in initials)))
-            model.addConstr(energy[len(trips)-1]-1.4*gp.quicksum(d[last,t][0]*z[t] for t in finals)>=RESERVA)
+            model.addConstr(energy[0]==BATERIA-CONSUMO*(trips[0]['distancia_servicio_km']+gp.quicksum(d[t,first][0]*x[t] for t in initials)))
+            model.addConstr(energy[len(trips)-1]-CONSUMO*gp.quicksum(d[last,t][0]*z[t] for t in finals)>=RESERVA)
             objective+=.5*(gp.quicksum(d[t,first][0]*x[t] for t in initials)+gp.quicksum(d[last,t][0]*z[t] for t in finals))
             for t in finals:
                 if t in calendar.physical:
@@ -78,12 +78,12 @@ def resolver_conjunto(sequences,chain,d,starts,calendar,tariffs,limit=2.,deadlin
                 model.addConstr(y.sum()<=1)
                 for k,c in enumerate(opts):
                     model.addConstr(q[k]<=c['maxq']*y[k])
-                    model.addGenConstrIndicator(y[k],True,energy[j-1]>=RESERVA+1.4*c['km1'])
-                    model.addGenConstrIndicator(y[k],True,energy[j-1]-1.4*c['km1']+q[k]<=BATERIA)
+                    model.addGenConstrIndicator(y[k],True,energy[j-1]>=RESERVA+CONSUMO*c['km1'])
+                    model.addGenConstrIndicator(y[k],True,energy[j-1]-CONSUMO*c['km1']+q[k]<=BATERIA)
                     occupancy[c['e']].append((c['start'],c['end'],y[k]))
                     connections[c['e']].append((c['start'],c['end'],y[k]))
-                model.addConstr(energy[j]==energy[j-1]-1.4*(km+trip['distancia_servicio_km'])+
-                                gp.quicksum(q[k]-1.4*(c['km1']+c['km2']-km)*y[k] for k,c in enumerate(opts)))
+                model.addConstr(energy[j]==energy[j-1]-CONSUMO*(km+trip['distancia_servicio_km'])+
+                                gp.quicksum(q[k]-CONSUMO*(c['km1']+c['km2']-km)*y[k] for k,c in enumerate(opts)))
                 objective+=.5*km+gp.quicksum((5+.5*(c['km1']+c['km2']-km))*y[k]+c['price']*q[k] for k,c in enumerate(opts))
                 choices[j]=(opts,y,q);option_count+=len(opts)
             solutions.append((trips,initials,finals,x,z,choices))

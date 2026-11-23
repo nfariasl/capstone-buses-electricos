@@ -340,6 +340,13 @@ i.ico.rojo { color: var(--rojo); }
 .por-que h3 i.ico { font-size: 30px; color: var(--texto-2); }
 .por-que p { font-family: var(--serif); font-size: 22px; line-height: 1.3; color: var(--texto-2); margin-top: 4px; }
 .def-opt { top: 196px; }
+.por-que.arriba { top: 176px; }
+.por-que.arriba p { font-size: 21px; }
+.nota-sens { position: absolute; left: 96px; top: 872px; width: 1060px; font-family: var(--serif); font-size: 23px; line-height: 1.3; color: var(--texto-2); }
+.panel-atrasos { position: absolute; left: 1220px; top: 336px; width: 604px; border-top: 6px solid var(--rojo); padding-top: 12px; }
+.panel-atrasos h3 { font-size: 30px; font-weight: 800; }
+.panel-atrasos p { font-family: var(--serif); font-size: 22px; line-height: 1.3; color: var(--texto-2); margin-top: 6px; }
+.nota-atrasos { position: absolute; left: 1220px; top: 820px; width: 604px; font-family: var(--serif); font-size: 23px; line-height: 1.3; }
 .def-opt h3 i.ico { color: var(--azul); }
 .def-opt p { font-size: 23px; }
 .sens-lado { position: absolute; left: 1470px; top: 410px; width: 354px; }
@@ -391,6 +398,36 @@ i.ico.rojo { color: var(--rojo); }
 .reservado ul { margin-left: 26px; }
 .sintexto .reservado { border-color: transparent !important; }
 .anexo-tag { position: absolute; right: 96px; top: 98px; font-size: 21px; font-weight: 700; color: var(--texto-2); }
+
+/* ---------- Anexos A1–A5 ---------- */
+.anexo .bajada { position: absolute; left: 96px; top: 176px; width: 1500px; font-family: var(--serif); font-size: 26px; line-height: 1.3; color: var(--texto-2); }
+.sub-anexo { position: absolute; font-size: 28px; font-weight: 800; }
+.tabla-anexo { position: absolute; left: 96px; border-collapse: collapse; font-size: 22px; font-variant-numeric: tabular-nums; table-layout: fixed; }
+.tabla-anexo th { font-size: 19px; font-weight: 700; color: var(--texto-2); text-align: left; padding: 6px 16px 8px 0;
+  border-bottom: 2px solid var(--texto-2); vertical-align: bottom; }
+.tabla-anexo td { padding: 11px 16px 11px 0; border-bottom: 1px solid var(--linea); vertical-align: top; line-height: 1.28; }
+.tabla-anexo.chica { font-size: 21px; }
+.tabla-anexo.chica td { padding: 12px 14px 12px 0; }
+.tabla-anexo .num { text-align: right; }
+.tabla-anexo td.nombre { font-weight: 700; }
+.tabla-anexo td.serif { font-family: var(--serif); color: var(--texto-2); }
+.tabla-anexo td.ref { font-family: var(--serif); font-size: 19px; color: var(--texto-2); }
+.tabla-anexo tr.elegida td { color: var(--azul); }
+.tabla-anexo tr.elegida td.nombre { border-left: 6px solid var(--azul); padding-left: 12px; }
+.tabla-anexo .rojo { color: var(--rojo); font-weight: 800; }
+.tabla-anexo .azul { color: var(--azul); font-weight: 800; }
+.pie-tabla { position: absolute; font-family: var(--serif); font-size: 20px; line-height: 1.3; color: var(--texto-2); }
+.formulacion { position: absolute; left: 96px; top: 230px; width: 1130px; }
+.formulacion h3 { font-size: 24px; font-weight: 800; margin: 14px 0 4px; color: var(--azul); }
+.formulacion h3:first-child { margin-top: 0; }
+.formulacion .fila { display: grid; grid-template-columns: 660px 1fr; column-gap: 24px; padding: 5px 0; border-top: 1px solid var(--linea); }
+.formulacion .f { font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.formulacion .d { font-family: var(--serif); font-size: 20px; line-height: 1.25; color: var(--texto-2); }
+.bloque-anexo { position: absolute; border-top: 6px solid var(--azul); padding-top: 12px; }
+.bloque-anexo.rojo { border-top-color: var(--rojo); }
+.bloque-anexo.gris { border-top-color: var(--gris-base); }
+.bloque-anexo h3 { font-size: 30px; font-weight: 800; }
+.bloque-anexo p { font-family: var(--serif); font-size: 23px; line-height: 1.32; color: var(--texto-2); margin-top: 8px; }
 
 /* Definición en la lámina 3 y alcance de la auditoría en la 11 */
 .problema .bajo-cifra small { display: block; font-size: 24px; margin-top: 12px; }
@@ -516,17 +553,13 @@ i.ico.rojo { color: var(--rojo); }
         <p>Tiempos de viaje fijos, sin tráfico ni mantenciones, y cargadores de 180 kW.</p></div>
     </div>
     <aside class="notas">
-      (50 s) Antes de planificar, miramos cómo se mueve la red. Esta curva cuenta, cada cinco minutos, cuántos
-      buses están haciendo un viaje en ese momento en un día laboral. Tiene dos puntas, la de la mañana y la de la
-      tarde. [→] La más alta es a las ocho de la mañana: seis mil seiscientos viajes en curso al mismo tiempo. Ese
-      número es un piso: ningún plan puede funcionar con menos buses, y lo vamos a usar para medir qué tan bueno es
-      el nuestro. [→] El fin de semana la red necesita mucho menos: el sábado la punta es de unos tres mil
-      ochocientos, a las tres de la tarde, y el domingo de unos dos mil novecientos, a las seis. [→] De dónde salen
-      estos datos: los horarios y recorridos son reales, del GTFS público de DTPM. Los costos, la batería, las
-      tarifas y los electroterminales los fija el enunciado. Y hay cosas que no vienen y que supusimos: tiempos de
-      viaje fijos, sin tráfico ni mantenciones, y cargadores de ciento ochenta kilowatts. (Si preguntan: trips.txt
-      trae 6.629 filas que son plantillas; al expandir frequencies.txt salen casi diez veces más corridas. Y la
-      flota declarada de 1.200 buses no alcanza, por eso la flota es una decisión.)
+      (50 s) Antes de planificar, miramos cómo se mueve la red. La curva cuenta, cada cinco minutos, cuántas corridas
+      están en curso en un día laboral. [→] La punta es a las ocho de la mañana: seis mil seiscientas corridas a la
+      vez. Ese número es un piso: ningún plan puede usar menos buses. [→] El fin de semana la red necesita mucho
+      menos. [→] Los horarios y recorridos son reales, del GTFS de DTPM; costos, batería, tarifas y electroterminales
+      los fija el enunciado; y supusimos tiempos de viaje fijos y cargadores de ciento ochenta kilowatts. (Si
+      preguntan: trips.txt trae 6.629 plantillas; al expandir frequencies.txt salen casi diez veces más corridas. La
+      flota declarada de 1.200 buses no alcanza: la flota es una decisión.)
     </aside>
   </section>
 
@@ -609,12 +642,10 @@ i.ico.rojo { color: var(--rojo); }
       que en cada movimiento resuelve un MILP pequeño de recargas.</p>
     <aside class="notas">
       (40 s) Revisamos seis familias de métodos y la pregunta fue cuál escala. El modelo exacto, un solo MILP con
-      todas las corridas, da el óptimo probado, pero el caso más grande que logramos resolver tiene menos de
-      trescientas corridas: con más, no cabe en la memoria. [→] Por eso el plan lo entrega un método híbrido: arma un
-      plan y lo mejora por grupos de buses. Resuelve la red completa en cuarenta minutos por tipo de día, pero no
-      garantiza el óptimo. [→] Ahí vuelve a servir el exacto: en los casos chicos medimos cuánto se aleja la
-      heurística del óptimo. Es una búsqueda en vecindarios grandes, como la de Ahuja y coautores, con un MILP
-      pequeño de recargas dentro de cada movimiento.
+      todas las corridas, da el óptimo probado, pero no pasa de unas trescientas corridas: con más, no cabe en la
+      memoria. [→] Por eso el plan lo entrega un método híbrido: arma un plan y lo mejora por grupos de buses;
+      resuelve la red completa, pero sin garantía de óptimo. [→] El exacto sigue sirviendo: con él medimos cuánto se
+      aleja la heurística en los casos chicos.
     </aside>
   </section>
 
@@ -628,12 +659,10 @@ i.ico.rojo { color: var(--rojo); }
       <li data-desde="3"><div><h3><i class="ico azul" data-ico="intercambio"></i>Mejora por grupos</h3><p>Grupos de cuatro buses elegidos al azar intentan que uno reparta sus viajes entre los otros.</p></div></li>
     </ol>
     <aside class="notas">
-      (40 s) El método tiene tres pasos. [→] Primero dividimos la red en cinco sectores: cada ruta queda asociada al
-      electroterminal que le deja menos kilómetros en vacío. Los sectores van de sesenta y cinco a ciento diecisiete
-      rutas. [→] Después construimos un plan inicial: recorremos las corridas en orden de salida y cada una se la
-      damos al bus de su sector que llega a tiempo, tiene batería y queda más cerca; si no hay ninguno, agregamos un
-      bus. [→] Y por último lo mejoramos con grupos de cuatro buses elegidos al azar, que es lo que muestra la lámina
-      siguiente.
+      (35 s) El método tiene tres pasos. [→] Primero, cinco sectores: cada ruta va al electroterminal que le deja
+      menos kilómetros en vacío. [→] Segundo, un plan inicial: recorremos las corridas en orden de salida y cada una
+      va al bus de su sector que llega a tiempo, tiene batería y queda más cerca; si no hay, agregamos un bus. [→]
+      Tercero, lo mejoramos con grupos de cuatro buses al azar, que es lo que muestra la lámina siguiente.
     </aside>
   </section>
 
@@ -649,12 +678,10 @@ i.ico.rojo { color: var(--rojo); }
     </div>
     <div class="grafico" aria-label="Horario de cuatro buses entre las 06:00 y las 22:00. Ejemplo ilustrativo."></div>
     <aside class="notas">
-      (40 s) Esta es la jugada central del método. Tomamos un grupo de cuatro buses y uno de ellos, el que
-      tiene menos viajes, intenta repartirlos entre los otros tres. [→] El primer viaje cabe en un hueco del bus 1.
-      [→] El segundo, en el bus 2, y el tercero, en el bus 3. [→] Pero al bus 3 ya no le alcanza la batería:
-      un modelo entero pequeño decide dónde y cuánto recargar. [→] Si el plan sigue siendo factible y más
-      barato, el bus 4 se elimina. Esto lo repetimos miles de veces sobre la red completa, con grupos de
-      cuatro buses elegidos al azar. Los horarios de esta figura son ilustrativos.
+      (35 s) Esta es la jugada central. Tomamos cuatro buses y el que tiene menos viajes intenta repartirlos entre los
+      otros tres. [→] El primero cabe en un hueco del bus 1. [→] El segundo, en el bus 2, y el tercero, en el bus 3.
+      [→] Pero al bus 3 ya no le alcanza la batería: un modelo entero decide dónde y cuánto recargar. [→] Si el plan
+      sigue factible y es más barato, el bus 4 se elimina. Lo repetimos miles de veces; los horarios son ilustrativos.
     </aside>
   </section>
 
@@ -667,11 +694,10 @@ i.ico.rojo { color: var(--rojo); }
       antes de usarse: cubre todas las corridas, respeta horarios, batería y plazas, y su costo cuadra.
       <small>No certifican turnos de conductores, el límite del transformador, la recarga nocturna, el costo de espera ni el óptimo global.</small></p>
     <aside class="notas">
-      (60 s) Así está implementado. Todo está en Python y los modelos enteros se resuelven con Gurobi. [→] El flujo
-      parte de los datos, arma el plan inicial, lo mejora por grupos con un presupuesto de tiempo y, antes de usarlo,
-      lo pasa por los auditores. Cada movimiento se acepta solo si el plan sigue siendo factible y baja el costo.
-      [→] Todos los planes que van a ver, el nuestro y el caso base, fueron auditados: cubren todas las corridas,
-      respetan horarios, batería y plazas, y su costo cuadra con los precios del enunciado.
+      (30 s) Todo está en Python y los modelos enteros se resuelven con Gurobi. [→] El flujo parte de los datos, arma
+      el plan inicial, lo mejora por grupos y lo pasa por los auditores antes de usarlo. [→] Todos los planes, el
+      nuestro y el caso base, cubren todas las corridas y respetan horarios, batería y plazas; abajo decimos lo que
+      los auditores no certifican.
     </aside>
   </section>
 
@@ -723,11 +749,10 @@ i.ico.rojo { color: var(--rojo); }
     <div class="salida" data-desde="3"><i class="ico" data-ico="archivo"></i>
       <div><h3>Salida del programa</h3><p>La jornada de cada bus, con sus corridas, traslados en vacío y calendario de recargas.</p></div></div>
     <aside class="notas">
-      (35 s) Así corre el programa. Python prepara las corridas y los traslados en vacío de cada tipo de día, y arma un
-      plan inicial asignando las corridas en orden de salida. [→] La mejora sortea cuartetos de buses y, en cada intento,
-      Gurobi reprograma la recarga de esas jornadas; se repite miles de veces, hasta agotar el tiempo. [→] Al final, una
-      auditoría independiente revisa cobertura, horarios, batería, capacidades y costo. [→] La salida es la jornada de
-      cada bus, con sus corridas, traslados y recargas.
+      (30 s) Así corre el programa. Python prepara las corridas y los traslados, y arma el plan inicial en orden de
+      salida. [→] La mejora sortea cuartetos y Gurobi reprograma sus recargas; se repite miles de veces hasta agotar
+      el tiempo. [→] Una auditoría independiente revisa todo. [→] La salida es la jornada de cada bus: corridas,
+      traslados y recargas.
     </aside>
   </section>
 
@@ -794,7 +819,7 @@ i.ico.rojo { color: var(--rojo); }
       aria-label="Ahorro diario por componente: buses 333 mil, energía 71 mil, kilómetros 40 mil y sesiones 1 mil dólares"></div>
     <div class="lado-cifras">
       <div class="bloque" data-desde="1"><b>11,9&nbsp;%</b><p>de los km son en vacío, contra 16,3&nbsp;% en el caso base.</p></div>
-      <div class="bloque" data-desde="2"><b>38 buses</b><p>cargando a la vez, como máximo, en un electroterminal. El caso base llega a 180 y llena tres electroterminales cerca de las 21:00.</p></div>
+      <div class="bloque" data-desde="2"><b>38 buses</b><p>cargando a la vez, como máximo, en un electroterminal, a las 19:50. El caso base llega a 180 y llena tres electroterminales cerca de las 21:00.</p></div>
       <div class="bloque" data-desde="2" style="--retardo: 300ms"><b>−87&nbsp;%</b><p>de energía cargada en el día: los buses parten llenos y casi no cargan.</p></div>
     </div>
     <aside class="notas">
@@ -842,7 +867,6 @@ i.ico.rojo { color: var(--rojo); }
     </div>
     <div class="graf graf-medianos" style="left: 96px; top: 400px; width: 820px; height: 300px"
       aria-label="Brecha al óptimo de cuartetos en casos medianos: 0,03 %, 0,57 %, 0,96 % y 4,93 %"></div>
-    <p class="pendiente-linea" style="left: 96px; top: 712px; width: 820px" data-desde="0"><b>PENDIENTE</b>12 rutas (442 corridas) y casos de 250 a 400 corridas.</p>
     <div class="panel-d" style="left: 1004px; width: 820px" data-desde="1">
       <h3>Casos chicos con recarga forzada</h3>
       <p>Batería de 150 y 120 kWh. La exacta ya no demuestra el óptimo en 15 min: se compara con su mejor plan.</p>
@@ -863,30 +887,31 @@ i.ico.rojo { color: var(--rojo); }
     </aside>
   </section>
 
-  <!-- ============ 19 · Sensibilidad, con espacio reservado para lo que falta ============ -->
+  <!-- ============ 19 · Sensibilidad e incertidumbre ============ -->
   <section class="lamina sensibilidad" data-n="19" data-tramo="3" data-pasos="3" aria-label="Sensibilidad">
-    <h2 class="titulo">El ahorro resiste los supuestos que probamos</h2>
-    <div class="por-que">
-      <div data-desde="0"><h3><i class="ico" data-ico="enchufe"></i>Plazas y conexiones</h3><p>La capacidad de carga puede crecer o achicarse.</p></div>
-      <div data-desde="0" style="--retardo: 200ms"><h3><i class="ico" data-ico="costo"></i>Tarifa de punta</h3><p>La energía puede encarecerse en las horas caras.</p></div>
-      <div data-desde="0" style="--retardo: 400ms"><h3><i class="ico" data-ico="pin"></i>Cierre de un electroterminal</h3><p>Una falla o una mantención saca un sector entero.</p></div>
+    <h2 class="titulo">Lo que más pesa es el bus mismo</h2>
+    <div class="por-que arriba">
+      <div data-desde="0"><h3><i class="ico" data-ico="enchufe"></i>Capacidad de carga</h3><p>Plazas, conexiones y cierre de un electroterminal.</p></div>
+      <div data-desde="0" style="--retardo: 200ms"><h3><i class="ico" data-ico="bateria"></i>El bus</h3><p>Batería más chica y más consumo por km.</p></div>
+      <div data-desde="0" style="--retardo: 400ms"><h3><i class="ico" data-ico="costo"></i>Precios</h3><p>Energía en punta, costo por bus y por km, y la espera.</p></div>
     </div>
-    <div class="graf graf-sens" style="left: 96px; top: 410px; width: 1060px; height: 470px"
-      aria-label="Cambio del costo diario por escenario; solo los cierres de El Conquistador, La Reina y Vespucio Norte salen del ruido"></div>
-    <div class="reservado" style="left: 1200px; top: 400px; width: 624px; height: 500px" data-desde="2">
-      <p class="marca">PENDIENTE · ESPACIO RESERVADO</p>
-      <h3>Incertidumbre: atrasos y tiempos de viaje</h3>
-      <p>Correr el plan con tiempos de viaje variables y medir las salidas atrasadas, el atraso medio y máximo, y los
-        buses que bajan de la reserva de batería.</p>
-      <h4>Escenarios por correr</h4>
-      <ul><li>Consumo y capacidad de batería</li><li>Costo por bus y por km</li><li>Costo de espera, que hoy no se cobra</li></ul>
+    <div class="graf graf-sens" style="left: 96px; top: 336px; width: 1060px; height: 500px"
+      aria-label="Cambio del costo diario por escenario; solo los cierres de electroterminales y la batería más chica salen del ruido"></div>
+    <p class="nota-sens" data-desde="1" style="--retardo: 900ms">Sin volver a optimizar: con el costo por bus o por km ±20&nbsp;%, el ahorro queda entre −14,1 y −15,1&nbsp;%; cobrando la espera, en −14,6&nbsp;%.</p>
+    <div class="panel-atrasos" data-desde="2">
+      <h3>El bus mismo sí cambia la flota</h3>
+      <p>Cuartetos al azar con 20 min, contra la base de la misma tanda.</p>
     </div>
+    <div class="graf graf-fisicos" style="left: 1220px; top: 470px; width: 604px; height: 330px"
+      aria-label="Cambio de buses con batería de 300 y 250 kWh y consumo +10 y +20 %"></div>
+    <p class="nota-atrasos" data-desde="2" style="--retardo: 900ms">El caso base no se corrió con estos parámetros: no sabemos si el ahorro se mantiene.</p>
     <aside class="notas">
-      (40 s) ¿Qué pasa si cambian los supuestos? Movimos plazas y conexiones, la tarifa en punta y el cierre de un
-      electroterminal. [→] La franja gris es el ruido de la búsqueda. Solo cerrar El Conquistador, La Reina o Vespucio
-      Norte mueve el costo, y el peor caso sube 0,62 por ciento, muy por debajo del ahorro. Una plaza más no vale nada
-      de día; perder un electroterminal grande sí cuesta buses. [→] ESPACIO RESERVADO: incertidumbre por atrasos y
-      escenarios de consumo, batería, costos y espera, cuando estén corridos.
+      (40 s) ¿Qué pasa si cambian los supuestos? Movimos la capacidad de carga, el bus mismo y los precios. [→] La
+      franja gris es el ruido de la búsqueda: solo cerrar un electroterminal grande mueve el costo, y si cambian los
+      precios del bus o del km, o si cobramos la espera, el ahorro sigue entre catorce y quince por ciento. [→] Lo que
+      sí pesa es el bus: una batería de 250 kilowatt-hora pide casi treinta por ciento más buses, y un consumo veinte
+      por ciento mayor, dieciocho. No corrimos el caso base con esos valores, así que no sabemos si el ahorro se
+      mantiene.
     </aside>
   </section>
 
@@ -923,78 +948,193 @@ i.ico.rojo { color: var(--rojo); }
     <div class="piloto" data-desde="3"><i class="ico" data-ico="bus-electrico"></i>
       <div><h3>Siguiente paso para RED: un piloto en un sector</h3>
         <p>Primero el plan corre en paralelo, sin operarse. Después se opera en un sector y se compara con otro de control
-          en buses, costo, atrasos y batería al cierre. Faltan la incertidumbre, un vecindario que mueva recargas y los intercambios entre sectores.</p></div></div>
+          en buses, costo, atrasos y batería al cierre. Después: holgura de energía ante atrasos, un vecindario que mueva recargas e intercambios entre sectores.</p></div></div>
     <aside class="notas">
-      (35 s) Tres conclusiones. Primero: con el mismo servicio se necesitan menos buses, los tres tipos de día. [→]
-      Segundo: el ahorro viene de la flota; de día los cargadores sobran y de noche faltan. [→] Tercero: la solución
-      es aproximada; muy cerca del óptimo en casos chicos, más lejos en casos grandes o con recarga, y resiste los
-      supuestos probados. [→] Proponemos a RED un piloto en un sector, primero en paralelo y después operado contra un
-      sector de control. Falta medir la incertidumbre y mejorar el vecindario. Gracias.
+      (50 s) Tres conclusiones. Primero: con el mismo servicio se necesitan menos buses, los tres tipos de día; es el
+      objetivo que nos pusimos. [→] Segundo: el ahorro viene de la flota; de día los cargadores sobran, pero de noche
+      faltan, y esa es la próxima restricción para RED. [→] Tercero: la solución es aproximada; muy cerca del óptimo
+      en casos chicos, más lejos en casos grandes o con recarga, y resiste precios y plazas. [→] Proponemos un piloto
+      en un sector: primero en paralelo, sin operarse; después operado y comparado con un sector de control en buses,
+      costo, atrasos y batería al cierre. Si ahorra buses sin más atrasos, se extiende por etapas. Gracias.
     </aside>
   </section>
 
-  <!-- ============ Anexos: fuera de los 15 minutos, con espacio reservado para lo que falta ============ -->
+  <!-- ============ Anexos: fuera de los 15 minutos, para el banco de preguntas ============ -->
   <section class="lamina anexo" data-n="22" data-tramo="4" data-anexo="A1" aria-label="Anexo A1">
     <p class="anexo-tag">Anexo A1, fuera de los 15 minutos</p>
     <h2 class="titulo">El modelo de recarga de cada intento</h2>
-    <div class="reservado" style="left: 96px; top: 230px; width: 1728px; height: 660px">
-      <p class="marca">PENDIENTE · ESPACIO RESERVADO</p>
-      <h3>Para la pregunta «¿cómo decide el modelo cuándo y cuánto cargar?»</h3>
-      <ul><li>Variables, función objetivo y restricciones del MILP de recarga, con notación explicada.</li>
-        <li>Un ejemplo chico: las jornadas de un cuarteto antes y después de reprogramar sus recargas.</li></ul>
+    <p class="bajada">Para cada bus del grupo, con sus corridas ya asignadas por la búsqueda:</p>
+    <div class="formulacion">
+      <h3>Variables</h3>
+      <div class="fila"><p class="f">x(t), z(t) ∈ {0, 1}</p><p class="d">terminal donde sale y lugar donde termina el día</p></div>
+      <div class="fila"><p class="f">y(j, k) ∈ {0, 1}</p><p class="d">antes de la corrida j, usa la ventana de carga k (electroterminal, inicio y bloques de 5 min)</p></div>
+      <div class="fila"><p class="f">q(j, k) ≥ 0</p><p class="d">kWh cargados en esa ventana</p></div>
+      <div class="fila"><p class="f">s(j) ∈ [R, B]</p><p class="d">energía al terminar la corrida j</p></div>
+      <h3>Objetivo</h3>
+      <div class="fila"><p class="f">min c_km · km en vacío + Σ [ c_ses · y + p(k) · q ]</p><p class="d">km, sesiones y energía</p></div>
+      <h3>Restricciones</h3>
+      <div class="fila"><p class="f">Σ x(t) = 1,  Σ z(t) = 1</p><p class="d">sale de un terminal y termina en uno</p></div>
+      <div class="fila"><p class="f">s(j) = s(j−1) − e · km + Σ [ q − e · desvío(k) · y ]</p><p class="d">balance de energía (km en vacío y de servicio)</p></div>
+      <div class="fila"><p class="f">Σ y(j, k) ≤ 1,  q(j, k) ≤ P · Δ · n(k) · y(j, k)</p><p class="d">a lo más una carga entre corridas, a la potencia del cargador</p></div>
+      <div class="fila"><p class="f">y(j, k) = 1 ⇒ llega con s ≥ R y sale con s ≤ B</p><p class="d">no baja de la reserva ni pasa la batería</p></div>
+      <div class="fila"><p class="f">s(n) − e · (km al lugar final) ≥ R</p><p class="d">termina el día con reserva</p></div>
+      <div class="fila"><p class="f">buses del grupo ≤ capacidad − uso de los demás</p><p class="d">plazas y conexiones, en cada electroterminal y bloque</p></div>
     </div>
-    <aside class="notas">Anexo para el banco de preguntas. Espacio reservado: falta armarlo con la formulación del informe.</aside>
+    <div class="bloque-anexo" style="left: 1290px; top: 236px; width: 534px">
+      <h3>Cómo se usa</h3>
+      <p>La búsqueda propone cómo repartir las corridas del cuarteto; este MILP decide dónde sale cada bus, dónde y cuánto carga y dónde termina.</p>
+      <p>El resto de la red queda fijo: solo entra como capacidad ya ocupada.</p>
+      <p>El costo por bus no aparece: cuántos buses hay lo decide la búsqueda, al vaciar uno.</p>
+      <p>Gurobi, 2 s por intento, brecha de 2 % y un hilo. Si el plan es factible y más barato, se acepta.</p>
+    </div>
+    <p class="nota-pie" style="top: 920px; width: 1728px; font-size: 20px">e: consumo por km. B y R: batería y reserva. P · Δ: energía de un bloque de 5 min. En el objetivo y el balance, y y q son y(j, k) y q(j, k). c_km, c_ses y p(k): costos del enunciado (p(k), precio medio
+      de la ventana). Las ventanas son un catálogo acotado de huecos libres, no todas las posibles. Código: metodo_hibrido/conjunta.py.</p>
+    <aside class="notas">Si preguntan cómo decide el modelo cuándo y cuánto cargar. Las corridas de cada bus ya vienen fijas por la búsqueda; el
+      MILP solo elige terminales y recargas, con balance de energía, reserva, batería, potencia y la capacidad que dejan libre los demás buses. Es
+      chico: cuatro jornadas y sus ventanas de carga. Se resuelve en dos segundos y se acepta solo si baja el costo.</aside>
   </section>
 
   <section class="lamina anexo" data-n="23" data-tramo="4" data-anexo="A2" aria-label="Anexo A2">
     <p class="anexo-tag">Anexo A2, fuera de los 15 minutos</p>
-    <h2 class="titulo">Por qué descartamos las otras familias de métodos</h2>
-    <div class="reservado" style="left: 96px; top: 230px; width: 1728px; height: 660px">
-      <p class="marca">PENDIENTE · ESPACIO RESERVADO</p>
-      <h3>Para la pregunta «¿por qué este método y no otro?»</h3>
-      <ul><li>Las seis familias de la lámina 8 (flujo en redes, branch-and-price, metaheurísticas, Benders, incertidumbre y
-        simulación), con la razón de descarte de cada una y su referencia.</li></ul>
-    </div>
-    <aside class="notas">Anexo para el banco de preguntas. Espacio reservado: sale de la revisión bibliográfica del informe.</aside>
+    <h2 class="titulo">Por qué no las otras familias de métodos</h2>
+    <p class="bajada">El criterio: decidir a la vez las corridas de cada bus y sus recargas (Perumal et al., 2022), en la red completa.</p>
+    <table class="tabla-anexo" style="top: 250px; width: 1728px">
+      <thead><tr><th style="width: 300px">Familia</th><th style="width: 460px">Qué ofrece</th><th style="width: 640px">Por qué no la usamos sola</th><th>Referencia</th></tr></thead>
+      <tbody>
+        <tr><td class="nombre">Flujo en red tiempo-espacio</td><td class="serif">Exacta; la que mejor escala sin batería.</td>
+          <td class="serif">Con la batería deja de ser un flujo puro. Fue la base del método de la Entrega 2.</td><td class="ref">Kliewer et al. (2006)</td></tr>
+        <tr><td class="nombre">Branch-and-price</td><td class="serif">Óptimo con cota; trata recarga parcial y cargadores finitos.</td>
+          <td class="serif">El mayor caso publicado resuelto al óptimo tiene 101 corridas: la red es tres órdenes de magnitud más grande.</td><td class="ref">de Vos et al. (2024); Wu et al. (2025)</td></tr>
+        <tr class="elegida"><td class="nombre">Metaheurísticas</td><td class="serif">Escalan a la red real y dan planes factibles desde temprano.</td>
+          <td class="serif">No traen cota: por eso medimos la nuestra contra la exacta en casos chicos. <b>Es la familia que elegimos.</b></td><td class="ref">Wen et al. (2016); Limmer et al. (2023)</td></tr>
+        <tr><td class="nombre">Benders</td><td class="serif">Separa decisiones de inversión de la operación.</td>
+          <td class="serif">La flota y la infraestructura vienen dadas: no hay nivel de inversión que separar.</td><td class="ref">Legault et al. (2025), preprint</td></tr>
+        <tr><td class="nombre">Modelos con incertidumbre</td><td class="serif">Consumo y tiempos aleatorios dentro del modelo.</td>
+          <td class="serif">Los datos no traen distribuciones y el costo de cómputo se multiplica. La reemplazan la sensibilidad y la simulación.</td><td class="ref">Ricard et al. (2026)</td></tr>
+        <tr><td class="nombre">Simulación</td><td class="serif">Mide qué tan frágil es un plan.</td>
+          <td class="serif">No optimiza. La usamos para evaluar el plan con atrasos (anexo A6).</td><td class="ref">—</td></tr>
+      </tbody>
+    </table>
+    <aside class="notas">Si preguntan por qué este método y no otro. Los exactos dan el óptimo pero no llegan al tamaño de la red; las
+      metaheurísticas sí llegan, pero no dicen qué tan lejos quedan del óptimo. Por eso combinamos: el híbrido entrega el plan y el exacto mide la
+      brecha en casos chicos. Benders no aplica porque no decidimos inversión, y el modelo estocástico necesita distribuciones que no tenemos.</aside>
   </section>
 
   <section class="lamina anexo" data-n="24" data-tramo="4" data-anexo="A3" aria-label="Anexo A3">
     <p class="anexo-tag">Anexo A3, fuera de los 15 minutos</p>
     <h2 class="titulo">Supuestos que no vienen en los datos</h2>
-    <div class="reservado" style="left: 96px; top: 230px; width: 1728px; height: 660px">
-      <p class="marca">PENDIENTE · ESPACIO RESERVADO</p>
-      <h3>Para las preguntas sobre supuestos</h3>
-      <ul><li>Velocidad de 18 km/h en los traslados en vacío.</li>
-        <li>Límite del transformador: se modeló como conexiones por 180 kW.</li>
-        <li>Costo de espera (0,03 USD/min): no se cobra en ningún plan.</li>
-        <li>Los 1.200 buses declarados y por qué la flota es una decisión del modelo.</li>
-        <li>Terminales comunes sin límite de capacidad.</li></ul>
-    </div>
-    <aside class="notas">Anexo para el banco de preguntas. Espacio reservado: falta el porqué y el efecto de cada supuesto.</aside>
+    <table class="tabla-anexo" style="top: 196px; width: 1728px">
+      <thead><tr><th style="width: 470px">Supuesto</th><th style="width: 600px">Por qué</th><th>Qué cambia si no se cumple</th></tr></thead>
+      <tbody>
+        <tr><td class="nombre">Traslados en vacío a 18 km/h constantes</td><td class="serif">El enunciado no trae velocidades ni tiempos de traslado; usamos una velocidad urbana baja.</td>
+          <td class="serif">Más rápido acortaría los traslados y bajaría buses en los dos planes. No entró en la sensibilidad.</td></tr>
+        <tr><td class="nombre">Límite eléctrico = conexiones × 180 kW</td><td class="serif">transformer_mw está en el diccionario de datos, pero no viene en ningún archivo.</td>
+          <td class="serif">En el día casi no se carga; un límite menor empeora sobre todo la recarga nocturna (lámina 20).</td></tr>
+        <tr><td class="nombre">La espera no se cobra al optimizar</td><td class="serif">Pesa igual en los dos planes y deja el modelo de recarga más chico.</td>
+          <td class="serif">Cobrándola después, el ahorro casi no cambia (lámina 19).</td></tr>
+        <tr><td class="nombre">Los 1.200 buses declarados no son un límite</td><td class="serif">La punta de la mañana necesita más de cinco veces esa flota.</td>
+          <td class="serif">La flota pasa a ser una decisión: es lo primero que el modelo minimiza.</td></tr>
+        <tr><td class="nombre">Terminales comunes sin límite de plazas ni carga</td><td class="serif">El enunciado no da su capacidad. Los Acacios quedó fuera: su dirección no calza entre fuentes.</td>
+          <td class="serif">Con límite, algunos buses tendrían que terminar más lejos y sumarían km en vacío.</td></tr>
+        <tr><td class="nombre">Batería llena al empezar el día</td><td class="serif">Lo fija el enunciado, igual para el caso base.</td>
+          <td class="serif">El día no se repite solo: la recarga nocturna no alcanza (lámina 20).</td></tr>
+      </tbody>
+    </table>
+    <aside class="notas">Si preguntan por los supuestos. Ninguno favorece a nuestro plan sobre el caso base: los dos usan la misma velocidad, los
+      mismos terminales y parten con la batería llena. Los que más podrían mover el resultado son la velocidad en vacío, que no variamos, y el límite
+      eléctrico, que afecta sobre todo la noche.</aside>
   </section>
 
   <section class="lamina anexo" data-n="25" data-tramo="4" data-anexo="A4" aria-label="Anexo A4">
     <p class="anexo-tag">Anexo A4, fuera de los 15 minutos</p>
-    <h2 class="titulo">Casos medianos y recarga forzada, caso por caso</h2>
-    <div class="reservado" style="left: 96px; top: 230px; width: 1728px; height: 660px">
-      <p class="marca">PENDIENTE · ESPACIO RESERVADO</p>
-      <h3>Tabla de respaldo de la lámina 18</h3>
-      <ul><li>Para cada caso: corridas, plan inicial, heurísticas, exacta y su cota, en buses y USD por día.</li>
-        <li>Agregar rutas_12 y los casos de 250 a 400 corridas cuando terminen de correr.</li></ul>
-    </div>
-    <aside class="notas">Anexo para el banco de preguntas. Espacio reservado: las cifras están en el informe de la cola nocturna, secciones 3 a 5.</aside>
+    <h2 class="titulo">Casos medianos y recarga forzada</h2>
+    <h3 class="sub-anexo" style="left: 96px; top: 196px">Batería del enunciado: óptimo demostrado</h3>
+    <table class="tabla-anexo chica" style="top: 250px; width: 900px">
+      <thead><tr><th style="width: 170px">Caso</th><th class="num" style="width: 110px">Corridas</th><th class="num" style="width: 210px">Óptimo</th><th class="num" style="width: 210px">Cuartetos</th><th class="num">Pares + tríos</th></tr></thead>
+      <tbody>
+        <tr><td>6 rutas</td><td class="num">129</td><td class="num">24 · 7.506</td><td class="num">+0,96 % (24)</td><td class="num">+0,08 % (24)</td></tr>
+        <tr><td>8 rutas</td><td class="num">200</td><td class="num">38 · 11.517</td><td class="num rojo">+4,93 % (40)</td><td class="num">+2,32 % (39)</td></tr>
+        <tr><td>Mediano 200</td><td class="num">200</td><td class="num">24 · 8.178</td><td class="num">+0,03 % (24)</td><td class="num">—</td></tr>
+        <tr><td>10 rutas</td><td class="num">293</td><td class="num">60 · 18.204</td><td class="num">+0,57 % (60)</td><td class="num">+1,47 % (61)</td></tr>
+        <tr><td>12 rutas</td><td class="num">442</td><td class="num serif">sin óptimo</td><td class="num">−0,09 % (84)</td><td class="num">−0,22 % (84)</td></tr>
+      </tbody>
+    </table>
+    <p class="pie-tabla" style="left: 96px; top: 572px; width: 900px">Óptimo en buses · USD por día; heurísticas con 5 min y una semilla, en % sobre el óptimo (buses).
+      En 12 rutas la exacta se cortó a los 34 min: el % es contra el plan inicial, de 84 buses.</p>
+    <h3 class="sub-anexo" style="left: 1060px; top: 196px">Batería chica: recarga forzada</h3>
+    <table class="tabla-anexo chica" style="left: 1060px; top: 250px; width: 764px">
+      <thead><tr><th style="width: 140px">Caso</th><th class="num" style="width: 100px">Corridas</th><th class="num" style="width: 150px">150 kWh</th><th class="num" style="width: 110px">Heur.</th><th class="num" style="width: 150px">120 kWh</th><th class="num">Heur.</th></tr></thead>
+      <tbody>
+        <tr><td>Chico 2</td><td class="num">84</td><td class="num">29 · 8.933</td><td class="num">+4,8 %</td><td class="num">31 · 9.964</td><td class="num">+2,3 %</td></tr>
+        <tr><td>Chico 3</td><td class="num">116</td><td class="num">26 · 8.422</td><td class="num">+5,9 %</td><td class="num">34 · 11.022</td><td class="num">+4,3 %</td></tr>
+        <tr><td>Chico 4</td><td class="num">152</td><td class="num">42 · 14.157</td><td class="num">+6,8 %</td><td class="num">58 · 19.157</td><td class="num">+0,0 %</td></tr>
+        <tr><td>Chico 5</td><td class="num">157</td><td class="num">49 · 16.646</td><td class="num">+0,9 %</td><td class="num">57 · 19.124</td><td class="num">+0,6 %</td></tr>
+        <tr><td>Chico 6</td><td class="num">141</td><td class="num">29 · 9.055</td><td class="num">+5,4 %</td><td class="num">32 · 10.047</td><td class="num">+6,6 %</td></tr>
+        <tr><td>10 rutas</td><td class="num">293</td><td class="num">64 · 19.697</td><td class="num azul">−0,4 %</td><td class="num">—</td><td class="num">—</td></tr>
+      </tbody>
+    </table>
+    <p class="pie-tabla" style="left: 1060px; top: 624px; width: 764px">Mejor plan de la exacta en 15 min (1 h en 10 rutas), en buses · USD por día; no demuestra el óptimo.
+      «Heur.»: la mejor heurística con 2 o 15 min, en % sobre ese plan.</p>
+    <p class="nota-pie" style="top: 820px; width: 1728px; font-size: 21px">No se corrió: la exacta completa de 12 rutas ni los casos de 250 a 400 corridas, que necesitan un computador con más de 16 GB.
+      Fuentes: octetos/resultados/casos_rutas*.csv y recarga_bat*.csv.</p>
+    <aside class="notas">Respaldo de la lámina 18. Sin recarga forzada, cuartetos queda a menos de 1 % del óptimo salvo en 8 rutas, donde pares y
+      tríos le gana. Con batería chica, la exacta ya no demuestra el óptimo; contra su mejor plan, la heurística queda entre 0 y 7 % arriba, casi
+      todo por uno a cuatro buses más, y en 10 rutas le gana a la exacta. Darle 15 minutos en vez de 2 casi no cambia nada.</aside>
   </section>
 
   <section class="lamina anexo" data-n="26" data-tramo="4" data-anexo="A5" aria-label="Anexo A5">
     <p class="anexo-tag">Anexo A5, fuera de los 15 minutos</p>
     <h2 class="titulo">Sectores fijos: qué ganamos y qué perdemos</h2>
-    <div class="reservado" style="left: 96px; top: 230px; width: 1728px; height: 660px">
-      <p class="marca">PENDIENTE · ESPACIO RESERVADO</p>
-      <h3>Para la pregunta «¿por qué los sectores son fijos?»</h3>
-      <ul><li>Qué permite fijarlos (problemas más chicos) y qué se pierde (intercambios de corridas entre sectores).</li>
-        <li>El desbalance de Los Espinos: carga solo el 37,6 % de su energía en su propio electroterminal.</li></ul>
+    <div class="bloque-anexo" style="left: 96px; top: 210px; width: 800px">
+      <h3>Qué ganamos</h3>
+      <p>Cada cuarteto es de un solo sector: el modelo de recarga queda chico y ningún bus cruza la ciudad para hacer una corrida.</p>
     </div>
-    <aside class="notas">Anexo para el banco de preguntas. Espacio reservado: falta estimar cuánto costaría permitir intercambios.</aside>
+    <div class="bloque-anexo rojo" style="left: 96px; top: 430px; width: 800px">
+      <h3>Qué perdemos</h3>
+      <p>Un bus no puede hacer corridas de dos sectores, aunque le queden cerca. Los electroterminales sí se comparten: por eso Los Espinos carga
+        casi dos tercios de su energía fuera del suyo.</p>
+    </div>
+    <div class="bloque-anexo gris" style="left: 96px; top: 690px; width: 800px">
+      <h3>Lo que no medimos</h3>
+      <p>Cuánto ahorro más darían los intercambios entre sectores vecinos. Se podría medir con cuartetos que mezclen buses de dos sectores.</p>
+    </div>
+    <table class="tabla-anexo" style="left: 1000px; top: 216px; width: 824px">
+      <thead><tr><th style="width: 260px">Sector</th><th class="num" style="width: 130px">Caso base</th><th class="num" style="width: 130px">Plan</th><th class="num" style="width: 120px">Δ buses</th><th class="num">Carga en su electroterminal</th></tr></thead>
+      <tbody>
+        <tr><td>Vespucio Norte</td><td class="num">1.176</td><td class="num">991</td><td class="num">−15,7 %</td><td class="num">76,1 %</td></tr>
+        <tr><td>El Conquistador</td><td class="num">2.138</td><td class="num">1.785</td><td class="num">−16,5 %</td><td class="num">74,6 %</td></tr>
+        <tr><td>Los Espinos</td><td class="num">1.561</td><td class="num">1.326</td><td class="num">−15,1 %</td><td class="num rojo">37,6 %</td></tr>
+        <tr><td>La Reina</td><td class="num">1.590</td><td class="num">1.362</td><td class="num">−14,3 %</td><td class="num">56,5 %</td></tr>
+        <tr><td>Santa Rosa</td><td class="num">2.219</td><td class="num">1.887</td><td class="num">−15,0 %</td><td class="num">66,9 %</td></tr>
+      </tbody>
+    </table>
+    <p class="pie-tabla" style="left: 1000px; top: 560px; width: 824px">Buses del día laboral; plan de cuartetos, semilla 1. El ahorro es parejo entre sectores: ninguno concentra
+      la ganancia. Fuente: kpi/resultados/kpi_por_sector.csv.</p>
+    <aside class="notas">Si preguntan por qué los sectores son fijos. Fijarlos deja problemas chicos y evita traslados largos; el costo es que un bus
+      no puede mezclar corridas de dos sectores. Los electroterminales sí se comparten, y por eso Los Espinos carga más fuera que en el suyo. No
+      medimos cuánto ahorro dejan los intercambios entre sectores; es una extensión clara.</aside>
+  </section>
+
+
+  <section class="lamina anexo" data-n="27" data-tramo="4" data-anexo="A6" aria-label="Anexo A6">
+    <p class="anexo-tag">Anexo A6, fuera de los 15 minutos</p>
+    <h2 class="titulo">Con atrasos, el plan ajustado sufre más</h2>
+    <p class="frase">Tiempos de viaje aleatorios (media 1, variabilidad de 10 a 30 %), 20 réplicas, día laboral.</p>
+    <div class="panel-atrasos" style="left: 96px; top: 250px; width: 900px; border-top-color: var(--azul)">
+      <h3>Corridas que salen con más de 5 min de atraso</h3>
+    </div>
+    <div class="graf graf-atrasos" data-paso="0" style="left: 96px; top: 340px; width: 900px; height: 360px"
+      aria-label="Corridas con más de 5 minutos de atraso: caso base 4, 12 y 19 %; nuestro plan 17, 32 y 38 %"></div>
+    <div class="lado-cifras" style="left: 1100px; top: 250px; width: 724px">
+      <div class="bloque"><b>778 buses</b><p>bajan de la reserva con 10&nbsp;% de variabilidad, contra 4 en el caso base: el método carga lo justo y un retraso acorta la carga.</p></div>
+      <div class="bloque"><b>1.445 buses</b><p>terminan el día a menos de 1 kWh de la reserva (47 en el caso base).</p></div>
+    </div>
+    <p class="nota-pie" style="top: 800px; width: 1728px">Reglas: un bus nunca sale antes de su horario; si llega tarde a cargar, carga solo hasta la hora reservada.
+      Sin despachadores ni buses de reserva. Antes de operar hay que agregar holgura: margen de energía o buses de reserva.</p>
+    <aside class="notas">Anexo para la pregunta «¿qué pasa con los atrasos?». Nuestro plan tiene menos buses y carga lo justo, así que
+      con tiempos de viaje variables se atrasa más que el caso base y muchos buses bajan de la reserva. Es el costo de
+      optimizar sin holgura; la solución es agregar un margen de energía o buses de reserva, y medir cuánto ahorro se pierde.
+      Detalle en 09-entrega3/incertidumbre/README.md.</aside>
   </section>
 
 </main>
@@ -1358,22 +1498,22 @@ const SENS = [["Cierre de El Conquistador", 0.62, 1], ["Cierre de La Reina", 0.5
   ["Tarifa de punta +50 %", 0.04], ["Cierre de Santa Rosa", 0.03], ["Plazas según demanda", -0.05], ["Plazas −20 %", -0.06],
   ["Cierre de Los Espinos", -0.06], ["Mitad de conexiones", -0.08], ["Plazas +20 %", -0.08], ["Plazas +50 %", -0.22]];
 function armarSensibilidad(cont) {
-  const x = v => 430 + (v + 0.3) * 560, CERO = x(0), ALTO = 24, y = i => 30 + i * 36, FIN = y(SENS.length - 1) + ALTO + 12;
+  const x = v => 430 + (v + 0.3) * 560, CERO = x(0), ALTO = 18, y = i => 30 + i * 28, FIN = y(SENS.length - 1) + ALTO + 12;
   let s = `<g ${enPaso(1)}><rect x="${x(-0.15)}" y="14" width="${x(0.15) - x(-0.15)}" height="${FIN - 14}" fill="var(--linea)" fill-opacity=".6"/>
     <text class="eje" x="${CERO}" y="4" text-anchor="middle">ruido de la búsqueda (±0,15 %)</text></g>`;
   SENS.forEach(([nombre, v, critico], i) => {
     const t = 150 + i * 70, w = Math.abs(x(v) - CERO), color = critico ? "var(--rojo)" : "var(--gris-base)";
-    s += `<text class="nom${critico ? " fuerte" : ""}" x="340" y="${y(i) + 20}" text-anchor="end" ${enPaso(1, t)}>${nombre}</text>`;
+    s += `<text class="nom${critico ? " fuerte" : ""}" x="340" y="${y(i) + 16}" text-anchor="end" ${enPaso(1, t)}>${nombre}</text>`;
     s += v >= 0 ? barraDer(CERO, y(i), w, ALTO, color, enPaso(1, t + 60, "crece"))
                 : barraIzq(CERO, y(i), w, ALTO, color, enPaso(1, t + 60, "crece-izq"));
-    s += `<text class="val" x="${v >= 0 ? CERO + w + 10 : CERO - w - 10}" y="${y(i) + 20}" text-anchor="${v >= 0 ? "start" : "end"}" ${enPaso(1, t + 400)}>${conSigno(v)} %</text>`;
+    s += `<text class="val" x="${v >= 0 ? CERO + w + 10 : CERO - w - 10}" y="${y(i) + 16}" text-anchor="${v >= 0 ? "start" : "end"}" ${enPaso(1, t + 400)}>${conSigno(v)} %</text>`;
   });
   s += `<line x1="${CERO}" x2="${CERO}" y1="14" y2="${FIN}" stroke="var(--texto-2)" stroke-width="2" ${enPaso(1)}/>`;
   [-0.2, 0, 0.2, 0.4, 0.6].forEach(t => {
     s += `<text class="eje" x="${x(t)}" y="${FIN + 28}" text-anchor="middle" ${enPaso(1)}>${t ? conSigno(t, 1) : "0"} %</text>`;
   });
   s += `<text class="titulo-eje" x="${x(-0.3)}" y="${FIN + 62}" ${enPaso(1)}>Cambio del costo diario contra la base, cuartetos al azar, día laboral</text>`;
-  cont.innerHTML = SVG(1060, 470, s);
+  cont.innerHTML = SVG(1060, 500, s);
 }
 
 /* 18 · Casos medianos sin recarga forzada: brecha de cuartetos (5 min, semilla 1) al óptimo de la exacta podada
@@ -1422,6 +1562,48 @@ function armarRecarga(cont) {
     <text class="nom" x="${x(-0.37) - 18}" y="${filas[0] + 44}" text-anchor="start" ${enPaso(2, 150)}>293 corridas: −0,4 %</text>`;
   cont.innerHTML = SVG(820, 300, s);
 }
+/* 19 · Incertidumbre: corridas con más de 5 min de atraso (incertidumbre/resultados/atrasos.csv, 20 réplicas) */
+const ATRASOS = [["10 %", 4.4, 16.8], ["20 %", 12.3, 31.6], ["30 %", 18.7, 38.3]];
+function armarAtrasos(cont) {
+  const P = +(cont.dataset.paso ?? 2), ANCHO_G = parseFloat(cont.style.width), EXTRA = (ANCHO_G - 604) / 3;
+  const BASE = 250, PX = 5, ANCHO = 64, cx = i => 150 + i * (190 + EXTRA), y = v => BASE - v * PX;
+  let s = `<g ${enPaso(P)}><rect x="0" y="0" width="20" height="20" rx="3" fill="var(--gris-base)"/><text class="nom" x="30" y="17">Caso base</text>
+    <rect x="200" y="0" width="20" height="20" rx="3" fill="var(--azul)"/><text class="nom" x="230" y="17">Nuestro plan</text>`;
+  [0, 20, 40].forEach(v => {
+    s += `<line x1="60" x2="${ANCHO_G}" y1="${y(v)}" y2="${y(v)}" stroke="var(--linea)" stroke-width="${v ? 1 : 2}"/>`;
+    s += `<text class="eje" x="50" y="${y(v) + 6}" text-anchor="end">${v} %</text>`;
+  });
+  s += `<text class="titulo-eje" x="60" y="${BASE + 72}">Variabilidad del tiempo de viaje</text></g>`;
+  ATRASOS.forEach(([cv, base, plan], i) => {
+    const t = 200 + i * 220;
+    s += barraArriba(cx(i) - ANCHO - 4, BASE, ANCHO, base * PX, "var(--gris-base)", enPaso(P, t, "alza"));
+    s += barraArriba(cx(i) + 4, BASE, ANCHO, plan * PX, "var(--azul)", enPaso(P, t + 100, "alza"));
+    s += `<text class="val" x="${cx(i) - ANCHO / 2 - 4}" y="${y(base) - 10}" text-anchor="middle" ${enPaso(P, t + 400)}>${num(base, 0)} %</text>`;
+    s += `<text class="val" x="${cx(i) + ANCHO / 2 + 4}" y="${y(plan) - 10}" text-anchor="middle" ${enPaso(P, t + 500)}>${num(plan, 0)} %</text>`;
+    s += `<text class="nom fuerte" x="${cx(i)}" y="${BASE + 34}" text-anchor="middle" ${enPaso(P, t)}>${cv}</text>`;
+  });
+  cont.innerHTML = SVG(ANCHO_G, 330, s);
+}
+document.querySelectorAll(".graf-atrasos").forEach(armarAtrasos);
+
+/* 19 · Batería y consumo: cambio de buses y costo contra la base de la misma tanda
+   (sensibilidad/resultados/fisicos_417_L.csv, cuartetos al azar 1.200 s, semilla 1) */
+const FISICOS = [["Batería de 300 kWh", 17.0, 13.8], ["Batería de 250 kWh", 29.4, 25.2],
+  ["Consumo +10 %", 10.7, 8.7], ["Consumo +20 %", 18.4, 15.3]];
+function armarFisicos(cont) {
+  const X0 = 250, PX = 8, ALTO = 34, y = i => 10 + i * 64;
+  let s = `<g ${enPaso(2)}><line x1="${X0}" x2="${X0}" y1="0" y2="${y(3) + ALTO + 8}" stroke="var(--texto-2)" stroke-width="2"/>`;
+  [0, 10, 20, 30].forEach(v => { s += `<text class="eje" x="${X0 + v * PX}" y="${y(3) + ALTO + 36}" text-anchor="middle">+${v} %</text>`; });
+  s += `<text class="titulo-eje" x="0" y="${y(3) + ALTO + 68}">Buses más que la base (y costo, entre paréntesis)</text></g>`;
+  FISICOS.forEach(([nombre, buses, costo], i) => {
+    const t = 200 + i * 160;
+    s += `<text class="nom" x="${X0 - 16}" y="${y(i) + 25}" text-anchor="end" ${enPaso(2, t)}>${nombre}</text>`;
+    s += barraDer(X0, y(i), buses * PX, ALTO, "var(--gris-base)", enPaso(2, t + 80, "crece"));
+    s += `<text class="val" x="${X0 + buses * PX + 10}" y="${y(i) + 25}" ${enPaso(2, t + 450)}>+${num(buses, 0)} % (+${num(costo, 0)} %)</text>`;
+  });
+  cont.innerHTML = SVG(604, 330, s);
+}
+document.querySelectorAll(".graf-fisicos").forEach(armarFisicos);
 document.querySelectorAll(".graf-medianos").forEach(armarMedianos);
 document.querySelectorAll(".graf-recarga").forEach(armarRecarga);
 

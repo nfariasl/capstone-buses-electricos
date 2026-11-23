@@ -1,0 +1,3 @@
+﻿instancia,corridas,metodo,seleccion,semilla,presupuesto_s,buses,costo_total_usd,km,carga_kwh,sesiones,tiempo_s,intentos,mejoras,motivo_fin,optimo,cota_usd,error
+bateria_250,64502,solo_base,,0,0.0,10038,3408563.5757,1632404.6177,269770.9794,6426,5.76,,,,,,
+bateria_250,64502,cuartetos,azar,1,1200.0,9552,3294349.274,1631197.5256,312490.7319,6579,1235.8,14221,565,presupuesto,,,

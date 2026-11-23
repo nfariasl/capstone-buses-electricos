@@ -4,10 +4,12 @@ Cada escenario es una copia de la instancia base (corridas.csv y distancias.csv 
 escenario.json modificado y una clave «sensibilidad» que dice qué se cambió. El método híbrido ya lee
 plazas, conexiones y tarifas desde escenario.json, así que estos escenarios corren sin tocar su código.
 
-No cubre consumo, batería, estado de carga inicial o final, velocidad en vacío, potencia ni costos por
-bus o por km: esos valores están fijos en el código de metodo_hibrido (calendario.py, recarga.py,
-conjunta.py, exacto.py, verificar.py y caso_base.py) y load_instance rechaza un escenario que declare
-otros. El caso base (codigo/tres_fases/caso_base.py) toma plazas y tarifas de codigo/, no de
+Los escenarios físicos (batería y consumo) además cambian «parametros» en escenario.json y dejan en
+«sensibilidad.entorno» las variables BATERIA_KWH, RESERVA_KWH y CONSUMO_KWH_KM con que hay que correrlos
+(metodo_hibrido/energia.py las lee; load_instance rechaza un escenario cuyos parámetros no calcen con
+ellas). La reserva se mantiene en el 10 % de la batería, como pide el enunciado. Los costos por bus y por
+km no se reoptimizan: se evalúan sobre los planes ya hechos (evaluar_costos.py). Velocidad en vacío,
+potencia y estado de carga inicial siguen fijos. El caso base (codigo/tres_fases/caso_base.py) toma plazas y tarifas de codigo/, no de
 escenario.json, así que para compararlo en estos escenarios también hay que adaptarlo.
 
 Uso, desde la raíz del repositorio, con la instancia completa ya preparada:
@@ -80,6 +82,14 @@ def redistribuir(spec, corridas):
     return f'Las {total} plazas repartidas según las corridas de cada sector: {nuevas}'
 
 
+def fisico(parametros, entorno, texto):
+    def cambiar(spec, _):
+        spec['parametros'] = {**spec.get('parametros', {}), **parametros}
+        return texto
+    cambiar.entorno = entorno
+    return cambiar
+
+
 ESCENARIOS = {
     'plazas_-20': plazas(0.8),
     'plazas_+20': plazas(1.2),
@@ -88,6 +98,12 @@ ESCENARIOS = {
     **{f'cierre_{e}': cierre(e) for e in TERMINALES},
     'tarifa_punta_+50': tarifa_punta(1.5),
     'plazas_por_demanda': redistribuir,
+    'bateria_300': fisico({'bateria_kwh': 300, 'reserva_kwh': 30}, {'BATERIA_KWH': '300', 'RESERVA_KWH': '30'},
+                          'Batería de 300 kWh (−14 %), reserva de 30 kWh (10 %)'),
+    'bateria_250': fisico({'bateria_kwh': 250, 'reserva_kwh': 25}, {'BATERIA_KWH': '250', 'RESERVA_KWH': '25'},
+                          'Batería de 250 kWh (−29 %), reserva de 25 kWh (10 %)'),
+    'consumo_+10': fisico({'consumo_kwh_km': 1.54}, {'CONSUMO_KWH_KM': '1.54'}, 'Consumo de 1,54 kWh/km (+10 %)'),
+    'consumo_+20': fisico({'consumo_kwh_km': 1.68}, {'CONSUMO_KWH_KM': '1.68'}, 'Consumo de 1,68 kWh/km (+20 %)'),
 }
 
 
@@ -115,14 +131,18 @@ def crear(instancia, destino, nombres=None):
             _copiar(instancia / archivo, carpeta / archivo)
         nuevo = copy.deepcopy(spec)
         descripcion = ESCENARIOS[nombre](nuevo, corridas)
-        nuevo['sensibilidad'] = dict(escenario=nombre, descripcion=descripcion, instancia_base=str(instancia))
+        nuevo['sensibilidad'] = dict(escenario=nombre, descripcion=descripcion, instancia_base=str(instancia),
+                                     entorno=getattr(ESCENARIOS[nombre], 'entorno', {}))
         (carpeta / 'escenario.json').write_text(json.dumps(nuevo, ensure_ascii=False, indent=2), encoding='utf-8')
         filas.append(dict(escenario=nombre, descripcion=descripcion,
                           plazas=json.dumps(nuevo['capacidad_fisica']), conexiones=json.dumps(nuevo['conexiones'])))
-    with (destino / 'indice.csv').open('w', encoding='utf-8', newline='') as f:
+    indice = destino / 'indice.csv'   # se conservan las filas de los escenarios creados antes
+    nuevos = {f['escenario'] for f in filas}
+    previas = [r for r in csv.DictReader(indice.open(encoding='utf-8'))] if indice.exists() else []
+    with indice.open('w', encoding='utf-8', newline='') as f:
         w = csv.DictWriter(f, fieldnames=list(filas[0]))
         w.writeheader()
-        w.writerows(filas)
+        w.writerows([r for r in previas if r['escenario'] not in nuevos] + filas)
     return filas
 
 

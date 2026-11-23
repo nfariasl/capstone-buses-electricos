@@ -68,6 +68,31 @@ difieren en ~0,10 % (USD 2.623.502 a 2.626.148, `octetos/resultados/red_completa
   queda dentro del ruido; la carga total baja de 71.065 a 70.151 kWh, pero no se midió cuánta salió de punta.
 - Plazas +50 % (−19 buses, −0,22 %) queda en el borde del ruido; para afirmarlo harían falta más semillas.
 
+## Escenarios del bus, precios y espera (23-nov, día laboral)
+
+**Batería y consumo** (`correr_fisicos.sh`). Cuartetos al azar, semilla 1, 1.200 s, 4 en paralelo, con la
+base corrida en la misma tanda (7.384 buses, USD 2.631.915). La reserva es el 10 % de la batería.
+Resultados en `resultados/fisicos_417_L.csv`.
+
+| Escenario | Buses | Δ buses | Δ costo | Plan inicial |
+|---|---:|---:|---:|---:|
+| Base | 7.384 | — | — | 7.570 |
+| Batería de 300 kWh | 8.640 | +17,0 % | +13,8 % | 8.845 |
+| Batería de 250 kWh | 9.552 | +29,4 % | +25,2 % | 10.038 |
+| Consumo +10 % (1,54 kWh/km) | 8.173 | +10,7 % | +8,7 % | 8.439 |
+| Consumo +20 % (1,68 kWh/km) | 8.742 | +18,4 % | +15,3 % | — |
+
+Lectura: el bus mismo pesa mucho más que la capacidad de carga o las tarifas. Con menos autonomía, cada
+bus alcanza a hacer menos corridas y hacen falta más buses. **Limitación:** el caso base no se corrió con
+estos parámetros (no lee las variables de entorno), así que no se sabe si el ahorro contra él se mantiene.
+
+**Costo por bus y por km ±20 %** (`evaluar_costos.py`), sobre los mismos planes y sin reoptimizar: el
+ahorro del día laboral contra el caso base queda entre −14,07 % (km +20 %) y −15,08 % (km −20 %).
+Resultados en `resultados/costos_evaluados.csv`.
+
+**Costo de espera** (`09-entrega3/kpi/costo_espera.py`): cobrar 0,03 USD/min de espera entre corridas
+suma ~1,9 % al costo de ambos planes; el ahorro del día laboral pasa de −14,54 % a −14,59 %.
+
 ## Lo que todavía no cubre
 
 - **Consumo, batería, estado de carga inicial y final, velocidad en vacío, potencia, costo por bus y
