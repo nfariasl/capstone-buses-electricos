@@ -1,5 +1,8 @@
 # Láminas 12 a 20: qué debe tener cada una
 
+> **Desactualizado (23-nov).** El deck tiene ahora 21 láminas: 12–14 son de método (las del grupo), 15 resultado, 16 ahorro, 17 óptimo, 18 casos medianos y recarga forzada, 19 sensibilidad, 20 día siguiente y 21 conclusiones. Todas están armadas en `deck.html`. Lo que falta está en `AUDITORIA-OMISIONES.md`.
+
+
 Guía para quienes arman estas láminas en Canva (diseño DAHbqgcw7t8). Las láminas 1 a 11 ya están hechas; copien su estilo. El HTML (`deck.html`) sirve de modelo.
 Las cifras se calcularon el 22-nov-2026 desde los resultados del repo. Si una cifra no calza con el informe, gana el informe y se avisa.
 

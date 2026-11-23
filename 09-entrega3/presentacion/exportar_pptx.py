@@ -12,7 +12,8 @@ hoja de íconos, plantilla de lámina y un gráfico nativo de ejemplo. Además s
 Requiere el servidor del deck (preview "deck-final": http://localhost:8765), Google Chrome, python-pptx y Pillow.
 
 Uso, desde la raíz del repositorio:
-    python3 09-entrega3/presentacion/exportar_pptx.py
+    python3 09-entrega3/presentacion/exportar_pptx.py            # todo el deck + kit
+    python3 09-entrega3/presentacion/exportar_pptx.py --desde 12 # solo las láminas 12 en adelante
 """
 import csv
 import json
@@ -27,6 +28,7 @@ from pathlib import Path
 from PIL import Image
 from pptx import Presentation
 from pptx.dml.color import RGBColor
+from pptx.enum.dml import MSO_LINE_DASH_STYLE
 from pptx.enum.shapes import MSO_CONNECTOR, MSO_SHAPE
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Emu, Pt
@@ -165,6 +167,17 @@ def px(valor):
 
 def rgb(color):
     return RGBColor.from_string(hex_de(color)[1:])
+
+
+def agregar_reservado(lamina, caja, colores):
+    """Recuadro punteado de «espacio reservado» como forma nativa, para que el grupo lo pueda borrar al llenarlo."""
+    forma = lamina.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, px(caja['x']), px(caja['y']), px(caja['w']), px(caja['h']))
+    forma.adjustments[0] = 12 / min(caja['w'], caja['h'])
+    forma.fill.background()
+    forma.line.color.rgb = rgb(colores['gris-base'])
+    forma.line.width = px(3)
+    forma.line.dash_style = MSO_LINE_DASH_STYLE.DASH
+    forma.shadow.inherit = False
 
 
 def tramo(texto, familia, tam_px, color, peso=400):
@@ -367,11 +380,23 @@ def kit(presentacion, vacia, colores, encabezado, rutas_iconos, trazos):
 
 
 # ---------------------------------------------------------------- armado
+def lamina_inicial():
+    """Con --desde N se exportan solo las láminas N en adelante, sin páginas de kit (para agregarlas a Canva)."""
+    if '--desde' not in sys.argv:
+        return 1
+    i = sys.argv.index('--desde')
+    if i + 1 >= len(sys.argv) or not sys.argv[i + 1].isdigit():
+        raise SystemExit('Uso: exportar_pptx.py [--desde N]')
+    return int(sys.argv[i + 1])
+
+
 def main():
     TRABAJO.mkdir(exist_ok=True)
+    desde = lamina_inicial()
+    salida = SALIDA if desde == 1 else SALIDA.with_name(f'{SALIDA.stem}_desde{desde}.pptx')
     colores = tokens()
     trazos = iconos_del_deck()
-    trabajo = [(n, p) for n, pasos in paginas() for p in range(pasos)]
+    trabajo = [(n, p) for n, pasos in paginas() if n >= desde for p in range(pasos)]
     print(f'{len(trabajo)} páginas a capturar', flush=True)
     with ThreadPoolExecutor(max_workers=3) as grupo:
         capturas = list(grupo.map(lambda np: capturar(*np), trabajo))
@@ -388,21 +413,25 @@ def main():
     for png, medidas in capturas:
         lamina = presentacion.slides.add_slide(vacia)
         lamina.shapes.add_picture(str(png), 0, 0, presentacion.slide_width, presentacion.slide_height)
+        for caja in medidas.get('reservados', []):
+            agregar_reservado(lamina, caja, colores)
         for icono in medidas['iconos']:
             ruta = rutas_iconos[(icono['ico'], hex_de(icono['color']))]
             lamina.shapes.add_picture(str(ruta), px(icono['x']), px(icono['y']), px(icono['w']), px(icono['h']))
         for bloque in medidas['bloques']:
             agregar_bloque(lamina, bloque)
-        if medidas['n'] > 1:
+        if medidas['n'] > 1 and not medidas.get('anexo'):
             agregar_recorrido(lamina, medidas['n'], medidas['tramo'], colores)
             if not encabezado:
                 encabezado = [b for b in medidas['bloques'] if b['y'] < 70]
         paso = f' (paso {medidas["paso"] + 1} de {medidas["pasos"]})' if medidas['pasos'] > 1 else ''
-        lamina.notes_slide.notes_text_frame.text = f'Lámina {medidas["n"]}{paso}. {medidas["notas"]}'
-    kit(presentacion, vacia, colores, encabezado, rutas_iconos, trazos)
-    presentacion.save(SALIDA)
-    print(f'{len(presentacion.slides)} páginas ({len(capturas)} del deck + 4 de kit) en {SALIDA.name} '
-          f'({SALIDA.stat().st_size / 1e6:.1f} MB); {len(rutas_iconos)} íconos PNG; SVG en {CARPETA_SVG.name}/')
+        nombre = f'Anexo {medidas["anexo"]}' if medidas.get('anexo') else f'Lámina {medidas["n"]}'
+        lamina.notes_slide.notes_text_frame.text = f'{nombre}{paso}. {medidas["notas"]}'
+    if desde == 1 and '--sin-kit' not in sys.argv:
+        kit(presentacion, vacia, colores, encabezado, rutas_iconos, trazos)
+    presentacion.save(salida)
+    print(f'{len(presentacion.slides)} páginas ({len(capturas)} del deck) en {salida.name} '
+          f'({salida.stat().st_size / 1e6:.1f} MB); {len(rutas_iconos)} íconos PNG; SVG en {CARPETA_SVG.name}/')
 
 
 if __name__ == '__main__':
