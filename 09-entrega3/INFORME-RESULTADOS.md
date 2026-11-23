@@ -147,6 +147,7 @@ Los KPI de Gustavo (`kpi/`) se calcularon sobre el plan de **7.427 buses** (corr
 | Resultados red completa (L, S, D) | `09-entrega3/octetos/resultados/red_completa_417_{L,S,D}.csv` |
 | Casos chicos: heurísticas y exacta | `casos_chicos.csv`, `casos_chicos_exacta.csv` |
 | Casos con recarga forzada | `recarga_bat150*.csv`, `recarga_bat120*.csv` |
+| Detalle de la cola nocturna del 22-nov | `09-entrega3/octetos/INFORME-COLA-NOCTURNA.md` |
 | Casos medianos y de 10 rutas | `casos_rutas*.csv`, `casos_medianos_exacta_podada.csv` |
 | KPI y uso de electroterminales | `09-entrega3/kpi/` (`resultados/kpi_planes.md`) |
 | Escenarios de sensibilidad | `09-entrega3/sensibilidad/` |

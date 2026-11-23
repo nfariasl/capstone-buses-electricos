@@ -1,0 +1,7 @@
+﻿instancia,corridas,metodo,seleccion,semilla,presupuesto_s,buses,costo_total_usd,km,carga_kwh,sesiones,tiempo_s,intentos,mejoras,motivo_fin,optimo,cota_usd,error
+bat150_chico_02_sector_2_2_rutas,84,exacta_podada,,0,900.0,29,8933.0222,2917.3223,900.6704,17,915.19,,,estado_9,False,8776.359731701761,
+bat150_chico_03_sector_3_3_rutas,116,exacta_podada,,0,900.0,26,8422.4405,3164.931,1553.0821,22,776.0,,,estado_9,False,8147.343236586354,
+bat150_chico_04_sector_4_3_rutas,152,exacta_podada,,0,900.0,42,14157.2489,5860.6443,3451.1994,45,955.43,,,estado_9,False,13632.812954000186,
+bat150_chico_05_sector_5_4_rutas,157,exacta_podada,,0,900.0,49,16645.9103,6921.3647,4113.9668,61,950.13,,,estado_9,False,14061.613849659252,
+bat150_chico_06_sector_4_4_rutas,141,exacta_podada,,0,900.0,29,9055.1167,3081.4617,1102.0449,20,945.53,,,estado_9,False,8434.899799550129,
+bat150_rutas_10_sector_2,293,exacta_podada,,0,3600.0,64,19697.1574,6617.8669,2009.4373,25,3825.86,,,estado_9,False,18212.53122033572,

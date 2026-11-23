@@ -1,0 +1,647 @@
+=== 2026-11-22 14:43:41 etapa 1: cuartetos 15 min
+=== 2026-11-22 14:43:41 inicio: cuartetos 15 min, 150 kWh (batería 150 kWh)
+=== 2026-11-22 14:43:41 inicio: cuartetos 15 min, 120 kWh (batería 120 kWh)
+Set parameter Username
+Academic license - for non-commercial use only - expires 2027-11-10
+Set parameter Username
+Academic license - for non-commercial use only - expires 2027-11-10
+Grupos de 4: 212 intentos, 9 mejoras aceptadas.
+Grupos de 4: 335 intentos, 8 mejoras aceptadas.
+Grupos de 4: 392 intentos, 15 mejoras aceptadas.
+Grupos de 4: 576 intentos, 15 mejoras aceptadas.
+Grupos de 4: 584 intentos, 17 mejoras aceptadas.
+Grupos de 4: 754 intentos, 17 mejoras aceptadas.
+Grupos de 4: 763 intentos, 17 mejoras aceptadas.
+Grupos de 4: 962 intentos, 18 mejoras aceptadas.
+Grupos de 4: 952 intentos, 17 mejoras aceptadas.
+Grupos de 4: 1151 intentos, 19 mejoras aceptadas.
+Grupos de 4: 1103 intentos, 18 mejoras aceptadas.
+Grupos de 4: 1300 intentos, 19 mejoras aceptadas.
+Grupos de 4: 1258 intentos, 18 mejoras aceptadas.
+Grupos de 4: 1470 intentos, 19 mejoras aceptadas.
+Grupos de 4: 1413 intentos, 18 mejoras aceptadas.
+Grupos de 4: 1648 intentos, 19 mejoras aceptadas.
+Grupos de 4: 1617 intentos, 18 mejoras aceptadas.
+Grupos de 4: 1840 intentos, 19 mejoras aceptadas.
+Grupos de 4: 1799 intentos, 19 mejoras aceptadas.
+Grupos de 4: 2044 intentos, 19 mejoras aceptadas.
+Grupos de 4: 1978 intentos, 19 mejoras aceptadas.
+Grupos de 4: 2231 intentos, 19 mejoras aceptadas.
+Grupos de 4: 2144 intentos, 19 mejoras aceptadas.
+Grupos de 4: 2417 intentos, 19 mejoras aceptadas.
+Grupos de 4: 2285 intentos, 19 mejoras aceptadas.
+Grupos de 4: 2601 intentos, 19 mejoras aceptadas.
+Grupos de 4: 2434 intentos, 19 mejoras aceptadas.
+Grupos de 4: 2771 intentos, 19 mejoras aceptadas.
+Grupos de 4: 2594 intentos, 19 mejoras aceptadas.
+Grupos de 4: 2925 intentos, 19 mejoras aceptadas.
+{"instancia": "bat120_chico_02_sector_2_2_rutas", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 900.0, "buses": 32, "costo_total_usd": 10226.1742, "tiempo_s": 307.24, "error": null}
+Grupos de 4: 2753 intentos, 19 mejoras aceptadas.
+Grupos de 4: 297 intentos, 10 mejoras aceptadas.
+Grupos de 4: 2926 intentos, 19 mejoras aceptadas.
+Grupos de 4: 668 intentos, 10 mejoras aceptadas.
+Grupos de 4: 3100 intentos, 19 mejoras aceptadas.
+Grupos de 4: 1014 intentos, 16 mejoras aceptadas.
+Grupos de 4: 3291 intentos, 19 mejoras aceptadas.
+Grupos de 4: 1445 intentos, 16 mejoras aceptadas.
+Grupos de 4: 3478 intentos, 19 mejoras aceptadas.
+{"instancia": "bat150_chico_02_sector_2_2_rutas", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 900.0, "buses": 31, "costo_total_usd": 9360.3841, "tiempo_s": 406.49, "error": null}
+Grupos de 4: 1678 intentos, 19 mejoras aceptadas.
+Grupos de 4: 181 intentos, 17 mejoras aceptadas.
+Grupos de 4: 1914 intentos, 19 mejoras aceptadas.
+Grupos de 4: 351 intentos, 17 mejoras aceptadas.
+Grupos de 4: 2118 intentos, 19 mejoras aceptadas.
+Grupos de 4: 424 intentos, 17 mejoras aceptadas.
+Grupos de 4: 2249 intentos, 19 mejoras aceptadas.
+Grupos de 4: 494 intentos, 18 mejoras aceptadas.
+Grupos de 4: 2394 intentos, 19 mejoras aceptadas.
+Grupos de 4: 634 intentos, 18 mejoras aceptadas.
+Grupos de 4: 2677 intentos, 19 mejoras aceptadas.
+Grupos de 4: 816 intentos, 18 mejoras aceptadas.
+Grupos de 4: 2878 intentos, 21 mejoras aceptadas.
+Grupos de 4: 1011 intentos, 19 mejoras aceptadas.
+Grupos de 4: 3099 intentos, 21 mejoras aceptadas.
+Grupos de 4: 1173 intentos, 19 mejoras aceptadas.
+Grupos de 4: 3279 intentos, 21 mejoras aceptadas.
+Grupos de 4: 1233 intentos, 19 mejoras aceptadas.
+Grupos de 4: 3354 intentos, 22 mejoras aceptadas.
+Grupos de 4: 1288 intentos, 19 mejoras aceptadas.
+Grupos de 4: 3429 intentos, 22 mejoras aceptadas.
+Grupos de 4: 1374 intentos, 19 mejoras aceptadas.
+Grupos de 4: 3540 intentos, 22 mejoras aceptadas.
+Grupos de 4: 1529 intentos, 19 mejoras aceptadas.
+Grupos de 4: 3817 intentos, 22 mejoras aceptadas.
+Grupos de 4: 1725 intentos, 21 mejoras aceptadas.
+Grupos de 4: 4128 intentos, 23 mejoras aceptadas.
+Grupos de 4: 1891 intentos, 21 mejoras aceptadas.
+Grupos de 4: 4363 intentos, 24 mejoras aceptadas.
+Grupos de 4: 2011 intentos, 22 mejoras aceptadas.
+Grupos de 4: 4496 intentos, 24 mejoras aceptadas.
+Grupos de 4: 2098 intentos, 22 mejoras aceptadas.
+Grupos de 4: 4614 intentos, 24 mejoras aceptadas.
+Grupos de 4: 2209 intentos, 22 mejoras aceptadas.
+Grupos de 4: 4771 intentos, 24 mejoras aceptadas.
+Grupos de 4: 2369 intentos, 22 mejoras aceptadas.
+Grupos de 4: 4985 intentos, 24 mejoras aceptadas.
+Grupos de 4: 2556 intentos, 22 mejoras aceptadas.
+Grupos de 4: 5203 intentos, 24 mejoras aceptadas.
+Grupos de 4: 2735 intentos, 22 mejoras aceptadas.
+Grupos de 4: 5410 intentos, 24 mejoras aceptadas.
+Grupos de 4: 2895 intentos, 22 mejoras aceptadas.
+Grupos de 4: 5718 intentos, 24 mejoras aceptadas.
+Grupos de 4: 3060 intentos, 22 mejoras aceptadas.
+Grupos de 4: 5895 intentos, 24 mejoras aceptadas.
+Grupos de 4: 3234 intentos, 22 mejoras aceptadas.
+Grupos de 4: 6105 intentos, 24 mejoras aceptadas.
+Grupos de 4: 3406 intentos, 22 mejoras aceptadas.
+Grupos de 4: 6317 intentos, 25 mejoras aceptadas.
+Grupos de 4: 3577 intentos, 22 mejoras aceptadas.
+{"instancia": "bat150_chico_03_sector_3_3_rutas", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 900.0, "buses": 28, "costo_total_usd": 9076.6555, "tiempo_s": 502.88, "error": null}
+Grupos de 4: 6545 intentos, 25 mejoras aceptadas.
+Grupos de 4: 158 intentos, 31 mejoras aceptadas.
+Grupos de 4: 6787 intentos, 25 mejoras aceptadas.
+Grupos de 4: 320 intentos, 38 mejoras aceptadas.
+Grupos de 4: 6925 intentos, 25 mejoras aceptadas.
+Grupos de 4: 459 intentos, 40 mejoras aceptadas.
+Grupos de 4: 7051 intentos, 25 mejoras aceptadas.
+Grupos de 4: 599 intentos, 40 mejoras aceptadas.
+Grupos de 4: 7162 intentos, 25 mejoras aceptadas.
+Grupos de 4: 821 intentos, 42 mejoras aceptadas.
+Grupos de 4: 7357 intentos, 25 mejoras aceptadas.
+Grupos de 4: 965 intentos, 42 mejoras aceptadas.
+Grupos de 4: 7500 intentos, 25 mejoras aceptadas.
+Grupos de 4: 1135 intentos, 44 mejoras aceptadas.
+Grupos de 4: 7824 intentos, 25 mejoras aceptadas.
+Grupos de 4: 1368 intentos, 45 mejoras aceptadas.
+Grupos de 4: 7985 intentos, 25 mejoras aceptadas.
+Grupos de 4: 1545 intentos, 45 mejoras aceptadas.
+Grupos de 4: 8165 intentos, 25 mejoras aceptadas.
+Grupos de 4: 1731 intentos, 45 mejoras aceptadas.
+Grupos de 4: 8366 intentos, 25 mejoras aceptadas.
+Grupos de 4: 1891 intentos, 45 mejoras aceptadas.
+Grupos de 4: 8566 intentos, 25 mejoras aceptadas.
+Grupos de 4: 2076 intentos, 47 mejoras aceptadas.
+Grupos de 4: 8767 intentos, 25 mejoras aceptadas.
+Grupos de 4: 2303 intentos, 47 mejoras aceptadas.
+Grupos de 4: 8966 intentos, 25 mejoras aceptadas.
+Grupos de 4: 2482 intentos, 47 mejoras aceptadas.
+Grupos de 4: 9148 intentos, 25 mejoras aceptadas.
+{"instancia": "bat120_chico_03_sector_3_3_rutas", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 900.0, "buses": 36, "costo_total_usd": 11547.5629, "tiempo_s": 900.02, "error": null}
+Grupos de 4: 2663 intentos, 47 mejoras aceptadas.
+Grupos de 4: 128 intentos, 15 mejoras aceptadas.
+Grupos de 4: 2807 intentos, 47 mejoras aceptadas.
+Grupos de 4: 466 intentos, 24 mejoras aceptadas.
+Grupos de 4: 2997 intentos, 47 mejoras aceptadas.
+Grupos de 4: 822 intentos, 26 mejoras aceptadas.
+Grupos de 4: 3176 intentos, 47 mejoras aceptadas.
+Grupos de 4: 1039 intentos, 33 mejoras aceptadas.
+Grupos de 4: 3333 intentos, 47 mejoras aceptadas.
+Grupos de 4: 1253 intentos, 35 mejoras aceptadas.
+Grupos de 4: 3508 intentos, 47 mejoras aceptadas.
+Grupos de 4: 1529 intentos, 35 mejoras aceptadas.
+Grupos de 4: 3686 intentos, 47 mejoras aceptadas.
+Grupos de 4: 1631 intentos, 35 mejoras aceptadas.
+Grupos de 4: 3865 intentos, 47 mejoras aceptadas.
+Grupos de 4: 1779 intentos, 36 mejoras aceptadas.
+Grupos de 4: 4096 intentos, 47 mejoras aceptadas.
+Grupos de 4: 1936 intentos, 36 mejoras aceptadas.
+Grupos de 4: 4324 intentos, 47 mejoras aceptadas.
+Grupos de 4: 2081 intentos, 36 mejoras aceptadas.
+Grupos de 4: 4549 intentos, 47 mejoras aceptadas.
+Grupos de 4: 2265 intentos, 37 mejoras aceptadas.
+Grupos de 4: 4761 intentos, 47 mejoras aceptadas.
+Grupos de 4: 2420 intentos, 38 mejoras aceptadas.
+Grupos de 4: 4961 intentos, 47 mejoras aceptadas.
+Grupos de 4: 2601 intentos, 38 mejoras aceptadas.
+Grupos de 4: 5193 intentos, 47 mejoras aceptadas.
+Grupos de 4: 2769 intentos, 38 mejoras aceptadas.
+Grupos de 4: 5414 intentos, 47 mejoras aceptadas.
+Grupos de 4: 2956 intentos, 38 mejoras aceptadas.
+Grupos de 4: 5630 intentos, 47 mejoras aceptadas.
+Grupos de 4: 3131 intentos, 38 mejoras aceptadas.
+Grupos de 4: 5825 intentos, 47 mejoras aceptadas.
+Grupos de 4: 3287 intentos, 38 mejoras aceptadas.
+Grupos de 4: 6007 intentos, 47 mejoras aceptadas.
+{"instancia": "bat150_chico_04_sector_4_3_rutas", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 900.0, "buses": 46, "costo_total_usd": 15229.9576, "tiempo_s": 657.06, "error": null}
+Grupos de 4: 3462 intentos, 38 mejoras aceptadas.
+Grupos de 4: 264 intentos, 13 mejoras aceptadas.
+Grupos de 4: 3626 intentos, 38 mejoras aceptadas.
+Grupos de 4: 677 intentos, 15 mejoras aceptadas.
+Grupos de 4: 3867 intentos, 38 mejoras aceptadas.
+Grupos de 4: 936 intentos, 22 mejoras aceptadas.
+Grupos de 4: 4195 intentos, 38 mejoras aceptadas.
+Grupos de 4: 1311 intentos, 22 mejoras aceptadas.
+Grupos de 4: 4296 intentos, 39 mejoras aceptadas.
+Grupos de 4: 1516 intentos, 25 mejoras aceptadas.
+Grupos de 4: 4414 intentos, 39 mejoras aceptadas.
+Grupos de 4: 1686 intentos, 28 mejoras aceptadas.
+Grupos de 4: 4519 intentos, 39 mejoras aceptadas.
+Grupos de 4: 1882 intentos, 28 mejoras aceptadas.
+Grupos de 4: 4611 intentos, 39 mejoras aceptadas.
+Grupos de 4: 2109 intentos, 28 mejoras aceptadas.
+Grupos de 4: 4716 intentos, 39 mejoras aceptadas.
+Grupos de 4: 2506 intentos, 29 mejoras aceptadas.
+Grupos de 4: 4838 intentos, 40 mejoras aceptadas.
+Grupos de 4: 2572 intentos, 30 mejoras aceptadas.
+Grupos de 4: 4970 intentos, 40 mejoras aceptadas.
+Grupos de 4: 2631 intentos, 30 mejoras aceptadas.
+Grupos de 4: 5103 intentos, 40 mejoras aceptadas.
+Grupos de 4: 2757 intentos, 30 mejoras aceptadas.
+Grupos de 4: 5251 intentos, 40 mejoras aceptadas.
+Grupos de 4: 2894 intentos, 31 mejoras aceptadas.
+Grupos de 4: 5394 intentos, 40 mejoras aceptadas.
+Grupos de 4: 2982 intentos, 32 mejoras aceptadas.
+Grupos de 4: 5479 intentos, 40 mejoras aceptadas.
+Grupos de 4: 3060 intentos, 32 mejoras aceptadas.
+Grupos de 4: 5550 intentos, 40 mejoras aceptadas.
+Grupos de 4: 3176 intentos, 32 mejoras aceptadas.
+Grupos de 4: 5671 intentos, 40 mejoras aceptadas.
+Grupos de 4: 3319 intentos, 32 mejoras aceptadas.
+Grupos de 4: 5816 intentos, 40 mejoras aceptadas.
+Grupos de 4: 3508 intentos, 32 mejoras aceptadas.
+Grupos de 4: 5975 intentos, 40 mejoras aceptadas.
+Grupos de 4: 6118 intentos, 40 mejoras aceptadas.
+Grupos de 4: 3708 intentos, 32 mejoras aceptadas.
+Grupos de 4: 6271 intentos, 40 mejoras aceptadas.
+Grupos de 4: 4127 intentos, 32 mejoras aceptadas.
+Grupos de 4: 6455 intentos, 40 mejoras aceptadas.
+Grupos de 4: 4214 intentos, 33 mejoras aceptadas.
+Grupos de 4: 6651 intentos, 40 mejoras aceptadas.
+Grupos de 4: 4301 intentos, 34 mejoras aceptadas.
+Grupos de 4: 6834 intentos, 40 mejoras aceptadas.
+Grupos de 4: 4394 intentos, 34 mejoras aceptadas.
+Grupos de 4: 7143 intentos, 40 mejoras aceptadas.
+Grupos de 4: 4476 intentos, 34 mejoras aceptadas.
+Grupos de 4: 7454 intentos, 40 mejoras aceptadas.
+Grupos de 4: 4592 intentos, 34 mejoras aceptadas.
+Grupos de 4: 7587 intentos, 40 mejoras aceptadas.
+Grupos de 4: 4696 intentos, 34 mejoras aceptadas.
+{"instancia": "bat120_chico_04_sector_4_3_rutas", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 900.0, "buses": 58, "costo_total_usd": 19158.3641, "tiempo_s": 900.03, "error": null}
+Grupos de 4: 4818 intentos, 34 mejoras aceptadas.
+Grupos de 4: 358 intentos, 9 mejoras aceptadas.
+Grupos de 4: 4934 intentos, 35 mejoras aceptadas.
+Grupos de 4: 700 intentos, 15 mejoras aceptadas.
+Grupos de 4: 5070 intentos, 35 mejoras aceptadas.
+Grupos de 4: 1141 intentos, 15 mejoras aceptadas.
+Grupos de 4: 5209 intentos, 35 mejoras aceptadas.
+Grupos de 4: 1538 intentos, 15 mejoras aceptadas.
+Grupos de 4: 5346 intentos, 35 mejoras aceptadas.
+Grupos de 4: 1908 intentos, 15 mejoras aceptadas.
+Grupos de 4: 5480 intentos, 35 mejoras aceptadas.
+Grupos de 4: 2197 intentos, 15 mejoras aceptadas.
+Grupos de 4: 5655 intentos, 35 mejoras aceptadas.
+Grupos de 4: 2544 intentos, 15 mejoras aceptadas.
+Grupos de 4: 5898 intentos, 35 mejoras aceptadas.
+Grupos de 4: 2942 intentos, 15 mejoras aceptadas.
+Grupos de 4: 6226 intentos, 35 mejoras aceptadas.
+Grupos de 4: 3353 intentos, 15 mejoras aceptadas.
+Grupos de 4: 6450 intentos, 35 mejoras aceptadas.
+Grupos de 4: 3689 intentos, 22 mejoras aceptadas.
+Grupos de 4: 6531 intentos, 35 mejoras aceptadas.
+Grupos de 4: 3992 intentos, 22 mejoras aceptadas.
+Grupos de 4: 6612 intentos, 35 mejoras aceptadas.
+Grupos de 4: 4396 intentos, 22 mejoras aceptadas.
+Grupos de 4: 6720 intentos, 35 mejoras aceptadas.
+Grupos de 4: 4829 intentos, 22 mejoras aceptadas.
+Grupos de 4: 6823 intentos, 35 mejoras aceptadas.
+Grupos de 4: 5289 intentos, 22 mejoras aceptadas.
+Grupos de 4: 6915 intentos, 35 mejoras aceptadas.
+Grupos de 4: 5756 intentos, 22 mejoras aceptadas.
+Grupos de 4: 7002 intentos, 35 mejoras aceptadas.
+Grupos de 4: 6207 intentos, 23 mejoras aceptadas.
+Grupos de 4: 7100 intentos, 35 mejoras aceptadas.
+Grupos de 4: 6663 intentos, 23 mejoras aceptadas.
+Grupos de 4: 7204 intentos, 35 mejoras aceptadas.
+{"instancia": "bat150_chico_05_sector_5_4_rutas", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 900.0, "buses": 49, "costo_total_usd": 16802.5133, "tiempo_s": 900.02, "error": null}
+Grupos de 4: 6965 intentos, 27 mejoras aceptadas.
+Grupos de 4: 152 intentos, 21 mejoras aceptadas.
+Grupos de 4: 7302 intentos, 28 mejoras aceptadas.
+Grupos de 4: 361 intentos, 23 mejoras aceptadas.
+Grupos de 4: 7637 intentos, 28 mejoras aceptadas.
+Grupos de 4: 615 intentos, 24 mejoras aceptadas.
+Grupos de 4: 8123 intentos, 28 mejoras aceptadas.
+Grupos de 4: 830 intentos, 27 mejoras aceptadas.
+Grupos de 4: 8610 intentos, 28 mejoras aceptadas.
+Grupos de 4: 1021 intentos, 27 mejoras aceptadas.
+Grupos de 4: 9094 intentos, 28 mejoras aceptadas.
+Grupos de 4: 1210 intentos, 27 mejoras aceptadas.
+Grupos de 4: 9561 intentos, 28 mejoras aceptadas.
+Grupos de 4: 1412 intentos, 27 mejoras aceptadas.
+Grupos de 4: 10037 intentos, 28 mejoras aceptadas.
+Grupos de 4: 1634 intentos, 27 mejoras aceptadas.
+Grupos de 4: 10505 intentos, 28 mejoras aceptadas.
+Grupos de 4: 1858 intentos, 27 mejoras aceptadas.
+Grupos de 4: 10847 intentos, 30 mejoras aceptadas.
+Grupos de 4: 2071 intentos, 27 mejoras aceptadas.
+Grupos de 4: 11137 intentos, 30 mejoras aceptadas.
+Grupos de 4: 2277 intentos, 27 mejoras aceptadas.
+Grupos de 4: 11430 intentos, 32 mejoras aceptadas.
+Grupos de 4: 2470 intentos, 27 mejoras aceptadas.
+Grupos de 4: 11714 intentos, 32 mejoras aceptadas.
+Grupos de 4: 2648 intentos, 27 mejoras aceptadas.
+Grupos de 4: 11983 intentos, 33 mejoras aceptadas.
+Grupos de 4: 2840 intentos, 27 mejoras aceptadas.
+Grupos de 4: 12284 intentos, 33 mejoras aceptadas.
+Grupos de 4: 3016 intentos, 27 mejoras aceptadas.
+Grupos de 4: 12670 intentos, 33 mejoras aceptadas.
+Grupos de 4: 3204 intentos, 27 mejoras aceptadas.
+Grupos de 4: 13125 intentos, 33 mejoras aceptadas.
+Grupos de 4: 3409 intentos, 27 mejoras aceptadas.
+Grupos de 4: 13566 intentos, 33 mejoras aceptadas.
+Grupos de 4: 3588 intentos, 27 mejoras aceptadas.
+Grupos de 4: 14008 intentos, 33 mejoras aceptadas.
+Grupos de 4: 3791 intentos, 27 mejoras aceptadas.
+Grupos de 4: 14409 intentos, 33 mejoras aceptadas.
+Grupos de 4: 3955 intentos, 27 mejoras aceptadas.
+Grupos de 4: 14751 intentos, 33 mejoras aceptadas.
+Grupos de 4: 4122 intentos, 27 mejoras aceptadas.
+Grupos de 4: 15105 intentos, 33 mejoras aceptadas.
+{"instancia": "bat150_chico_06_sector_4_4_rutas", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 900.0, "buses": 31, "costo_total_usd": 9590.5635, "tiempo_s": 432.69, "error": null}
+=== 2026-11-22 15:32:07 fin: cuartetos 15 min, 150 kWh (código 0)
+Grupos de 4: 15555 intentos, 33 mejoras aceptadas.
+Grupos de 4: 15840 intentos, 35 mejoras aceptadas.
+Grupos de 4: 16088 intentos, 36 mejoras aceptadas.
+Grupos de 4: 16362 intentos, 37 mejoras aceptadas.
+Grupos de 4: 16650 intentos, 37 mejoras aceptadas.
+{"instancia": "bat120_chico_05_sector_5_4_rutas", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 900.0, "buses": 58, "costo_total_usd": 19403.4328, "tiempo_s": 900.03, "error": null}
+Grupos de 4: 163 intentos, 28 mejoras aceptadas.
+Grupos de 4: 325 intentos, 36 mejoras aceptadas.
+Grupos de 4: 533 intentos, 41 mejoras aceptadas.
+Grupos de 4: 790 intentos, 43 mejoras aceptadas.
+Grupos de 4: 1040 intentos, 43 mejoras aceptadas.
+Grupos de 4: 1214 intentos, 43 mejoras aceptadas.
+Grupos de 4: 1401 intentos, 45 mejoras aceptadas.
+Grupos de 4: 1577 intentos, 45 mejoras aceptadas.
+Grupos de 4: 1767 intentos, 45 mejoras aceptadas.
+Grupos de 4: 1960 intentos, 45 mejoras aceptadas.
+Grupos de 4: 2178 intentos, 45 mejoras aceptadas.
+Grupos de 4: 2395 intentos, 45 mejoras aceptadas.
+Grupos de 4: 2609 intentos, 45 mejoras aceptadas.
+Grupos de 4: 2823 intentos, 45 mejoras aceptadas.
+Grupos de 4: 3050 intentos, 45 mejoras aceptadas.
+Grupos de 4: 3261 intentos, 45 mejoras aceptadas.
+Grupos de 4: 3493 intentos, 45 mejoras aceptadas.
+Grupos de 4: 3691 intentos, 45 mejoras aceptadas.
+Grupos de 4: 3917 intentos, 45 mejoras aceptadas.
+Grupos de 4: 4137 intentos, 45 mejoras aceptadas.
+Grupos de 4: 4351 intentos, 45 mejoras aceptadas.
+{"instancia": "bat120_chico_06_sector_4_4_rutas", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 900.0, "buses": 34, "costo_total_usd": 10714.2946, "tiempo_s": 437.02, "error": null}
+=== 2026-11-22 15:41:13 fin: cuartetos 15 min, 120 kWh (código 0)
+=== 2026-11-22 15:41:13 etapa 2: 10 rutas con 150 kWh, respuesta perfecta
+=== 2026-11-22 15:41:13 inicio: 10 rutas 150 exacta (batería 150 kWh)
+Set parameter Username
+Academic license - for non-commercial use only - expires 2027-11-10
+{"instancia": "bat150_rutas_10_sector_2", "metodo": "exacta_podada", "seleccion": "", "semilla": 0, "presupuesto_s": 3600.0, "buses": 64, "costo_total_usd": 19697.1574, "tiempo_s": 3825.86, "error": null}
+=== 2026-11-22 16:44:59 fin: 10 rutas 150 exacta (código 0)
+=== 2026-11-22 16:44:59 etapa 3: 10 rutas heurística y pares-tríos 15 min
+=== 2026-11-22 16:44:59 inicio: 10 rutas 150, base y cuartetos 15 min (batería 150 kWh)
+=== 2026-11-22 16:44:59 inicio: pares-tríos 15 min, 120 kWh (batería 120 kWh)
+{"instancia": "bat150_rutas_10_sector_2", "metodo": "solo_base", "seleccion": "", "semilla": 0, "presupuesto_s": 0.0, "buses": 77, "costo_total_usd": 23283.2402, "tiempo_s": 0.0, "error": null}
+Set parameter Username
+Academic license - for non-commercial use only - expires 2027-11-10
+Set parameter Username
+Academic license - for non-commercial use only - expires 2027-11-10
+Grupos de 4: 185 intentos, 11 mejoras aceptadas.
+Intercambios: 548 intentos, 24 mejoras aceptadas.
+Grupos de 4: 328 intentos, 18 mejoras aceptadas.
+Intercambios: 1028 intentos, 26 mejoras aceptadas.
+Grupos de 4: 562 intentos, 19 mejoras aceptadas.
+Intercambios: 1493 intentos, 28 mejoras aceptadas.
+Grupos de 4: 795 intentos, 19 mejoras aceptadas.
+Intercambios: 1957 intentos, 29 mejoras aceptadas.
+Intercambios: 2434 intentos, 30 mejoras aceptadas.
+Grupos de 4: 948 intentos, 24 mejoras aceptadas.
+Intercambios: 2841 intentos, 30 mejoras aceptadas.
+Grupos de 4: 1155 intentos, 26 mejoras aceptadas.
+Grupos de 4: 1355 intentos, 26 mejoras aceptadas.
+Trios: 241 intentos, 2 mejoras aceptadas.
+Grupos de 4: 1524 intentos, 31 mejoras aceptadas.
+Trios: 511 intentos, 3 mejoras aceptadas.
+Grupos de 4: 1685 intentos, 31 mejoras aceptadas.
+Trios: 768 intentos, 4 mejoras aceptadas.
+Grupos de 4: 1852 intentos, 32 mejoras aceptadas.
+Trios: 1020 intentos, 5 mejoras aceptadas.
+Grupos de 4: 2062 intentos, 32 mejoras aceptadas.
+Trios: 1269 intentos, 5 mejoras aceptadas.
+Grupos de 4: 2285 intentos, 32 mejoras aceptadas.
+Trios: 1504 intentos, 5 mejoras aceptadas.
+Grupos de 4: 2523 intentos, 32 mejoras aceptadas.
+Trios: 1785 intentos, 5 mejoras aceptadas.
+Grupos de 4: 2725 intentos, 38 mejoras aceptadas.
+Trios: 2040 intentos, 5 mejoras aceptadas.
+Grupos de 4: 2891 intentos, 40 mejoras aceptadas.
+{"instancia": "bat120_chico_02_sector_2_2_rutas", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 900.0, "buses": 32, "costo_total_usd": 10197.7878, "tiempo_s": 301.99, "error": null}
+Grupos de 4: 3065 intentos, 45 mejoras aceptadas.
+Intercambios: 438 intentos, 35 mejoras aceptadas.
+Grupos de 4: 3245 intentos, 47 mejoras aceptadas.
+Intercambios: 771 intentos, 43 mejoras aceptadas.
+Grupos de 4: 3458 intentos, 47 mejoras aceptadas.
+Intercambios: 1073 intentos, 49 mejoras aceptadas.
+Grupos de 4: 3704 intentos, 47 mejoras aceptadas.
+Intercambios: 1458 intentos, 51 mejoras aceptadas.
+Grupos de 4: 3911 intentos, 51 mejoras aceptadas.
+Intercambios: 1750 intentos, 54 mejoras aceptadas.
+Grupos de 4: 4061 intentos, 54 mejoras aceptadas.
+Intercambios: 2130 intentos, 57 mejoras aceptadas.
+Grupos de 4: 4238 intentos, 54 mejoras aceptadas.
+Intercambios: 2546 intentos, 59 mejoras aceptadas.
+Grupos de 4: 4356 intentos, 57 mejoras aceptadas.
+Intercambios: 2935 intentos, 62 mejoras aceptadas.
+Grupos de 4: 4490 intentos, 58 mejoras aceptadas.
+Intercambios: 3213 intentos, 62 mejoras aceptadas.
+Grupos de 4: 4655 intentos, 58 mejoras aceptadas.
+Intercambios: 3626 intentos, 62 mejoras aceptadas.
+Grupos de 4: 4841 intentos, 58 mejoras aceptadas.
+Trios: 336 intentos, 2 mejoras aceptadas.
+Grupos de 4: 5022 intentos, 59 mejoras aceptadas.
+Trios: 681 intentos, 3 mejoras aceptadas.
+Grupos de 4: 5245 intentos, 59 mejoras aceptadas.
+Trios: 921 intentos, 4 mejoras aceptadas.
+Grupos de 4: 5489 intentos, 59 mejoras aceptadas.
+Trios: 1215 intentos, 4 mejoras aceptadas.
+Grupos de 4: 5610 intentos, 63 mejoras aceptadas.
+Trios: 1469 intentos, 4 mejoras aceptadas.
+Grupos de 4: 5747 intentos, 63 mejoras aceptadas.
+Trios: 1726 intentos, 4 mejoras aceptadas.
+Grupos de 4: 5928 intentos, 63 mejoras aceptadas.
+Trios: 2031 intentos, 4 mejoras aceptadas.
+Grupos de 4: 6113 intentos, 63 mejoras aceptadas.
+Trios: 2306 intentos, 4 mejoras aceptadas.
+Grupos de 4: 6291 intentos, 64 mejoras aceptadas.
+Trios: 2587 intentos, 5 mejoras aceptadas.
+Grupos de 4: 6472 intentos, 64 mejoras aceptadas.
+Trios: 2853 intentos, 5 mejoras aceptadas.
+Grupos de 4: 6687 intentos, 64 mejoras aceptadas.
+Trios: 3124 intentos, 5 mejoras aceptadas.
+Grupos de 4: 6900 intentos, 64 mejoras aceptadas.
+Trios: 3406 intentos, 5 mejoras aceptadas.
+Grupos de 4: 7026 intentos, 66 mejoras aceptadas.
+Trios: 3718 intentos, 5 mejoras aceptadas.
+{"instancia": "bat120_chico_03_sector_3_3_rutas", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 900.0, "buses": 36, "costo_total_usd": 11498.1398, "tiempo_s": 472.96, "error": null}
+Grupos de 4: 7183 intentos, 66 mejoras aceptadas.
+Intercambios: 598 intentos, 27 mejoras aceptadas.
+Grupos de 4: 7345 intentos, 66 mejoras aceptadas.
+Intercambios: 1287 intentos, 43 mejoras aceptadas.
+Grupos de 4: 7522 intentos, 66 mejoras aceptadas.
+Intercambios: 1884 intentos, 53 mejoras aceptadas.
+Grupos de 4: 7703 intentos, 66 mejoras aceptadas.
+Intercambios: 2306 intentos, 57 mejoras aceptadas.
+Grupos de 4: 7903 intentos, 66 mejoras aceptadas.
+Intercambios: 2769 intentos, 60 mejoras aceptadas.
+Grupos de 4: 8092 intentos, 66 mejoras aceptadas.
+Intercambios: 3143 intentos, 63 mejoras aceptadas.
+{"instancia": "bat150_rutas_10_sector_2", "metodo": "cuartetos", "seleccion": "azar", "semilla": 1, "presupuesto_s": 900.0, "buses": 62, "costo_total_usd": 19625.0665, "tiempo_s": 900.04, "error": null}
+=== 2026-11-22 16:59:59 fin: 10 rutas 150, base y cuartetos 15 min (código 0)
+=== 2026-11-22 16:59:59 inicio: pares-tríos 15 min, 150 kWh (batería 150 kWh)
+Set parameter Username
+Academic license - for non-commercial use only - expires 2027-11-10
+Intercambios: 3453 intentos, 64 mejoras aceptadas.
+Intercambios: 446 intentos, 19 mejoras aceptadas.
+Intercambios: 4010 intentos, 70 mejoras aceptadas.
+Intercambios: 845 intentos, 22 mejoras aceptadas.
+Intercambios: 4372 intentos, 74 mejoras aceptadas.
+Intercambios: 1284 intentos, 23 mejoras aceptadas.
+Intercambios: 4995 intentos, 77 mejoras aceptadas.
+Intercambios: 1712 intentos, 25 mejoras aceptadas.
+Intercambios: 5239 intentos, 79 mejoras aceptadas.
+Intercambios: 2113 intentos, 26 mejoras aceptadas.
+Intercambios: 5846 intentos, 82 mejoras aceptadas.
+Intercambios: 6132 intentos, 88 mejoras aceptadas.
+Trios: 219 intentos, 0 mejoras aceptadas.
+Intercambios: 6745 intentos, 89 mejoras aceptadas.
+Trios: 478 intentos, 0 mejoras aceptadas.
+Intercambios: 7184 intentos, 91 mejoras aceptadas.
+Trios: 714 intentos, 0 mejoras aceptadas.
+{"instancia": "bat150_chico_02_sector_2_2_rutas", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 900.0, "buses": 32, "costo_total_usd": 9551.0844, "tiempo_s": 177.26, "error": null}
+Intercambios: 7797 intentos, 94 mejoras aceptadas.
+Intercambios: 498 intentos, 44 mejoras aceptadas.
+Intercambios: 8129 intentos, 96 mejoras aceptadas.
+Intercambios: 950 intentos, 53 mejoras aceptadas.
+Intercambios: 8521 intentos, 97 mejoras aceptadas.
+Intercambios: 1348 intentos, 56 mejoras aceptadas.
+Intercambios: 9089 intentos, 98 mejoras aceptadas.
+Intercambios: 1763 intentos, 58 mejoras aceptadas.
+Intercambios: 9420 intentos, 101 mejoras aceptadas.
+Intercambios: 2125 intentos, 61 mejoras aceptadas.
+Intercambios: 10074 intentos, 101 mejoras aceptadas.
+Intercambios: 2515 intentos, 63 mejoras aceptadas.
+Intercambios: 10484 intentos, 104 mejoras aceptadas.
+Intercambios: 2918 intentos, 64 mejoras aceptadas.
+Intercambios: 3297 intentos, 64 mejoras aceptadas.
+Trios: 628 intentos, 6 mejoras aceptadas.
+Intercambios: 3678 intentos, 65 mejoras aceptadas.
+Trios: 1004 intentos, 6 mejoras aceptadas.
+Intercambios: 4064 intentos, 66 mejoras aceptadas.
+Trios: 1620 intentos, 7 mejoras aceptadas.
+Intercambios: 4473 intentos, 69 mejoras aceptadas.
+Trios: 1803 intentos, 9 mejoras aceptadas.
+Intercambios: 4911 intentos, 70 mejoras aceptadas.
+Trios: 2107 intentos, 9 mejoras aceptadas.
+Intercambios: 5345 intentos, 70 mejoras aceptadas.
+Trios: 2464 intentos, 9 mejoras aceptadas.
+Trios: 2799 intentos, 9 mejoras aceptadas.
+Trios: 237 intentos, 0 mejoras aceptadas.
+Trios: 3221 intentos, 9 mejoras aceptadas.
+Trios: 443 intentos, 0 mejoras aceptadas.
+Trios: 3638 intentos, 9 mejoras aceptadas.
+{"instancia": "bat150_chico_03_sector_3_3_rutas", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 900.0, "buses": 29, "costo_total_usd": 9114.7248, "tiempo_s": 334.9, "error": null}
+Trios: 4279 intentos, 10 mejoras aceptadas.
+Intercambios: 646 intentos, 42 mejoras aceptadas.
+Trios: 4580 intentos, 12 mejoras aceptadas.
+Intercambios: 1251 intentos, 48 mejoras aceptadas.
+Trios: 4807 intentos, 12 mejoras aceptadas.
+Intercambios: 1797 intentos, 52 mejoras aceptadas.
+Trios: 5111 intentos, 12 mejoras aceptadas.
+Intercambios: 2304 intentos, 53 mejoras aceptadas.
+Trios: 5567 intentos, 13 mejoras aceptadas.
+Intercambios: 2918 intentos, 55 mejoras aceptadas.
+Trios: 5859 intentos, 14 mejoras aceptadas.
+Intercambios: 3522 intentos, 56 mejoras aceptadas.
+Trios: 6116 intentos, 14 mejoras aceptadas.
+Intercambios: 4051 intentos, 56 mejoras aceptadas.
+Trios: 6369 intentos, 14 mejoras aceptadas.
+Intercambios: 4649 intentos, 57 mejoras aceptadas.
+Trios: 6840 intentos, 14 mejoras aceptadas.
+Intercambios: 5235 intentos, 58 mejoras aceptadas.
+Trios: 7095 intentos, 16 mejoras aceptadas.
+Intercambios: 5749 intentos, 58 mejoras aceptadas.
+Trios: 7379 intentos, 16 mejoras aceptadas.
+Intercambios: 6349 intentos, 59 mejoras aceptadas.
+Trios: 7618 intentos, 16 mejoras aceptadas.
+Intercambios: 6965 intentos, 59 mejoras aceptadas.
+Trios: 7856 intentos, 16 mejoras aceptadas.
+Intercambios: 7451 intentos, 59 mejoras aceptadas.
+{"instancia": "bat120_chico_04_sector_4_3_rutas", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 900.0, "buses": 59, "costo_total_usd": 19391.8268, "tiempo_s": 900.05, "error": null}
+Trios: 345 intentos, 9 mejoras aceptadas.
+Intercambios: 984 intentos, 25 mejoras aceptadas.
+Trios: 601 intentos, 11 mejoras aceptadas.
+Intercambios: 2039 intentos, 37 mejoras aceptadas.
+Trios: 937 intentos, 12 mejoras aceptadas.
+Intercambios: 3014 intentos, 46 mejoras aceptadas.
+Trios: 1248 intentos, 12 mejoras aceptadas.
+Intercambios: 3657 intentos, 51 mejoras aceptadas.
+Trios: 1584 intentos, 12 mejoras aceptadas.
+Intercambios: 4402 intentos, 55 mejoras aceptadas.
+Trios: 1840 intentos, 12 mejoras aceptadas.
+Intercambios: 5156 intentos, 56 mejoras aceptadas.
+Trios: 2096 intentos, 12 mejoras aceptadas.
+Intercambios: 5822 intentos, 59 mejoras aceptadas.
+{"instancia": "bat150_chico_04_sector_4_3_rutas", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 900.0, "buses": 46, "costo_total_usd": 15113.5172, "tiempo_s": 415.58, "error": null}
+Intercambios: 6623 intentos, 59 mejoras aceptadas.
+Intercambios: 665 intentos, 36 mejoras aceptadas.
+Intercambios: 7353 intentos, 63 mejoras aceptadas.
+Intercambios: 1138 intentos, 44 mejoras aceptadas.
+Intercambios: 7974 intentos, 64 mejoras aceptadas.
+Intercambios: 1604 intentos, 51 mejoras aceptadas.
+Intercambios: 8539 intentos, 65 mejoras aceptadas.
+Intercambios: 2149 intentos, 57 mejoras aceptadas.
+Intercambios: 9289 intentos, 66 mejoras aceptadas.
+Intercambios: 2692 intentos, 64 mejoras aceptadas.
+Intercambios: 10005 intentos, 66 mejoras aceptadas.
+Intercambios: 3214 intentos, 68 mejoras aceptadas.
+Intercambios: 10730 intentos, 66 mejoras aceptadas.
+Intercambios: 3766 intentos, 72 mejoras aceptadas.
+Intercambios: 11299 intentos, 66 mejoras aceptadas.
+Intercambios: 4123 intentos, 76 mejoras aceptadas.
+Intercambios: 4711 intentos, 77 mejoras aceptadas.
+Trios: 649 intentos, 7 mejoras aceptadas.
+Intercambios: 5205 intentos, 81 mejoras aceptadas.
+Trios: 1403 intentos, 7 mejoras aceptadas.
+Intercambios: 5787 intentos, 82 mejoras aceptadas.
+Trios: 2135 intentos, 7 mejoras aceptadas.
+Intercambios: 6335 intentos, 86 mejoras aceptadas.
+Trios: 2778 intentos, 9 mejoras aceptadas.
+Intercambios: 6921 intentos, 87 mejoras aceptadas.
+Trios: 3225 intentos, 9 mejoras aceptadas.
+Intercambios: 7318 intentos, 89 mejoras aceptadas.
+Trios: 3763 intentos, 9 mejoras aceptadas.
+Intercambios: 7908 intentos, 92 mejoras aceptadas.
+Trios: 4455 intentos, 9 mejoras aceptadas.
+Intercambios: 8553 intentos, 97 mejoras aceptadas.
+Trios: 5245 intentos, 9 mejoras aceptadas.
+Intercambios: 9109 intentos, 97 mejoras aceptadas.
+Trios: 5876 intentos, 9 mejoras aceptadas.
+Intercambios: 9574 intentos, 99 mejoras aceptadas.
+Trios: 6264 intentos, 9 mejoras aceptadas.
+Intercambios: 10158 intentos, 100 mejoras aceptadas.
+Trios: 6654 intentos, 9 mejoras aceptadas.
+Intercambios: 10673 intentos, 104 mejoras aceptadas.
+Trios: 7124 intentos, 9 mejoras aceptadas.
+Intercambios: 11302 intentos, 104 mejoras aceptadas.
+Trios: 7570 intentos, 9 mejoras aceptadas.
+Intercambios: 11713 intentos, 106 mejoras aceptadas.
+Trios: 8056 intentos, 9 mejoras aceptadas.
+{"instancia": "bat120_chico_05_sector_5_4_rutas", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 900.0, "buses": 59, "costo_total_usd": 19635.1638, "tiempo_s": 615.28, "error": null}
+Trios: 518 intentos, 3 mejoras aceptadas.
+Intercambios: 443 intentos, 55 mejoras aceptadas.
+Trios: 1115 intentos, 6 mejoras aceptadas.
+Intercambios: 863 intentos, 71 mejoras aceptadas.
+Trios: 1786 intentos, 7 mejoras aceptadas.
+Intercambios: 1323 intentos, 78 mejoras aceptadas.
+Trios: 2235 intentos, 10 mejoras aceptadas.
+Intercambios: 1751 intentos, 80 mejoras aceptadas.
+Trios: 2557 intentos, 11 mejoras aceptadas.
+Intercambios: 2223 intentos, 81 mejoras aceptadas.
+Trios: 3189 intentos, 11 mejoras aceptadas.
+Intercambios: 2719 intentos, 83 mejoras aceptadas.
+Trios: 3528 intentos, 11 mejoras aceptadas.
+Intercambios: 3203 intentos, 85 mejoras aceptadas.
+Trios: 3802 intentos, 11 mejoras aceptadas.
+Intercambios: 3728 intentos, 86 mejoras aceptadas.
+Trios: 4124 intentos, 12 mejoras aceptadas.
+Intercambios: 4253 intentos, 88 mejoras aceptadas.
+Trios: 4487 intentos, 13 mejoras aceptadas.
+Intercambios: 4797 intentos, 90 mejoras aceptadas.
+Trios: 4945 intentos, 13 mejoras aceptadas.
+Intercambios: 5304 intentos, 91 mejoras aceptadas.
+Trios: 5632 intentos, 13 mejoras aceptadas.
+Intercambios: 5792 intentos, 91 mejoras aceptadas.
+Trios: 5941 intentos, 13 mejoras aceptadas.
+Intercambios: 6341 intentos, 91 mejoras aceptadas.
+Trios: 6213 intentos, 13 mejoras aceptadas.
+Trios: 6506 intentos, 14 mejoras aceptadas.
+Trios: 266 intentos, 3 mejoras aceptadas.
+Trios: 6845 intentos, 14 mejoras aceptadas.
+Trios: 561 intentos, 4 mejoras aceptadas.
+Trios: 7209 intentos, 14 mejoras aceptadas.
+Trios: 833 intentos, 4 mejoras aceptadas.
+Trios: 7640 intentos, 14 mejoras aceptadas.
+Trios: 1156 intentos, 4 mejoras aceptadas.
+Trios: 8193 intentos, 14 mejoras aceptadas.
+Trios: 1457 intentos, 4 mejoras aceptadas.
+Trios: 8704 intentos, 15 mejoras aceptadas.
+Trios: 1740 intentos, 5 mejoras aceptadas.
+Trios: 8933 intentos, 15 mejoras aceptadas.
+Trios: 1922 intentos, 5 mejoras aceptadas.
+Trios: 9202 intentos, 15 mejoras aceptadas.
+Trios: 2106 intentos, 5 mejoras aceptadas.
+{"instancia": "bat150_chico_05_sector_5_4_rutas", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 900.0, "buses": 53, "costo_total_usd": 17625.6417, "tiempo_s": 900.06, "error": null}
+Trios: 2295 intentos, 5 mejoras aceptadas.
+Intercambios: 591 intentos, 56 mejoras aceptadas.
+Trios: 2567 intentos, 5 mejoras aceptadas.
+Intercambios: 1154 intentos, 60 mejoras aceptadas.
+Trios: 2773 intentos, 5 mejoras aceptadas.
+Intercambios: 1700 intentos, 64 mejoras aceptadas.
+Trios: 3031 intentos, 6 mejoras aceptadas.
+Intercambios: 2236 intentos, 65 mejoras aceptadas.
+Trios: 3242 intentos, 6 mejoras aceptadas.
+Intercambios: 2765 intentos, 66 mejoras aceptadas.
+Trios: 3376 intentos, 6 mejoras aceptadas.
+Intercambios: 3295 intentos, 66 mejoras aceptadas.
+Trios: 3530 intentos, 6 mejoras aceptadas.
+Trios: 337 intentos, 3 mejoras aceptadas.
+Trios: 3688 intentos, 6 mejoras aceptadas.
+Trios: 681 intentos, 3 mejoras aceptadas.
+Trios: 3866 intentos, 6 mejoras aceptadas.
+Trios: 1024 intentos, 3 mejoras aceptadas.
+Trios: 4039 intentos, 6 mejoras aceptadas.
+Trios: 1318 intentos, 3 mejoras aceptadas.
+Trios: 4261 intentos, 6 mejoras aceptadas.
+{"instancia": "bat150_chico_06_sector_4_4_rutas", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 900.0, "buses": 31, "costo_total_usd": 9543.682, "tiempo_s": 223.54, "error": null}
+=== 2026-11-22 17:34:12 fin: pares-tríos 15 min, 150 kWh (código 0)
+Trios: 4468 intentos, 6 mejoras aceptadas.
+Trios: 4652 intentos, 6 mejoras aceptadas.
+Trios: 4834 intentos, 6 mejoras aceptadas.
+{"instancia": "bat120_chico_06_sector_4_4_rutas", "metodo": "pares_trios", "seleccion": "", "semilla": 0, "presupuesto_s": 900.0, "buses": 36, "costo_total_usd": 11008.3376, "tiempo_s": 720.63, "error": null}
+=== 2026-11-22 17:35:12 fin: pares-tríos 15 min, 120 kWh (código 0)
+=== 2026-11-22 17:35:12 cola terminada
