@@ -1,3 +1,11 @@
+## Contexto del proyecto
+
+- `CONTEXTO-DEL-PROYECTO.md` (raíz) es el informe que el grupo usa para seguir trabajando con otras IAs.
+  Al terminar cualquier trabajo que cambie el estado del proyecto (corridas, resultados, decisiones,
+  archivos o carpetas nuevas, tareas cerradas), actualízalo antes de cerrar el turno: tabla de estado
+  (§2), cronología (§3.3), cifras con su archivo de origen (§5), mapa del repo (§6), lo que falta (§9) y
+  la fecha del encabezado. Es la regla 0 de su §10. Si se commitea el trabajo, va en el mismo commit.
+
 ## graphify
 
 This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.

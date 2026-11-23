@@ -2,9 +2,9 @@
 
 Grupo 29 · ICS2122 Taller de Investigación Operativa (Capstone) · 2026-2
 Problema P7: planificación de la operación de buses eléctricos en la Región Metropolitana.
-Escrito el **22-nov-2026** para que cualquier integrante, o la IA con la que trabaje, pueda seguir
-sin haber estado en las sesiones anteriores. Las cifras se comprobaron ese día contra los archivos
-del repositorio.
+Escrito el **22-nov-2026** y actualizado el **23-nov** (resultados de la sensibilidad) para que
+cualquier integrante, o la IA con la que trabaje, pueda seguir sin haber estado en las sesiones
+anteriores. Las cifras se comprobaron contra los archivos del repositorio.
 
 Repositorio (público): https://github.com/nfariasl/capstone-buses-electricos
 
@@ -22,6 +22,9 @@ Repositorio (público): https://github.com/nfariasl/capstone-buses-electricos
   > `CONTEXTO-DEL-PROYECTO.md` en la raíz del repo, luego `README.md` y el documento que corresponda a
   > mi tarea según la sección 13. Mi tarea es: «…». No inventes cifras: cada número debe salir de un
   > archivo del repo, y dime de cuál. Antes de cambiar código de `metodo_hibrido/`, lee la sección 10.
+  > Al terminar, actualiza `CONTEXTO-DEL-PROYECTO.md` con lo que hiciste (regla 0 de la sección 10).
+- **Regla para todos (personas e IAs): este documento se actualiza al terminar cada trabajo** que cambie
+  el estado del proyecto (ver la regla 0 de la sección 10).
 
 ---
 
@@ -50,7 +53,7 @@ Diego Barrios, Gustavo Anguita, Cristobal Rehbein y Ricardo Palma. Ayudante: Max
 
 ---
 
-## 2. Estado al 22-nov-2026
+## 2. Estado al 23-nov-2026
 
 | Frente | Estado | Detalle |
 |---|---|---|
@@ -61,7 +64,7 @@ Diego Barrios, Gustavo Anguita, Cristobal Rehbein y Ricardo Palma. Ayudante: Max
 | Distancia al óptimo en casos chicos (exacta) | ✅ 0,13 % en promedio | §5.3 |
 | Casos con recarga forzada (150 y 120 kWh) | ✅ Corridos | §5.4 |
 | KPI y uso de electroterminales | ✅ Recalculados el 22-nov sobre el plan de cuartetos (semilla 1) | §5.5 |
-| Sensibilidad | 🟡 Escenarios definidos, **sin resultados** en el repo | §9 C |
+| Sensibilidad | ✅ Corrida el 22/23-nov (11 escenarios + base); solo cerrar E2, E4 o E1 mueve el costo | §5.7, §9 C |
 | Repetibilidad del día siguiente | ✅ Calculada por electroterminal (22-nov): en día laboral se cubre el 45 % | §9 D |
 | Incertidumbre (atrasos, Monte Carlo) | 🔴 Sin empezar | §9 E |
 | Deck final (15 min) | 🟡 Láminas 1–11 hechas; **faltan las 12–20** | §9 A |
@@ -163,6 +166,9 @@ El plan completo está en `09-entrega3/PLAN-ENTREGA3.md`. Lo que se hizo:
    (`09-entrega3/presentacion/`), con una auditoría contra la rúbrica y la guía de las láminas 12–20.
 8. **22-nov · Informe de resultados para el grupo** (`09-entrega3/INFORME-RESULTADOS.md`).
 9. **22-nov · Repositorio público**, para que todo el grupo pueda clonarlo.
+10. **22 al 23-nov · Sensibilidad corrida** (`09-entrega3/sensibilidad/correr_sensibilidad.sh`): los 11
+    escenarios y la base, con plan inicial y cuartetos al azar (semilla 1, 20 min), 4 en paralelo en el
+    Mac M1, de 22:55 a 00:05. Tabla con `resumir.py`; resultados en §5.7 y en el README de la carpeta.
 
 ---
 
@@ -294,6 +300,32 @@ sin cargadores. **Con la
 infraestructura actual, el plan no se puede repetir día tras día.** Se presenta como hallazgo; no se
 esconde.
 
+### 5.7 Sensibilidad (día laboral; corrida el 22/23-nov)
+
+Cuartetos al azar, semilla 1, 1.200 s, 4 corridas en paralelo. La base se corrió en la **misma tanda**
+(7.389 buses, USD 2.631.699) y cada Δ se mide contra ella; no comparar con la cifra de 7.351, que es de
+otra corrida (sola y con 2.400 s). Fuente: `09-entrega3/sensibilidad/resultados/tabla_sensibilidad.csv`.
+
+| Escenario | Δ buses | Δ costo | Δ costo en el plan inicial |
+|---|---:|---:|---:|
+| Cierre E2 | +70 | **+0,62 %** | +0,92 % |
+| Cierre E4 | +53 | **+0,51 %** | +0,70 % |
+| Cierre E1 | +32 | **+0,29 %** | +0,47 % |
+| Cierre E5 / E3 | +8 / −6 | +0,03 % / −0,06 % | +0,15 % / +0,07 % |
+| Plazas −20 / +20 / +50 % | −8 / −7 / −19 | −0,06 / −0,08 / −0,22 % | +0,01 / −0,01 / −0,02 % |
+| Mitad de conexiones | −9 | −0,08 % | 0,00 % |
+| Plazas según demanda | −3 | −0,05 % | 0,00 % |
+| Tarifa de punta +50 % | −8 | +0,04 % | +0,16 % |
+
+- **Ruido:** las tres semillas de la base con 1.200 s difieren en ~0,10 %; un Δ menor a ~0,15 % no se
+  atribuye al escenario. El plan inicial no tiene azar y confirma el orden de los cierres.
+- **Lo único que pesa es cerrar un electroterminal:** E2 y E4 son críticos, E1 intermedio, E5 y E3 casi
+  no importan.
+- **Plazas y conexiones no limitan la flota en el día aislado** (−20 % a +50 %). Sí pueden importar en la
+  recarga nocturna (§5.6), que el modelo de un día no mide.
+- **Tarifa de punta +50 %:** USD 4.200 más al día en el plan inicial; con cuartetos queda en el ruido.
+- Plazas +50 % (−0,22 %) está en el borde del ruido; para afirmarlo harían falta más semillas.
+
 ---
 
 ## 6. Mapa del repositorio
@@ -319,7 +351,7 @@ Dentro de `09-entrega3/`:
 | `INFORME-RESULTADOS.md` | Todos los resultados, explicados para el grupo |
 | `octetos/` | Estudio de tamaños de grupo, exacta y recarga forzada. Casos en `casos/`, resultados en `resultados/*.csv` |
 | `kpi/` | KPI y uso de electroterminales (`kpi_planes.py`, `uso_electroterminales.py`, `ocupacion_plazas.py`) |
-| `sensibilidad/` | `crear_escenarios.py`, que genera la instancia de cada escenario |
+| `sensibilidad/` | `crear_escenarios.py` (instancia de cada escenario), `correr_sensibilidad.sh` (corre los 11 y la base), `resumir.py` (tabla de Δ) y `resultados/` |
 | `mapa_sectores/` | Mapa de sectores, informe simple y metodología en 2 páginas |
 | `presentacion/` | `deck.html` (láminas 1–11), `presentacion_final_G29.pptx`, `ASIGNACION-LAMINAS-12-20.md` y `AUDITORIA-RUBRICA.md` |
 | `figuras/` | GIF y pasos de la absorción (lámina 10) |
@@ -414,7 +446,7 @@ La versión que se edita está en Canva (`DAHbqgcw7t8`).
    | 13 | Sábado, domingo y semana |
    | 14 | De dónde sale el ahorro |
    | 15 | Distancia al óptimo |
-   | 16 | Sensibilidad (espera los resultados de §9 C) |
+   | 16 | Sensibilidad (resultados listos en §5.7) |
    | 17 | Recarga forzada |
    | 18 | El día siguiente |
    | 19 | Conclusiones |
@@ -479,18 +511,21 @@ cifra principal es 7.351 (cuartetos). No mezclar cifras de dos planes en una mis
 | Tarifa de punta +50 % | Precio de los tramos de punta × 1,5 |
 | Plazas según demanda | Las 700 plazas repartidas según las corridas de cada sector |
 
-**No hay resultados en el repo.** Puede que se estén corriendo en el Mac principal: **preguntar antes de
-duplicar el trabajo**.
+**✅ Corrida el 22/23-nov.** Resultados y lectura en §5.7 y en `09-entrega3/sensibilidad/README.md`.
+Cómo se hizo (para repetirla):
+```bash
+python3 09-entrega3/sensibilidad/crear_escenarios.py --instancia metodo_hibrido/instancia_417 --destino metodo_hibrido/sensibilidad_417_L
+caffeinate -i -s bash 09-entrega3/sensibilidad/correr_sensibilidad.sh 1200 > 09-entrega3/sensibilidad/resultados/sensibilidad.log 2>&1
+python3 09-entrega3/sensibilidad/resumir.py 09-entrega3/sensibilidad/resultados/sensibilidad_417_L.csv
+```
+Las instancias de los escenarios y los planes exportados (1,3 GB) no están en GitHub: se recrean con
+esas órdenes.
 
-**Qué hacer:**
-1. Crear las instancias:
-   ```bash
-   python3 09-entrega3/sensibilidad/crear_escenarios.py --instancia metodo_hibrido/instancia_417 --destino metodo_hibrido/sensibilidad_417_L
-   ```
-2. Correr cuartetos al azar en cada escenario con `09-entrega3/octetos/correr_metodos.py --instancias ...`.
-   Con 40 min por escenario son unas 8 h para los 11. Con 10 min (600 s) también sirve, pero hay que
-   compararlos contra la instancia base corrida con el **mismo** presupuesto y en el **mismo** equipo.
-3. Medir con `kpi/` y graficar el costo de cada escenario (y un gráfico de tornado, si alcanza).
+**Lo que queda (opcional):**
+1. Pasar la tabla a la lámina 16 y al capítulo 9 del informe, con un gráfico de tornado o de barras.
+2. Más semillas en plazas +50 % y en los cierres, para separar el efecto del ruido (~0,10 %).
+3. Escenarios de prioridad 1 que no se pueden correr sin tocar código: consumo, estado de carga inicial
+   y final, velocidad en vacío y costo de espera (ver `PLAN-ENTREGA3.md` §6.1).
 4. **Limitaciones que hay que declarar:**
    - el caso base no lee `escenario.json`, así que no se puede comparar contra él en cada escenario sin
      modificar `codigo/tres_fases/caso_base.py`;
@@ -603,6 +638,10 @@ Solo si sobra tiempo.
 
 ## 10. Reglas y trampas conocidas (leer antes de tocar código o cifras)
 
+0. **Mantener este documento al día.** Al terminar un trabajo que cambie el estado del proyecto
+   (corridas, resultados, decisiones, archivos o carpetas nuevas, tareas cerradas), actualizar aquí:
+   la tabla de estado (§2), la cronología (§3.3), las cifras (§5), el mapa (§6), lo que falta (§9) y la
+   fecha del encabezado. Cada cifra nueva lleva su archivo de origen. Se commitea junto con el trabajo.
 1. **No inventar cifras.** Cada número sale de un archivo del repo y se dice de cuál. Si dos fuentes no
    calzan, gana el informe y se avisa al grupo.
 2. **Cifras que se confunden:**
