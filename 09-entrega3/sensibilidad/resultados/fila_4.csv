@@ -1,0 +1,7 @@
+﻿instancia,corridas,metodo,seleccion,semilla,presupuesto_s,buses,costo_total_usd,km,carga_kwh,sesiones,tiempo_s,intentos,mejoras,motivo_fin,optimo,cota_usd,error
+cierre_E3,64502,solo_base,,0,0.0,7578,2679538.3339,1529305.9993,65379.946,1592,6.66,,,,,,
+cierre_E3,64502,cuartetos,azar,1,1200.0,7383,2630149.0773,1527917.7796,71070.022,1525,1214.71,41211,461,presupuesto,,,
+cierre_E4,64502,solo_base,,0,0.0,7649,2696282.2148,1530769.9585,60278.6241,1439,4.44,,,,,,
+cierre_E4,64502,cuartetos,azar,1,1200.0,7442,2645234.4173,1529777.1231,69489.315,1446,1209.42,40963,432,presupuesto,,,
+plazas_por_demanda,64502,solo_base,,0,0.0,7570,2677587.6647,1528950.7716,65966.6316,1616,3.44,,,,,,
+plazas_por_demanda,64502,cuartetos,azar,1,1200.0,7386,2630303.125,1527421.5541,69156.403,1503,1207.49,40141,504,presupuesto,,,

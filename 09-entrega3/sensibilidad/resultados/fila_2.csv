@@ -1,0 +1,7 @@
+﻿instancia,corridas,metodo,seleccion,semilla,presupuesto_s,buses,costo_total_usd,km,carga_kwh,sesiones,tiempo_s,intentos,mejoras,motivo_fin,optimo,cota_usd,error
+plazas_-20,64502,solo_base,,0,0.0,7570,2677757.1726,1529289.7875,65966.6316,1616,7.35,,,,,,
+plazas_-20,64502,cuartetos,azar,1,1200.0,7381,2630063.4792,1528067.1124,71545.1273,1561,1221.0,33491,434,presupuesto,,,
+plazas_+20,64502,solo_base,,0,0.0,7570,2677423.4838,1528622.4098,65966.6316,1616,6.63,,,,,,
+plazas_+20,64502,cuartetos,azar,1,1200.0,7382,2629602.2237,1527396.3744,70893.0743,1537,1208.71,27526,467,presupuesto,,,
+plazas_+50,64502,solo_base,,0,0.0,7570,2677144.7158,1528064.8738,65966.6316,1616,4.17,,,,,,
+plazas_+50,64502,cuartetos,azar,1,1200.0,7370,2625792.9052,1526873.8788,69170.6711,1484,1207.08,35172,557,presupuesto,,,
