@@ -464,7 +464,7 @@ i.ico.rojo { color: var(--rojo); }
     </div>
     <ul class="equipo">
       <li>Nicolás Farías</li><li>Gustavo Cueto</li><li>Fernando Gonzalez</li><li>Diego Barrios</li>
-      <li>Gustavo Anguita</li><li>Cristobal Rehbein</li><li>Ricardo Palma</li>
+      <li>Gonzalo Anguita</li><li>Cristobal Rehbein</li><li>Ricardo Palma</li>
     </ul>
     <aside class="notas">
       (10 s) Buenos días. Somos el grupo 29. Les vamos a mostrar cómo planificar la operación de los buses
@@ -548,16 +548,17 @@ i.ico.rojo { color: var(--rojo); }
       <div data-desde="3"><h3><i class="ico azul" data-ico="reloj"></i>Real</h3>
         <p>Horarios y recorridos del GTFS público de DTPM.</p></div>
       <div data-desde="3" style="--retardo: 200ms"><h3><i class="ico gris" data-ico="archivo"></i>Lo fija el enunciado</h3>
-        <p>Costos, batería de 350 kWh, tarifas eléctricas y electroterminales.</p></div>
+        <p>Costos, batería de 350 kWh, cargadores de 180 kW, tarifas eléctricas y electroterminales.</p></div>
       <div data-desde="3" style="--retardo: 400ms"><h3><i class="ico gris" data-ico="archivo-falta"></i>Lo supusimos</h3>
-        <p>Tiempos de viaje fijos, sin tráfico ni mantenciones, y cargadores de 180 kW.</p></div>
+        <p>Tiempos de viaje fijos, sin tráfico ni mantenciones, y traslados en vacío a 18 km/h.</p></div>
     </div>
     <aside class="notas">
       (40 s) Antes de planificar, miramos cómo se mueve la red. La curva cuenta, cada cinco minutos, cuántas corridas
       están en curso en un día laboral. [→] La punta es a las ocho de la mañana: seis mil seiscientas corridas a la
       vez. Ese número es un piso: ningún plan puede usar menos buses. [→] El fin de semana la red necesita mucho
-      menos. [→] Los horarios y recorridos son reales, del GTFS de DTPM; costos, batería, tarifas y electroterminales
-      los fija el enunciado; y supusimos tiempos de viaje fijos y cargadores de ciento ochenta kilowatts. (Si
+      menos. [→] Los horarios y recorridos son reales, del GTFS de DTPM; costos, batería, cargadores, tarifas y
+      electroterminales los fija el enunciado; y supusimos tiempos de viaje fijos y traslados en vacío a dieciocho
+      kilómetros por hora, porque el enunciado no trae velocidades. (Si
       preguntan: trips.txt trae 6.629 plantillas; al expandir frequencies.txt salen casi diez veces más corridas. La
       flota declarada de 1.200 buses no alcanza: la flota es una decisión.)
     </aside>
@@ -624,7 +625,7 @@ i.ico.rojo { color: var(--rojo); }
         <h3><i class="ico gris" data-ico="diana"></i>Modelo exacto<small>un solo MILP con todas las corridas, en Gurobi</small></h3>
         <dl>
           <dt>Garantía</dt><dd>Óptimo probado.</dd>
-          <dt>Alcance</dt><dd>El caso más grande que resolvimos tiene <b>293</b> corridas; con más, no cabe en la memoria.</dd>
+          <dt>Alcance</dt><dd>El caso más grande que resolvimos tiene <b>293</b> corridas; con 442 no terminó. El mayor caso publicado tiene 101; la red, 64.502.</dd>
           <dt>Rol</dt><dd>Medir qué tan lejos del óptimo queda la heurística.</dd>
         </dl>
       </div>
@@ -642,8 +643,9 @@ i.ico.rojo { color: var(--rojo); }
       que en cada movimiento resuelve un MILP pequeño de recargas.</p>
     <aside class="notas">
       (40 s) Revisamos seis familias de métodos y la pregunta fue cuál escala. El modelo exacto, un solo MILP con
-      todas las corridas, da el óptimo probado, pero no pasa de unas trescientas corridas: con más, no cabe en la
-      memoria. [→] Por eso el plan lo entrega un método híbrido: arma un plan y lo mejora por grupos de buses;
+      todas las corridas, da el óptimo probado, pero no pasa de unas trescientas corridas: con cuatrocientas
+      cuarenta no terminó. Y no es un problema nuestro: el caso más grande publicado resuelto al óptimo tiene ciento
+      una corridas, y la red tiene sesenta y cuatro mil quinientas. [→] Por eso el plan lo entrega un método híbrido: arma un plan y lo mejora por grupos de buses;
       resuelve la red completa, pero sin garantía de óptimo. [→] El exacto sigue sirviendo: con él medimos cuánto se
       aleja la heurística en los casos chicos.
     </aside>
@@ -654,13 +656,13 @@ i.ico.rojo { color: var(--rojo); }
     <h2 class="titulo">Primero se arma un plan, después se mejora</h2>
     <div class="mapa" aria-label="Rutas pintadas según el electroterminal de su sector"></div>
     <ol class="pasos-m">
-      <li data-desde="1"><div><h3><i class="ico azul" data-ico="pin"></i>Sectores</h3><p>Cada ruta queda asociada al electroterminal que le deja menos km en vacío.</p></div></li>
+      <li data-desde="1"><div><h3><i class="ico azul" data-ico="pin"></i>Sectores</h3><p>Cada ruta queda asociada al electroterminal más cercano a sus cabeceras, medido por calle.</p></div></li>
       <li data-desde="2"><div><h3><i class="ico azul" data-ico="reloj"></i>Construcción en orden de salida</h3><p>Cada corrida va al bus de su sector que llega a tiempo, tiene batería y queda más cerca. Si no hay, se agrega un bus.</p></div></li>
       <li data-desde="3"><div><h3><i class="ico azul" data-ico="intercambio"></i>Mejora por grupos</h3><p>Grupos de cuatro buses elegidos al azar intentan que uno reparta sus viajes entre los otros.</p></div></li>
     </ol>
     <aside class="notas">
-      (35 s) El método tiene tres pasos. [→] Primero, cinco sectores: cada ruta va al electroterminal que le deja
-      menos kilómetros en vacío. [→] Segundo, un plan inicial: recorremos las corridas en orden de salida y cada una
+      (35 s) El método tiene tres pasos. [→] Primero, cinco sectores: cada ruta va al electroterminal más cercano
+      a sus cabeceras, sumando por calle la salida hasta el inicio y la vuelta desde el final. [→] Segundo, un plan inicial: recorremos las corridas en orden de salida y cada una
       va al bus de su sector que llega a tiempo, tiene batería y queda más cerca; si no hay, agregamos un bus. [→]
       Tercero, lo mejoramos con grupos de cuatro buses al azar, que es lo que muestra la lámina siguiente.
     </aside>
@@ -862,13 +864,13 @@ i.ico.rojo { color: var(--rojo); }
 
   <!-- ============ 18 · Casos más difíciles: medianos y recarga forzada (cola nocturna del 22-nov) ============ -->
   <section class="lamina dificil" data-n="18" data-tramo="3" data-pasos="3" aria-label="Casos más difíciles">
-    <h2 class="titulo">Con más corridas o con recarga, la distancia crece</h2>
+    <h2 class="titulo">La brecha varía, y con recarga llega a ~5&nbsp;%</h2>
     <div class="panel-d" style="left: 96px; width: 820px" data-desde="0">
       <h3>Casos medianos, sin recarga forzada</h3>
       <p>Óptimo demostrado por la exacta. Cuartetos al azar con 5 min y una semilla.</p>
     </div>
     <div class="graf graf-medianos" style="left: 96px; top: 400px; width: 820px; height: 300px"
-      aria-label="Brecha al óptimo de cuartetos en casos medianos: 0,03 %, 0,57 %, 0,96 % y 4,93 %"></div>
+      aria-label="Brecha al óptimo de cuartetos en casos medianos, de menor a mayor tamaño: 0,96 %, 0,03 %, 4,93 % y 0,57 %"></div>
     <div class="panel-d" style="left: 1004px; width: 820px" data-desde="1">
       <h3>Casos chicos con recarga forzada</h3>
       <p>Batería de 150 y 120 kWh. La exacta ya no demuestra el óptimo en 15 min: se compara con su mejor plan.</p>
@@ -880,10 +882,13 @@ i.ico.rojo { color: var(--rojo); }
       <div data-desde="2" style="--retardo: 300ms"><b>−0,2&nbsp;%</b><p>es lo que mejora darle 15 min en vez de 2. El límite es el vecindario, no el tiempo.</p></div>
     </div>
     <aside class="notas">
-      (45 s) ¿Dónde le cuesta más al método? En casos medianos con óptimo demostrado, cuartetos queda bajo uno por
-      ciento en tres de cuatro; en el de ocho rutas usa dos buses de más, y ahí pares y tríos lo hace mejor. [→] Con
-      batería chica, para obligar a recargar, la exacta ya no demuestra el óptimo; contra su mejor plan quedamos 4,8
-      por ciento arriba con 150 kilowatt-hora y 2,8 con 120. [→] Pero en el caso más grande los cuartetos le ganan a
+      (45 s) ¿Qué pasa fuera de los casos chicos? En casos medianos con óptimo demostrado, ordenados por tamaño, la
+      brecha no crece con las corridas: cuartetos queda bajo uno por ciento en tres de cuatro; en el de ocho rutas
+      usa dos buses de más, y ahí pares y tríos lo hace mejor. [→] Con batería chica, para obligar a recargar, la
+      exacta ya no demuestra el óptimo; contra su mejor plan quedamos 4,8 por ciento arriba en promedio con 150
+      kilowatt-hora, 2,8 con 120, y el peor caso llega a casi 7. (Si preguntan por el de ocho rutas: son dos buses
+      sobre treinta y ocho, con cinco minutos y una sola semilla; pares y tríos queda a uno. Ningún tamaño de grupo
+      gana en todos los casos, y en la red completa cuartetos es el más barato.) [→] Pero en el caso más grande los cuartetos le ganan a
       la exacta, y más tiempo no ayuda: el límite es el vecindario. La extensión natural es mover recargas entre
       buses.
     </aside>
@@ -944,7 +949,7 @@ i.ico.rojo { color: var(--rojo); }
     <ol class="conclusiones">
       <li data-desde="0"><p class="que">Con el mismo servicio se necesitan menos buses, los tres tipos de día.<small>Es el objetivo que nos pusimos: menos flota, misma cobertura.</small></p><span class="ver">Lámina 15</span></li>
       <li data-desde="1"><p class="que">El ahorro viene de la flota: de día los cargadores sobran, de noche faltan.<small>La recarga nocturna es la próxima restricción.</small></p><span class="ver">Láminas 16 y 20</span></li>
-      <li data-desde="2"><p class="que">La solución es aproximada: muy cerca del óptimo en casos chicos.<small>Se aleja en casos más grandes o con recarga, y resiste los supuestos probados.</small></p><span class="ver">Láminas 17 a 19</span></li>
+      <li data-desde="2"><p class="que">La solución es aproximada: muy cerca del óptimo en casos chicos.<small>Con recarga forzada queda ~5&nbsp;% arriba y resiste precios y plazas. Los atrasos le pesan: con tiempos 10&nbsp;% variables, el 17&nbsp;% de las corridas sale con más de 5 min de atraso (4&nbsp;% el caso base).</small></p><span class="ver">Láminas 17 a 19 y A6</span></li>
     </ol>
     <div class="piloto" data-desde="3"><i class="ico" data-ico="bus-electrico"></i>
       <div><h3>Siguiente paso para RED: un piloto en un sector</h3>
@@ -954,7 +959,10 @@ i.ico.rojo { color: var(--rojo); }
       (50 s) Tres conclusiones. Primero: con el mismo servicio se necesitan menos buses, los tres tipos de día; es el
       objetivo que nos pusimos. [→] Segundo: el ahorro viene de la flota; de día los cargadores sobran, pero de noche
       faltan, y esa es la próxima restricción para RED. [→] Tercero: la solución es aproximada; muy cerca del óptimo
-      en casos chicos, más lejos en casos grandes o con recarga, y resiste precios y plazas. [→] Proponemos un piloto
+      en casos chicos, cerca de cinco por ciento arriba con recarga forzada, y resiste precios y plazas. Lo que sí le
+      pesa son los atrasos: con tiempos de viaje diez por ciento variables, el diecisiete por ciento de las corridas
+      sale con más de cinco minutos de atraso, contra cuatro en el caso base, porque el plan carga lo justo. Antes de
+      operarlo hay que darle holgura. [→] Proponemos un piloto
       en un sector: primero en paralelo, sin operarse; después operado y comparado con un sector de control en buses,
       costo, atrasos y batería al cierre. Si ahorra buses sin más atrasos, se extiende por etapas. Gracias.
     </aside>
@@ -1183,7 +1191,7 @@ const BLOQUES = [
   { nombre: "Método", desde: 8 }, { nombre: "Resultados", desde: 15 }, { nombre: "Cierre", desde: 20 },
 ];
 const TOTAL = 21;   /* los anexos van después y no cuentan */
-const CAMBIO_EXPOSITOR = new Set([8, 15]);   /* el tercer expositor entra con los resultados */
+const CAMBIO_EXPOSITOR = new Set([7, 15]);   /* Ricardo 1–6, Fernando 7–14, Gonzalo 15–21 */
 
 /* Geometría del gráfico de absorción */
 const G = { x0: 234, ancho: 1494, h0: 5.5, h1: 22.2, filas: [70, 170, 270, 370] };
@@ -1503,6 +1511,7 @@ function armarPiso(cont) {
   s += `<text class="val" x="${X - 24}" y="${y(6601) + 8}" text-anchor="end" ${enPaso(2, 250)}>Piso: 6.601</text>`;
   s += punto(7351, 11, "var(--azul)", "var(--fondo)", 450);
   s += `<text class="val" x="${X - 24}" y="${y(7351) + 8}" text-anchor="end" ${enPaso(2, 550)}>Nuestro plan</text>`;
+  s += `<text class="val" x="${X - 24}" y="${y(7351) + 44}" text-anchor="end" ${enPaso(2, 550)}>7.351</text>`;
   s += punto(7433, 9, "var(--gris-base)", "var(--fondo)", 650);
   s += `<text class="nom" x="${X + 24}" y="${y(7433) + 8}" ${enPaso(2, 700)}>Pares y tríos: 7.433</text>`;
   s += punto(7570, 9, "var(--gris-base)", "var(--fondo)", 800);
@@ -1538,8 +1547,8 @@ function armarSensibilidad(cont) {
 
 /* 18 · Casos medianos sin recarga forzada: brecha de cuartetos (5 min, semilla 1) al óptimo de la exacta podada
    (casos_rutas*.csv y casos_medianos*.csv) */
-const MEDIANOS = [["Muestra de 200 corridas", 0.03], ["10 rutas, 293 corridas", 0.57],
-  ["6 rutas, 129 corridas", 0.96], ["8 rutas, 200 corridas", 4.93]];
+const MEDIANOS = [["6 rutas, 129 corridas", 0.96], ["Muestra de 200 corridas", 0.03],
+  ["8 rutas, 200 corridas", 4.93], ["10 rutas, 293 corridas", 0.57]];   /* por tamaño: la brecha no crece con él */
 function armarMedianos(cont) {
   const X0 = 320, PX = 400 / 5, ALTO = 34, y = i => 8 + i * 58, FIN = y(MEDIANOS.length - 1) + ALTO + 8;
   let s = `<g ${enPaso(0)}>`;

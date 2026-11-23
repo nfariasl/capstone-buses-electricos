@@ -2,7 +2,7 @@
 
 Grupo 29 · ICS2122 Taller de Investigación Operativa (Capstone) · 2026-2
 Problema P7: planificación de la operación de buses eléctricos en la Región Metropolitana.
-Escrito el **22-nov-2026** y actualizado el **23-nov** (sensibilidad, heurísticas en 6, 8 y 12 rutas y auditoría final del deck) para que
+Escrito el **22-nov-2026** y actualizado el **23-nov** (sensibilidad, heurísticas en 6, 8 y 12 rutas, auditoría final del deck y correcciones por feedback externo) para que
 cualquier integrante, o la IA con la que trabaje, pueda seguir sin haber estado en las sesiones
 anteriores. Las cifras se comprobaron contra los archivos del repositorio.
 
@@ -49,7 +49,7 @@ En la literatura el problema se llama **MD-E-VSP** (*Multi-Depot Electric Vehicl
 Problem*) con programación de recargas.
 
 **Integrantes** (según la portada del deck final): Nicolás Farías, Gustavo Cueto, Fernando Gonzalez,
-Diego Barrios, Gustavo Anguita, Cristobal Rehbein y Ricardo Palma. Ayudante: Max Burr.
+Diego Barrios, Gonzalo Anguita, Cristobal Rehbein y Ricardo Palma. Ayudante: Max Burr.
 
 ---
 
@@ -67,7 +67,7 @@ Diego Barrios, Gustavo Anguita, Cristobal Rehbein y Ricardo Palma. Ayudante: Max
 | Sensibilidad | ✅ 11 escenarios de capacidad y tarifa (22/23-nov) + batería, consumo, costo por bus y km ±20 % y costo de espera (23-nov) | §5.7, §9 C |
 | Repetibilidad del día siguiente | ✅ Calculada por electroterminal (22-nov): en día laboral se cubre el 45 % | §9 D |
 | Incertidumbre (atrasos, Monte Carlo) | ✅ Simulada el 23-nov; va en el anexo A6 del deck | §9 E |
-| Deck final (15 min) | 🟡 21 láminas + 7 anexos, auditado el 23-nov (tarde); HTML y Canva (75 págs.) al día; falta ensayar | §9 A |
+| Deck final (15 min) | 🟡 21 láminas + 7 anexos; corregido el 23-nov (noche) por feedback externo en HTML, guion y Canva; falta ensayar | §9 A |
 | Informe final (45 págs., 200 pts) | 🔴 **Sin empezar** en el repo | §9 F |
 | Repositorio final | 🟡 Público y ordenado; falta la etiqueta `entrega-3` | §9 H |
 
@@ -182,6 +182,18 @@ El plan completo está en `09-entrega3/PLAN-ENTREGA3.md`. Lo que se hizo:
     nuevo: en qué horarios cargan (feedback del 8-oct). Notas: tiempos de las láminas 4–6 y 19, cota en costo
     (12,7 %) en la 17 y definición de semana en la 15. Lámina 18: «los cuartetos, en 15 min, le ganan al mejor
     plan de la exacta en una hora».
+14. **23-nov (noche) · Correcciones por feedback externo** (`deck.html`, `guion.html`, `guion_latex/`). Lámina 5:
+    los 180 kW pasan a «Lo fija el enunciado» (`01-datos/parameters.csv`, `charge_power_kw`) y el supuesto es
+    la velocidad en vacío de 18 km/h. Lámina 8: «con 442 no terminó» (la exacta de 12 rutas se cortó a mano a
+    los 34 min por temperatura, `octetos/resultados/noche.log:215`; no fue por memoria ni por su límite de 1 h)
+    y el mayor caso publicado al óptimo, 101 corridas (anexo A2). Lámina 9: sector = electroterminal con la
+    menor suma de distancias por calle a las cabeceras (`codigo/fase1/preparar.py:39-43`). Lámina 17: el punto
+    «Nuestro plan» lleva 7.351. Lámina 18: título «La brecha varía, y con recarga llega a ~5 %» y barras por
+    tamaño (la brecha no crece con las corridas; peor caso con recarga 6,8 %). Lámina 21: la conclusión 3 trae
+    la incertidumbre (16,8 % de corridas con más de 5 min de atraso contra 4,4 %, `incertidumbre/README.md`).
+    Guion: 3:54 + 4:38 + 5:44 = 14:17, con respuestas nuevas (8 rutas, caso base contra el óptimo, sectores).
+    Descartado por tiempo: correr el caso base en los 5 casos chicos, fusionar las láminas 13 y 14 y una tabla
+    de seis KPI (los seis ya se reportan en las láminas 16 y 20).
 
 ---
 
@@ -491,8 +503,19 @@ recortadas a 2,3 palabras por segundo y repartidas según el puntaje de la rúbr
    las 1–14 de Canva todavía tenían las notas anteriores al reequilibrio por puntaje. El anexo A7 se importó desde
    Chrome (`--desde 28`) y se insertó como página 75, con Disolver 0,5 s en la página 74. El importado temporal
    `DAHbwLTpxMs` está en la papelera. Para cambios chicos conviene editar en Canva así, sin reimportar.
-5. **Definir expositores** (decisión D7; el tercero entra en la lámina 15) y **ensayar 3 veces** con
-   cronómetro, con meta de 14:00 a 14:30. Si se pasa, se corta contenido; no se habla más rápido.
+5. ✅ **Expositores definidos (23-nov):** Ricardo Palma, láminas 1–6 (págs. 1–17); Fernando González, 7–14
+   (págs. 18–44); Gonzalo Anguita, 15–21 (págs. 45–68). Guion palabra por palabra en
+   `09-entrega3/presentacion/guion.html`, publicado en https://claude.ai/artifact/RMdF3Moi2r6N1JvMaWcNSc
+   (privado hasta compartirlo): mide 3:54 + 4:38 + 5:44 = 14:17 a 2,3 palabras/s (tras las correcciones del 23-nov, noche), con la página de Canva de
+   cada clic, los traspasos y quién responde cada pregunta probable. `deck.html` ya marca el cambio de
+   expositor en las láminas 7 y 15 (`CAMBIO_EXPOSITOR`), y en Canva el barrido rojo (Revelar colores, rojo,
+   hacia la derecha) está en la salida de las págs. 17 y 44; la 20 volvió a Disolver. El guion también está
+   en LaTeX para Overleaf: `guion_latex/guion.tex` (y `guion_overleaf.zip`, `guion.pdf`, 14 págs.), generado
+   desde guion.html con `python3 09-entrega3/presentacion/guion_tex.py`. Canva tiene ahora 77 páginas (lo
+   cambió otra persona): la 69 es la portada de cierre para las preguntas, los anexos A1–A7 están en las
+   70–76 y la 77 está en blanco. Las correcciones del 23-nov (noche) ya están en Canva, editadas sin reimportar (págs. 14, 21–23, 25–27, 54–55,
+   56–58 y 67–68, con sus notas). En Canva las barras de la lámina 18 siguen ordenadas por brecha (son parte de la
+   imagen de fondo), y las notas de las págs. 11–13, 24 y 65–66 conservan el texto anterior. **Falta:** republicar el guion publicado; decidir si se borra la pág. 77 y **ensayar 3 veces** con cronómetro, meta 14:00 a 14:30. Si se pasa, se corta contenido; no se habla más rápido.
 6. Detalle de lo que faltaba y lo resuelto: `09-entrega3/presentacion/AUDITORIA-OMISIONES.md`.
 
 **Terminado cuando:** Canva tiene la última versión, los anexos están llenos o borrados y un ensayo

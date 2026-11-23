@@ -1,0 +1,381 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noshorthands,es-nodecimaldot]{babel}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{booktabs,longtable,array}
+\usepackage{enumitem}
+\usepackage[breakable,skins]{tcolorbox}
+\usepackage{setspace}
+\usepackage[hidelinks]{hyperref}
+
+% Colores de RED, los mismos del deck
+\definecolor{rojo}{HTML}{CF152D}
+\definecolor{azul}{HTML}{0D5DAB}
+\definecolor{azulsuave}{HTML}{E3ECF6}
+\definecolor{gris}{HTML}{58595B}
+\definecolor{linea}{HTML}{D5D7D8}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\setlength{\emergencystretch}{2em}
+\pagestyle{plain}
+
+\newcommand{\clic}[1]{\hspace{2pt}\colorbox{azulsuave}{\sffamily\scriptsize\bfseries\color{azul}CLIC \textrightarrow{} PÁG.~#1}}
+\newcommand{\siguiente}[2]{\fcolorbox{linea}{white}{\sffamily\scriptsize\bfseries\color{gris}CLIC \textrightarrow{} LÁMINA #1, PÁG.~#2}}
+\newcommand{\traspaso}[1]{{\color{rojo}\sffamily\scriptsize\bfseries TRASPASO · }{\color{rojo}\bfseries #1}}
+\newcommand{\pausa}{{\color{rojo}\sffamily\scriptsize\bfseries (PAUSA DE UN SEGUNDO)}}
+\newcommand{\lamina}[4]{\par\vspace{10pt}\noindent\rule{\linewidth}{0.4pt}\par\nopagebreak\vspace{4pt}%
+  \noindent{\sffamily\bfseries\LARGE #1}\hspace{10pt}{\sffamily\bfseries\large #2}\hfill{\sffamily\small\color{gris}#3 · #4}%
+  \par\nopagebreak\vspace{4pt}\setstretch{1.25}}
+\newtcolorbox{sipreguntan}[1]{enhanced, breakable, colback=white, colframe=linea, boxrule=0.5pt, arc=2pt,
+  left=6pt, right=6pt, top=4pt, bottom=4pt, fontupper=\small\setstretch{1.05},
+  before upper={{\sffamily\scriptsize\bfseries\color{gris}SI PREGUNTAN: \MakeUppercase{#1}}\par}}
+\newtcolorbox{reglas}[1]{enhanced, breakable, colback=white, colframe=linea, boxrule=0.5pt, arc=2pt,
+  left=8pt, right=8pt, top=4pt, bottom=4pt, fontupper=\small,
+  before upper={{\sffamily\scriptsize\bfseries\color{gris}\MakeUppercase{#1}}\par}}
+\newenvironment{resumen}{\par\sffamily\small\color{gris}}{\par\vspace{4pt}}
+
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{0pt}{-6pt}{8pt}{\sffamily\bfseries\Huge}}
+\makeatother
+\setcounter{secnumdepth}{0}
+\begin{document}
+
+{\sffamily\small\color{gris}\textbf{\color{rojo}ICS2122} · Capstone · Grupo 29 · Entrega final}
+
+\vspace{4pt}
+{\sffamily\bfseries\Huge Guion de la presentación final}
+
+\vspace{8pt}
+Lo que dice cada expositor, palabra por palabra, y en qué página de Canva debe estar en cada momento.
+Cada clic avanza una página. Meta: 14 minutos en total, sin hablar más rápido.
+
+\vspace{10pt}
+\begin{tabular}{@{}l c c c c@{}}
+\toprule
+\textbf{Expositor} & \textbf{Láminas} & \textbf{Págs. de Canva} & \textbf{Tiempo} & \textbf{Clics} \\
+\midrule
+Ricardo Palma & 1--6 & 1--17 & 3:54 & 17 \\
+Fernando González & 7--14 & 18--44 & 4:38 & 27 \\
+Gonzalo Anguita & 15--21 & 45--68 & 5:44 & 23 \\
+\midrule
+\textbf{Total} & 1--21 & & \textbf{14:17} & \\
+\bottomrule
+\end{tabular}
+
+\vspace{8pt}
+{\small\color{gris}Tiempos medidos a 2,3 palabras por segundo. \clic{n} indica la página que debe aparecer
+al hacer clic; \traspaso{texto} es la frase que pasa la palabra; \pausa{} es un silencio de un segundo.}
+
+
+\clearpage
+\section{Ricardo Palma}\label{ricardo}
+\begin{resumen}
+Láminas 1--6 \quad·\quad Canva págs.~1--17 \quad·\quad
+Tiempo 3:54 (539 palabras a 2,3 por segundo) \quad·\quad 17 clics\\
+Abre la presentación. Pasa a Fernando al terminar la lámina 6.
+\end{resumen}
+\begin{reglas}{Antes de empezar}
+\begin{itemize}[leftmargin=*, itemsep=1pt]
+  \item Cada clic avanza una página de Canva. Si te pasas, flecha izquierda; no se comenta.
+  \item La lámina muestra las cifras; tú das el argumento. No leas la lámina.
+  \item Nunca digas que la solución es «óptima» para la red completa: es «aproximada».
+  \item El traspaso se dice mirando a quien sigue. El barrido rojo marca su entrada (láminas 7 y 15).
+  \item En las preguntas responde el dueño del tema (pestaña «Preguntas»); los demás no interrumpen. Mientras tanto queda la portada en pantalla (pág. 69).
+\end{itemize}
+\end{reglas}
+
+\lamina{1}{Portada}{pág.~1}{15~s}
+Buenos días. Somos el grupo 29. Soy Ricardo Palma y presento junto a Fernando González y Gonzalo Anguita. Les vamos a mostrar cómo planificar la operación de los buses eléctricos de RED para cumplir el mismo servicio con menos buses.
+
+\siguiente{2}{2}
+
+\lamina{2}{La batería le pone un límite a cada bus}{págs.~2--4}{35~s}
+RED está cambiando su flota diésel por buses eléctricos. Con un diésel, programar es fácil: el bus sale en la mañana, encadena viajes y vuelve en la noche. \clic{3}
+
+Con uno eléctrico aparece una restricción nueva: la batería, que baja con cada viaje. \clic{4}
+
+Si no le alcanza para su jornada, hay que sacarlo de servicio, llevarlo a un electroterminal y esperar que cargue. Y esos electroterminales tienen pocas plazas, que comparten todos los buses. Entonces programar la flota pasa a ser también programar la carga.
+
+\siguiente{3}{5}
+
+\lamina{3}{El tamaño del problema}{págs.~5--7}{50~s}
+Este es el tamaño del problema: más de sesenta y cuatro mil corridas en un día laboral, en las cuatrocientas diecisiete rutas de la red. \clic{6}
+
+Para cada una hay que decidir qué bus la hace y en qué orden encadena sus viajes; cuándo y dónde recarga cada bus; y, como consecuencia, cuántos buses hacen falta. La flota no es un dato: es lo que queremos minimizar. \clic{7}
+
+Abajo está el recurso compartido: cinco electroterminales con setecientas plazas de carga en total, para toda la flota. Cada plaza tiene su cargador, así que un bus que ocupa una plaza le quita espacio a todos los demás.
+
+\siguiente{4}{8}
+
+\begin{sipreguntan}{¿Qué es una corrida?}Un viaje programado de una ruta, de un extremo al otro, con su hora de salida.\end{sipreguntan}
+\lamina{4}{Minimizar el costo diario de operar la red}{págs.~8--10}{45~s}
+El objetivo es minimizar el costo diario. Tiene cuatro partes, con los precios del enunciado: doscientos cincuenta dólares por cada bus que sale a operar, medio dólar por kilómetro, la energía según la hora y cinco dólares por sesión de carga. \clic{9}
+
+El término que manda es el primero: en nuestro plan para el día laboral, los buses son el setenta por ciento del costo. Por eso, en la práctica, el objetivo es usar menos buses, \clic{10}
+
+cubriendo todas las corridas, sin bajar del diez por ciento de batería y respetando las plazas. Lo hicimos para toda la red y los tres tipos de día.
+
+\siguiente{5}{11}
+
+\lamina{5}{Así se mueve la red en un día}{págs.~11--14}{40~s}
+Antes de planificar, miramos cómo se mueve la red. La curva cuenta, cada cinco minutos, cuántas corridas están en curso en un día laboral. \clic{12}
+
+La punta es a las ocho de la mañana: seis mil seiscientas corridas a la vez. Ese número es un piso: ningún plan puede usar menos buses. \clic{13}
+
+El fin de semana la red necesita mucho menos. \clic{14}
+
+Los horarios y recorridos son reales, del GTFS de DTPM; costos, batería, cargadores, tarifas y electroterminales los fija el enunciado; y supusimos tiempos de viaje fijos y traslados en vacío a dieciocho kilómetros por hora, porque el enunciado no trae velocidades.
+
+\siguiente{6}{15}
+
+\begin{sipreguntan}{¿De dónde salen tantas corridas?}trips.txt trae 6.629 filas que son plantillas; al expandir frequencies.txt salen casi diez veces más: unas sesenta y cuatro mil.\end{sipreguntan}
+\begin{sipreguntan}{¿Y los 1.200 buses declarados?}Cubren cerca del 28 \% del servicio: la punta pide más de seis mil seiscientos a la vez. Por eso la flota es lo que decidimos (anexo A3, pág. 72).\end{sipreguntan}
+\lamina{6}{Seis indicadores, siempre contra el caso base}{págs.~15--17}{45~s}
+Medimos seis indicadores, y cada uno se compara contra el caso base, no contra una meta fija. Dos de costo: los buses y el costo total, que es lo que minimizamos. \clic{16}
+
+Dos de operación: los kilómetros en vacío y cuántos buses cargan a la vez en cada electroterminal, que dice si los cargadores son un cuello de botella. \clic{17}
+
+Y dos de energía: cuánta se carga durante el día y con cuánta termina cada bus, que dice si el día siguiente se puede repetir. La calidad de la solución la medimos aparte, contra el óptimo. \traspaso{Fernando les explica ahora contra qué nos comparamos y cómo construimos el plan.}
+
+\siguiente{7}{18}
+
+
+
+\clearpage
+\section{Fernando González}\label{fernando}
+\begin{resumen}
+Láminas 7--14 \quad·\quad Canva págs.~18--44 \quad·\quad
+Tiempo 4:38 (639 palabras a 2,3 por segundo) \quad·\quad 27 clics\\
+Entra en la lámina 7, con el barrido rojo. Pasa a Gonzalo al terminar la lámina 14.
+\end{resumen}
+\begin{reglas}{Antes de empezar}
+\begin{itemize}[leftmargin=*, itemsep=1pt]
+  \item Cada clic avanza una página de Canva. Si te pasas, flecha izquierda; no se comenta.
+  \item La lámina muestra las cifras; tú das el argumento. No leas la lámina.
+  \item Nunca digas que la solución es «óptima» para la red completa: es «aproximada».
+  \item El traspaso se dice mirando a quien sigue. El barrido rojo marca su entrada (láminas 7 y 15).
+  \item En las preguntas responde el dueño del tema (pestaña «Preguntas»); los demás no interrumpen. Mientras tanto queda la portada en pantalla (pág. 69).
+\end{itemize}
+\end{reglas}
+
+\lamina{7}{El caso base: cada ruta con sus propios buses}{págs.~18--20}{47~s}
+Gracias, Ricardo. Para saber si nuestro plan es bueno necesitamos una referencia razonable, no una hecha para perder. El caso base sigue una regla simple, ruta por ruta: cada ruta tiene sus propios buses, las corridas se asignan en orden, el bus carga al cien por ciento cuando no le alcanza, y si ningún bus puede, se agrega uno. \clic{19}
+
+Con esa regla, la red completa necesita casi ocho mil setecientos buses en un día laboral. \clic{20}
+
+Cuesta un poco más de tres millones de dólares al día. Es un plan factible, revisado por nuestros auditores. Y probamos varios umbrales de recarga; usamos el más favorable, para no inflar nuestro ahorro.
+
+\siguiente{8}{21}
+
+\begin{sipreguntan}{¿El caso base no está hecho para perder?}No: es la regla que usaría un programador ruta por ruta, pasa los mismos auditores y le dimos el umbral de recarga que más le conviene.\end{sipreguntan}
+\lamina{8}{Un método exacto no cabe en la red completa}{págs.~21--23}{48~s}
+Revisamos seis familias de métodos y la pregunta fue cuál escala. El modelo exacto, un solo MILP con todas las corridas, da el óptimo probado, pero no pasa de unas trescientas corridas: con cuatrocientas cuarenta no terminó. Y el caso más grande publicado resuelto al óptimo tiene ciento una corridas; la red tiene sesenta y cuatro mil quinientas. \clic{22}
+
+Por eso el plan lo entrega un método híbrido: arma un plan y lo mejora por grupos de buses; resuelve la red completa, pero sin garantía de óptimo. \clic{23}
+
+El exacto sigue sirviendo: con él medimos cuánto se aleja la heurística en los casos chicos.
+
+\siguiente{9}{24}
+
+\begin{sipreguntan}{¿Por qué no otro método?}El mayor caso publicado resuelto al óptimo tiene 101 corridas (de Vos et al., 2024; Wu et al., 2025). Los exactos no llegan al tamaño de la red; las metaheurísticas sí, pero no dicen qué tan lejos quedan del óptimo. Por eso combinamos las dos (anexo A2, pág. 71).\end{sipreguntan}
+\lamina{9}{Primero se arma un plan, después se mejora}{págs.~24--27}{35~s}
+El método tiene tres pasos. \clic{25}
+
+Primero, cinco sectores: cada ruta va al electroterminal más cercano a sus cabeceras, medido por calle. \clic{26}
+
+Segundo, un plan inicial: recorremos las corridas en orden de salida y cada una va al bus de su sector que llega a tiempo, tiene batería y queda más cerca; si no hay, agregamos un bus. \clic{27}
+
+Tercero, lo mejoramos con grupos de cuatro buses al azar, que es lo que muestra la lámina siguiente.
+
+\siguiente{10}{28}
+
+\begin{sipreguntan}{¿Cómo se elige el electroterminal de cada ruta?}Por la menor suma de distancias por calle: del electroterminal al inicio de cada variante y del final de vuelta al electroterminal (codigo/fase1/preparar.py).\end{sipreguntan}
+\begin{sipreguntan}{¿Por qué sectores fijos?}Achican el problema y evitan traslados largos. El costo es que un bus no mezcla corridas de dos sectores; los electroterminales sí se comparten (anexo A5, pág. 74).\end{sipreguntan}
+\lamina{10}{Un bus reparte sus viajes y desaparece}{págs.~28--32}{35~s}
+Esta es la jugada central. Tomamos cuatro buses y el que tiene menos viajes intenta repartirlos entre los otros tres. \clic{29}
+
+El primero cabe en un hueco del bus 1. \clic{30}
+
+El segundo, en el bus 2, y el tercero, en el bus 3. \clic{31}
+
+Pero al bus 3 ya no le alcanza la batería: un modelo entero decide dónde y cuánto recargar. \clic{32}
+
+Si el plan sigue factible y es más barato, el bus 4 se elimina. Lo repetimos miles de veces; los horarios son ilustrativos.
+
+\siguiente{11}{33}
+
+\begin{sipreguntan}{¿Cómo decide el modelo cuándo y cuánto cargar?}Las corridas de cada bus ya vienen fijas; el MILP elige terminales y recargas respetando batería, reserva, potencia y lo que dejan libre los demás buses. Se resuelve en dos segundos (anexo A1, pág. 70).\end{sipreguntan}
+\lamina{11}{Todos los planes fueron auditados}{págs.~33--35}{30~s}
+Todo está en Python y los modelos enteros se resuelven con Gurobi. \clic{34}
+
+El flujo parte de los datos, arma el plan inicial, lo mejora por grupos y lo pasa por los auditores antes de usarlo. \clic{35}
+
+Todos los planes, el nuestro y el caso base, cubren todas las corridas y respetan horarios, batería y plazas. Lo que los auditores no certifican está escrito abajo: por ejemplo, los turnos de conductores y la recarga nocturna.
+
+\siguiente{12}{36}
+
+\lamina{12}{Fortalezas y debilidades del método híbrido}{págs.~36--38}{35~s}
+Antes de los resultados, seamos honestos con el método. A favor: escala a toda la red, porque cada intento resuelve un MILP chico, y nunca acepta un plan infactible ni más caro. \clic{37}
+
+En contra: no garantiza el óptimo, depende del punto de partida y, con sectores fijos, no intercambia corridas entre sectores. \clic{38}
+
+Cada debilidad tiene respuesta: medimos la brecha al óptimo, repetimos con tres semillas y dejamos los intercambios como paso siguiente.
+
+\siguiente{13}{39}
+
+\lamina{13}{Implementación: procedimiento computacional}{págs.~39--42}{30~s}
+Así corre el programa. Python prepara las corridas y los traslados, y arma el plan inicial en orden de salida. \clic{40}
+
+La mejora sortea cuartetos y Gurobi reprograma sus recargas; se repite miles de veces hasta agotar el tiempo. \clic{41}
+
+Una auditoría independiente revisa todo. \clic{42}
+
+La salida es la jornada de cada bus: corridas, traslados y recargas.
+
+\siguiente{14}{43}
+
+\begin{sipreguntan}{¿Cuánto demora y en qué equipo?}Cuarenta minutos de búsqueda por tipo de día en un Mac M1 de 8 GB, más la construcción del plan inicial.\end{sipreguntan}
+\lamina{14}{Implementación: decisiones y aspectos técnicos}{págs.~43--44}{33~s}
+Tres decisiones técnicas. La recarga es parcial, en bloques de cinco minutos: el modelo decide cuándo y cuánto carga cada bus, mientras el caso base carga al cien por ciento. Todos los métodos corren con el mismo tiempo y en el mismo equipo. \clic{44}
+
+Y un cambio se acepta solo si mantiene la cobertura, respeta batería y electroterminales, y baja el costo. \traspaso{Con el método claro, Gonzalo les muestra los resultados.}
+
+\siguiente{15}{45}
+
+
+
+\clearpage
+\section{Gonzalo Anguita}\label{gonzalo}
+\begin{resumen}
+Láminas 15--21 \quad·\quad Canva págs.~45--68 \quad·\quad
+Tiempo 5:44 (792 palabras a 2,3 por segundo) \quad·\quad 23 clics\\
+Entra en la lámina 15, con el barrido rojo. Cierra y abre las preguntas.
+\end{resumen}
+\begin{reglas}{Antes de empezar}
+\begin{itemize}[leftmargin=*, itemsep=1pt]
+  \item Cada clic avanza una página de Canva. Si te pasas, flecha izquierda; no se comenta.
+  \item La lámina muestra las cifras; tú das el argumento. No leas la lámina.
+  \item Nunca digas que la solución es «óptima» para la red completa: es «aproximada».
+  \item El traspaso se dice mirando a quien sigue. El barrido rojo marca su entrada (láminas 7 y 15).
+  \item En las preguntas responde el dueño del tema (pestaña «Preguntas»); los demás no interrumpen. Mientras tanto queda la portada en pantalla (pág. 69).
+\end{itemize}
+\end{reglas}
+
+\lamina{15}{Mismo servicio, menos buses y menos costo}{págs.~45--48}{52~s}
+Gracias, Fernando. Ahora, los resultados. El caso base necesita casi ocho mil setecientos buses en un día laboral. \clic{46}
+
+Nuestro plan cubre las mismas corridas con siete mil trescientos cincuenta y uno: mil trescientos treinta y tres buses menos, un quince por ciento, promedio de tres semillas muy parejas. La mayor parte de esa baja ya la logra el plan inicial, al compartir buses entre rutas; los cuartetos sacan el resto. \clic{47}
+
+El costo diario baja catorce y medio por ciento. \pausa{} \clic{48}
+
+Y se repite el fin de semana: casi dieciocho y dieciséis por ciento menos buses. En la semana el costo baja casi quince por ciento, y la flota la fija el día laboral.
+
+\siguiente{16}{49}
+
+\begin{sipreguntan}{¿Cómo calculan la semana?}Cinco días laborales más sábado y domingo: USD 16,27 millones contra 19,12 millones del caso base.\end{sipreguntan}
+\lamina{16}{Tres de cada cuatro dólares ahorrados son buses}{págs.~49--51}{45~s}
+¿De dónde sale el ahorro? Tres de cada cuatro dólares vienen de usar menos buses; la energía aporta algo y los kilómetros, poco. \clic{50}
+
+Los kilómetros en vacío bajan del dieciséis al doce por ciento, porque cada bus encadena corridas cercanas. \clic{51}
+
+¿Los cargadores son un cuello de botella? De día, no: como máximo hay treinta y ocho buses cargando a la vez en un electroterminal; el caso base, que también carga, llena tres. Y la energía cargada en el día cae casi noventa por ciento. Esto es el día laboral; el sábado el uso de conexiones sube a cuarenta y uno por ciento.
+
+\siguiente{17}{52}
+
+\begin{sipreguntan}{¿En qué horarios cargan?}La mitad de la energía del plan cae en tramos caros, sobre todo de 19 a 20 horas. Como la energía pesa menos de medio punto del costo, la tarifa de punta +50 \% casi no lo mueve (anexo A7, pág. 76).\end{sipreguntan}
+\lamina{17}{Cerca del óptimo donde se puede medir}{págs.~52--55}{50~s}
+El método es aproximado, así que medimos cuánto se aleja del óptimo. El óptimo es el plan más barato posible: el modelo exacto lo encuentra y demuestra que no hay uno mejor, pero solo en casos chicos, de dos a cuatro rutas. La brecha es cuánto más caro sale nuestro plan. \clic{53}
+
+Con dos minutos, cuartetos al azar queda a cero coma trece por ciento en promedio y cero coma treinta y uno en el peor caso: el mejor tamaño de grupo que probamos. \clic{54}
+
+En la red completa no hay óptimo, pero sí un piso: nunca puede haber menos buses que corridas en curso a la vez. Quedamos once por ciento arriba. \clic{55}
+
+Ese piso no cuenta kilómetros ni energía, y puede no ser alcanzable.
+
+\siguiente{18}{56}
+
+\begin{sipreguntan}{¿La solución es óptima?}No, es aproximada. A 0,13 \% del óptimo en los cinco casos chicos y a 0,57 \% en el de 293 corridas. Nunca decir «óptima» para la red completa.\end{sipreguntan}
+\begin{sipreguntan}{¿Y el caso base contra el óptimo?}En los casos chicos no lo corrimos. En la red completa el caso base usa 8.684 buses: 32 \% sobre el piso de 6.601, contra 11 \% de nuestro plan.\end{sipreguntan}
+\begin{sipreguntan}{¿Y la cota en costo del informe?}Los 6.601 buses más los km de servicio dan USD 2.322.956; quedamos 12,7 \% arriba. Es una cota débil: ignora la recarga, los sectores y los km en vacío.\end{sipreguntan}
+\lamina{18}{La brecha varía, y con recarga llega a \textasciitilde{}5 \%}{págs.~56--58}{48~s}
+¿Qué pasa fuera de los casos chicos? En casos medianos con óptimo demostrado, ordenados por tamaño, la brecha no crece con las corridas: cuartetos queda bajo uno por ciento en tres de cuatro; en el de ocho rutas usa dos buses de más, y ahí pares y tríos lo hace mejor. \clic{57}
+
+Con batería chica, para obligar a recargar, la exacta ya no demuestra el óptimo; contra su mejor plan quedamos cuatro coma ocho por ciento arriba en promedio con ciento cincuenta kilowatt-hora y dos coma ocho con ciento veinte; el peor caso llega a casi siete. \clic{58}
+
+Pero en el caso más grande los cuartetos le ganan a la exacta, y más tiempo no ayuda: el límite es el vecindario. La extensión natural es mover recargas entre buses.
+
+\siguiente{19}{59}
+
+\begin{sipreguntan}{¿Me muestran cada caso?}Anexo A4, pág. 73: la tabla caso por caso, con buses y costo.\end{sipreguntan}
+\begin{sipreguntan}{¿Por qué el de 8 rutas sale tan mal?}Son 40 buses contra 38 del óptimo, con 5 minutos y una sola semilla; pares y tríos queda en 39. Ningún tamaño de grupo gana en todos los casos; en la red completa, con el mismo tiempo, cuartetos es el más barato (7.351 contra 7.433 de pares y tríos).\end{sipreguntan}
+\lamina{19}{Lo que más pesa es el bus mismo}{págs.~59--61}{40~s}
+¿Qué pasa si cambian los supuestos? Movimos la capacidad de carga, el bus y los precios. \clic{60}
+
+La franja gris es el ruido de la búsqueda: solo cerrar un electroterminal grande mueve el costo; con otros precios o cobrando la espera, el ahorro sigue entre catorce y quince por ciento. \clic{61}
+
+Lo que sí pesa es el bus: con una batería de doscientos cincuenta kilowatt-hora hacen falta casi treinta por ciento más buses. Pero el caso base también crece, y el ahorro se mantiene entre catorce y dieciséis por ciento.
+
+\siguiente{20}{62}
+
+\begin{sipreguntan}{¿Por qué no cobran la espera?}Pesa igual en los dos planes. Cobrándola después, el ahorro del día laboral queda en 14,6 \%.\end{sipreguntan}
+\begin{sipreguntan}{¿Y el límite del transformador?}El dato no viene en los archivos; se modeló como conexiones por 180 kW (anexo A3, pág. 72).\end{sipreguntan}
+\lamina{20}{El día siguiente no se repite solo}{págs.~62--64}{35~s}
+Nos preguntaron si el día se puede repetir. Los buses terminan el día laboral con sesenta y seis kilowatt-hora en promedio, menos que en el caso base, porque cargan poco de día. \clic{63}
+
+Con las conexiones actuales, de noche se repone el cuarenta y cinco por ciento en día laboral, tres cuartos el sábado y el noventa por ciento el domingo. El caso base tampoco lo logra. \clic{64}
+
+Harían falta mil quinientas cuarenta y siete conexiones: una decisión de infraestructura para RED.
+
+\siguiente{21}{65}
+
+\begin{sipreguntan}{¿Y con atrasos?}Nuestro plan tiene menos buses y carga lo justo, así que se atrasa más que el caso base. Antes de operarlo hay que agregar holgura: margen de energía o buses de reserva (anexo A6, pág. 75).\end{sipreguntan}
+\lamina{21}{Conclusiones y siguiente paso}{págs.~65--68}{62~s}
+Tres conclusiones. Primero: con el mismo servicio se necesitan menos buses, los tres tipos de día; es el objetivo que nos pusimos. \clic{66}
+
+Segundo: el ahorro viene de la flota; de día los cargadores sobran, pero de noche faltan, y esa es la próxima restricción para RED. \clic{67}
+
+Tercero: la solución es aproximada; muy cerca del óptimo en casos chicos, cerca de cinco por ciento arriba con recarga forzada, y resiste precios y plazas. Lo que sí le pesa son los atrasos: con tiempos de viaje diez por ciento variables, el diecisiete por ciento de las corridas sale con más de cinco minutos de atraso, contra cuatro en el caso base. Antes de operarlo hay que darle holgura. \clic{68}
+
+Proponemos un piloto en un sector: primero en paralelo, sin operarse; después operado y comparado con un sector de control en buses, costo, atrasos y batería al cierre. Si ahorra buses sin más atrasos, se extiende por etapas. \pausa{} Gracias. Quedamos atentos a sus preguntas.
+
+\fcolorbox{linea}{white}{\sffamily\scriptsize\bfseries\color{gris}CLIC \textrightarrow{} PÁG. 69, PORTADA: QUEDA EN PANTALLA DURANTE LAS PREGUNTAS}
+
+
+
+\clearpage
+\section{Preguntas}\label{preguntas}
+\begin{reglas}{Cómo responder}
+\begin{itemize}[leftmargin=*, itemsep=1pt]
+  \item Responde quien figura en la columna «Responde». Si necesita una lámina o un anexo, lo pide y quien tenga el control salta a esa página.
+  \item Respuestas de una o dos frases. Si quieren más detalle, se muestra el anexo.
+  \item En el modo presentación de Canva se salta a una página escribiendo su número y Enter.
+\end{itemize}
+\end{reglas}
+
+{\small
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{3.5cm} >{\raggedright\arraybackslash}p{1.95cm} >{\raggedright\arraybackslash}p{7.45cm} >{\raggedright\arraybackslash}p{2.5cm}@{}}
+\toprule
+\textbf{Pregunta} & \textbf{Responde} & \textbf{Respuesta corta} & \textbf{Mostrar} \\ \midrule
+\endhead
+\textbf{¿La solución es óptima?} & Gonzalo & No, es aproximada: a 0,13 \% del óptimo en los cinco casos chicos y a 0,57 \% en el de 293 corridas. En la red completa no hay óptimo; quedamos 11 \% sobre el piso de buses. & {\small Lám. 17 (págs. 52–55)} \\ \midrule
+\textbf{¿Por qué este método y no otro?} & Fernando & Los exactos no llegan al tamaño de la red; las metaheurísticas sí, pero sin cota. El híbrido entrega el plan y el exacto mide la brecha en casos chicos. & {\small A2 (pág. 71)} \\ \midrule
+\textbf{¿Cómo decide el modelo cuándo y cuánto cargar?} & Fernando & Con las corridas ya fijas, un MILP chico elige terminales y recargas con balance de energía, reserva, potencia y capacidad libre. Se acepta solo si baja el costo. & {\small A1 (pág. 70)} \\ \midrule
+\textbf{¿Por qué sectores fijos?} & Fernando & Achican el problema. Se pierden los intercambios de corridas entre sectores; no medimos cuánto valen y queda como extensión. & {\small A5 (pág. 74)} \\ \midrule
+\textbf{¿El caso base es justo?} & Fernando & Es una regla razonable ruta por ruta, auditada, y le dimos el umbral de recarga que más le conviene. & {\small Lám. 7 (págs. 18–20)} \\ \midrule
+\textbf{¿Cuánto demora y en qué equipo?} & Fernando & Cuarenta minutos de búsqueda por tipo de día en un Mac M1 de 8 GB, más el plan inicial. & {\small Lám. 14 (págs. 43–44)} \\ \midrule
+\textbf{¿Por qué no respetan los 1.200 buses?} & Ricardo & Cubren cerca del 28 \% del servicio: la punta pide más de seis mil seiscientos. La flota es la decisión, no un dato. & {\small Lám. 5 · A3 (pág. 72)} \\ \midrule
+\textbf{¿De dónde salen los datos?} & Ricardo & Horarios y recorridos reales del GTFS de DTPM; costos, batería, tarifas y electroterminales del enunciado. & {\small Lám. 5 (págs. 11–14)} \\ \midrule
+\textbf{¿Qué supuestos hicieron?} & Ricardo & Traslados en vacío a 18 km/h, límite eléctrico como conexiones por 180 kW, batería llena al empezar. Los mismos para los dos planes. & {\small A3 (pág. 72)} \\ \midrule
+\textbf{¿Por qué no cobran la espera?} & Gonzalo & Pesa igual en los dos planes; cobrándola después, el ahorro del día laboral queda en 14,6 \%. & {\small Lám. 19 (págs. 59–61)} \\ \midrule
+\textbf{¿Qué pasa con baterías más chicas?} & Gonzalo & Con 250 kWh hacen falta casi 30 \% más buses, pero el caso base también crece y el ahorro sigue entre 14 y 16 \%. & {\small Lám. 19 · A4 (pág. 73)} \\ \midrule
+\textbf{¿Se puede repetir el día siguiente?} & Gonzalo & No solo: de noche se repone el 45 \% en día laboral y harían falta 1.547 conexiones. El caso base tampoco lo logra. & {\small Lám. 20 (págs. 62–64)} \\ \midrule
+\textbf{¿Qué pasa con atrasos?} & Gonzalo & El plan se atrasa más que el caso base porque carga lo justo. Hay que agregar holgura: margen de energía o buses de reserva. & {\small A6 (pág. 75)} \\ \midrule
+\textbf{¿En qué horarios cargan?} & Gonzalo & La mitad cae en tramos caros, de 19 a 20 h sobre todo; la energía pesa menos de medio punto del costo, así que casi no cambia el resultado. & {\small A7 (pág. 76)} \\ \midrule
+\textbf{Una pregunta que nadie sabe responder} & Gonzalo & «No lo medimos; queda como extensión.» No inventar cifras ni prometer resultados. & {\small —} \\ \midrule
+\end{longtable}}
+
+\end{document}

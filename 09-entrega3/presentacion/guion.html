@@ -1,0 +1,325 @@
+<meta charset="utf-8">
+<title>Guion presentación final G29</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+/* Layout: una columna de lectura (guion) con pestañas por expositor; cada lámina es una ficha con número, páginas de Canva y voz. */
+:root {
+  --bg: #F3F4F4; --superficie: #FFFFFF; --texto: #222324; --texto-2: #58595B; --linea: #D5D7D8;
+  --rojo: #CF152D; --azul: #0D5DAB; --azul-suave: #E3ECF6;
+  --display: "Overpass", "Helvetica Neue", Arial, sans-serif;
+  --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #151718; --superficie: #1E2122; --texto: #ECEDED; --texto-2: #A7AAAC; --linea: #34383A;
+  --rojo: #F0475B; --azul: #5C9EE6; --azul-suave: #1B2A3B; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #151718; --superficie: #1E2122; --texto: #ECEDED; --texto-2: #A7AAAC; --linea: #34383A;
+  --rojo: #F0475B; --azul: #5C9EE6; --azul-suave: #1B2A3B; color-scheme: dark }
+
+body { background: var(--bg); color: var(--texto); font-family: var(--display); }
+.envoltura { max-width: 820px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; }
+header .curso { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--texto-2); margin: 0; }
+header .curso b { color: var(--rojo); font-weight: 800; }
+h1 { font-size: clamp(30px, 6vw, 44px); font-weight: 800; line-height: 1.05; margin: 8px 0 6px; text-wrap: balance; }
+.bajada { font-family: var(--serif); font-size: 18px; line-height: 1.45; color: var(--texto-2); max-width: 62ch; margin: 0; }
+
+.reparto { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 22px 0 18px; }
+.reparto a { display: block; text-decoration: none; color: inherit; background: var(--superficie); border: 1px solid var(--linea);
+  border-top: 4px solid var(--linea); border-radius: 6px; padding: 10px 12px; }
+.reparto a[aria-current="page"] { border-top-color: var(--rojo); }
+.reparto .quien { display: block; font-weight: 800; font-size: 17px; }
+.reparto .dato { display: block; font-size: 13px; color: var(--texto-2); font-variant-numeric: tabular-nums; margin-top: 2px; }
+.pestanas { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; border-bottom: 2px solid var(--linea); padding-bottom: 10px; margin-bottom: 18px; }
+.pestanas a { text-decoration: none; color: var(--texto-2); font-weight: 600; font-size: 15px; padding: 6px 10px; border-radius: 4px; }
+.pestanas a[aria-current="page"] { color: var(--superficie); background: var(--texto); }
+.pestanas a:focus-visible, .reparto a:focus-visible, .solo-voz:focus-within { outline: 3px solid var(--azul); outline-offset: 2px; }
+.solo-voz { margin-left: auto; display: flex; gap: 8px; align-items: center; font-size: 14px; color: var(--texto-2); cursor: pointer; }
+.solo-voz input { width: 18px; height: 18px; accent-color: var(--rojo); }
+
+.resumen { display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 14px; color: var(--texto-2); margin-bottom: 16px; font-variant-numeric: tabular-nums; }
+.resumen b { color: var(--texto); }
+.reglas { background: var(--superficie); border: 1px solid var(--linea); border-radius: 6px; padding: 12px 16px; margin-bottom: 22px; }
+.reglas h3 { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--texto-2); margin: 0 0 6px; }
+.reglas ul { margin: 0; padding-left: 20px; font-family: var(--serif); font-size: 16px; line-height: 1.45; }
+
+.lamina { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 0 16px; padding: 18px 0; border-top: 1px solid var(--linea); }
+.num { font-weight: 800; font-size: 40px; line-height: 1; color: var(--texto); font-variant-numeric: tabular-nums; }
+.num small { display: block; font-size: 12px; font-weight: 600; color: var(--texto-2); margin-top: 6px; letter-spacing: .02em; }
+.cab { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin-bottom: 8px; }
+.cab h2 { font-size: 20px; font-weight: 800; margin: 0; line-height: 1.2; text-wrap: balance; }
+.cab .seg { font-size: 13px; color: var(--texto-2); font-variant-numeric: tabular-nums; }
+.voz { font-family: var(--serif); font-size: 19px; line-height: 1.6; }
+.voz p { margin: 0 0 4px; }
+.clic { display: inline-block; font-family: var(--display); font-size: 12px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase;
+  color: var(--azul); background: var(--azul-suave); border-radius: 3px; padding: 2px 7px; margin: 2px 4px 2px 0; white-space: nowrap; }
+.clic.lamina-sig { color: var(--texto-2); background: transparent; border: 1px solid var(--linea); }
+.traspaso { color: var(--rojo); font-weight: 600; }
+.traspaso::before { content: "Traspaso · "; font-family: var(--display); font-size: 12px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+.pausa { font-family: var(--display); font-size: 12px; font-weight: 800; color: var(--rojo); letter-spacing: .05em; text-transform: uppercase; }
+.si { margin-top: 10px; background: var(--superficie); border: 1px solid var(--linea); border-radius: 6px; padding: 10px 14px; font-size: 15px; line-height: 1.45; }
+.si b { font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: var(--texto-2); display: block; margin-bottom: 2px; }
+body.solo .si, body.solo .reglas, body.solo .resumen, body.solo .pausa { display: none; }
+
+.tabla-envoltura { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; min-width: 640px; }
+th { text-align: left; font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: var(--texto-2); padding: 8px 10px 8px 0; border-bottom: 2px solid var(--texto-2); }
+td { padding: 10px 10px 10px 0; border-bottom: 1px solid var(--linea); vertical-align: top; line-height: 1.45; }
+td.p { font-weight: 800; width: 26%; }
+td.q { width: 12%; font-weight: 600; }
+td.r { font-family: var(--serif); font-size: 16px; }
+td.ir { width: 15%; color: var(--texto-2); font-size: 13px; font-variant-numeric: tabular-nums; }
+@media (max-width: 560px) {
+  .reparto { grid-template-columns: minmax(0, 1fr); }
+  .lamina { grid-template-columns: minmax(0, 1fr); }
+  .num { font-size: 30px; margin-bottom: 6px; } .num small { display: inline; margin-left: 8px; }
+  .solo-voz { margin-left: 0; }
+}
+</style>
+
+<div class="envoltura">
+  <header>
+    <p class="curso"><b>ICS2122</b> · Capstone · Grupo 29 · Entrega final</p>
+    <h1>Guion de la presentación final</h1>
+    <p class="bajada">Lo que dice cada expositor, palabra por palabra, y en qué página de Canva debe estar en cada momento.
+      Cada clic avanza una página. Meta: 14 minutos en total, sin hablar más rápido.</p>
+  </header>
+  <nav class="reparto" aria-label="Expositores" id="reparto"></nav>
+  <div class="pestanas" id="pestanas">
+    <a href="#ricardo">Ricardo</a><a href="#fernando">Fernando</a><a href="#gonzalo">Gonzalo</a><a href="#preguntas">Preguntas</a>
+    <label class="solo-voz" for="solo"><input type="checkbox" id="solo"> Solo la voz</label>
+  </div>
+  <main id="contenido"></main>
+</div>
+
+<script>
+const BLOQUES = {
+  ricardo: { nombre: "Ricardo Palma", desde: 1, hasta: 6, entra: "Abre la presentación.", sale: "Pasa a Fernando al terminar la lámina 6." },
+  fernando: { nombre: "Fernando González", desde: 7, hasta: 14, entra: "Entra en la lámina 7, con el barrido rojo.", sale: "Pasa a Gonzalo al terminar la lámina 14." },
+  gonzalo: { nombre: "Gonzalo Anguita", desde: 15, hasta: 21, entra: "Entra en la lámina 15, con el barrido rojo.", sale: "Cierra y abre las preguntas." }
+};
+/* Cada lámina: páginas de Canva [primera, última], segundos declarados y la voz partida en pasos (un clic entre cada paso). */
+const LAMINAS = [
+  { n: 1, t: "Portada", p: [1, 1], s: 15, voz: [
+    "Buenos días. Somos el grupo 29. Soy Ricardo Palma y presento junto a Fernando González y Gonzalo Anguita. Les vamos a mostrar cómo planificar la operación de los buses eléctricos de RED para cumplir el mismo servicio con menos buses."] },
+  { n: 2, t: "La batería le pone un límite a cada bus", p: [2, 4], s: 35, voz: [
+    "RED está cambiando su flota diésel por buses eléctricos. Con un diésel, programar es fácil: el bus sale en la mañana, encadena viajes y vuelve en la noche.",
+    "Con uno eléctrico aparece una restricción nueva: la batería, que baja con cada viaje.",
+    "Si no le alcanza para su jornada, hay que sacarlo de servicio, llevarlo a un electroterminal y esperar que cargue. Y esos electroterminales tienen pocas plazas, que comparten todos los buses. Entonces programar la flota pasa a ser también programar la carga."] },
+  { n: 3, t: "El tamaño del problema", p: [5, 7], s: 50, voz: [
+    "Este es el tamaño del problema: más de sesenta y cuatro mil corridas en un día laboral, en las cuatrocientas diecisiete rutas de la red.",
+    "Para cada una hay que decidir qué bus la hace y en qué orden encadena sus viajes; cuándo y dónde recarga cada bus; y, como consecuencia, cuántos buses hacen falta. La flota no es un dato: es lo que queremos minimizar.",
+    "Abajo está el recurso compartido: cinco electroterminales con setecientas plazas de carga en total, para toda la flota. Cada plaza tiene su cargador, así que un bus que ocupa una plaza le quita espacio a todos los demás."],
+    si: [["¿Qué es una corrida?", "Un viaje programado de una ruta, de un extremo al otro, con su hora de salida."]] },
+  { n: 4, t: "Minimizar el costo diario de operar la red", p: [8, 10], s: 45, voz: [
+    "El objetivo es minimizar el costo diario. Tiene cuatro partes, con los precios del enunciado: doscientos cincuenta dólares por cada bus que sale a operar, medio dólar por kilómetro, la energía según la hora y cinco dólares por sesión de carga.",
+    "El término que manda es el primero: en nuestro plan para el día laboral, los buses son el setenta por ciento del costo. Por eso, en la práctica, el objetivo es usar menos buses,",
+    "cubriendo todas las corridas, sin bajar del diez por ciento de batería y respetando las plazas. Lo hicimos para toda la red y los tres tipos de día."] },
+  { n: 5, t: "Así se mueve la red en un día", p: [11, 14], s: 40, voz: [
+    "Antes de planificar, miramos cómo se mueve la red. La curva cuenta, cada cinco minutos, cuántas corridas están en curso en un día laboral.",
+    "La punta es a las ocho de la mañana: seis mil seiscientas corridas a la vez. Ese número es un piso: ningún plan puede usar menos buses.",
+    "El fin de semana la red necesita mucho menos.",
+    "Los horarios y recorridos son reales, del GTFS de DTPM; costos, batería, cargadores, tarifas y electroterminales los fija el enunciado; y supusimos tiempos de viaje fijos y traslados en vacío a dieciocho kilómetros por hora, porque el enunciado no trae velocidades."],
+    si: [["¿De dónde salen tantas corridas?", "trips.txt trae 6.629 filas que son plantillas; al expandir frequencies.txt salen casi diez veces más: unas sesenta y cuatro mil."],
+         ["¿Y los 1.200 buses declarados?", "Cubren cerca del 28 % del servicio: la punta pide más de seis mil seiscientos a la vez. Por eso la flota es lo que decidimos (anexo A3, pág. 72)."]] },
+  { n: 6, t: "Seis indicadores, siempre contra el caso base", p: [15, 17], s: 45, voz: [
+    "Medimos seis indicadores, y cada uno se compara contra el caso base, no contra una meta fija. Dos de costo: los buses y el costo total, que es lo que minimizamos.",
+    "Dos de operación: los kilómetros en vacío y cuántos buses cargan a la vez en cada electroterminal, que dice si los cargadores son un cuello de botella.",
+    "Y dos de energía: cuánta se carga durante el día y con cuánta termina cada bus, que dice si el día siguiente se puede repetir. La calidad de la solución la medimos aparte, contra el óptimo. [[traspaso:Fernando les explica ahora contra qué nos comparamos y cómo construimos el plan.]]"] },
+
+  { n: 7, t: "El caso base: cada ruta con sus propios buses", p: [18, 20], s: 47, voz: [
+    "Gracias, Ricardo. Para saber si nuestro plan es bueno necesitamos una referencia razonable, no una hecha para perder. El caso base sigue una regla simple, ruta por ruta: cada ruta tiene sus propios buses, las corridas se asignan en orden, el bus carga al cien por ciento cuando no le alcanza, y si ningún bus puede, se agrega uno.",
+    "Con esa regla, la red completa necesita casi ocho mil setecientos buses en un día laboral.",
+    "Cuesta un poco más de tres millones de dólares al día. Es un plan factible, revisado por nuestros auditores. Y probamos varios umbrales de recarga; usamos el más favorable, para no inflar nuestro ahorro."],
+    si: [["¿El caso base no está hecho para perder?", "No: es la regla que usaría un programador ruta por ruta, pasa los mismos auditores y le dimos el umbral de recarga que más le conviene."]] },
+  { n: 8, t: "Un método exacto no cabe en la red completa", p: [21, 23], s: 48, voz: [
+    "Revisamos seis familias de métodos y la pregunta fue cuál escala. El modelo exacto, un solo MILP con todas las corridas, da el óptimo probado, pero no pasa de unas trescientas corridas: con cuatrocientas cuarenta no terminó. Y el caso más grande publicado resuelto al óptimo tiene ciento una corridas; la red tiene sesenta y cuatro mil quinientas.",
+    "Por eso el plan lo entrega un método híbrido: arma un plan y lo mejora por grupos de buses; resuelve la red completa, pero sin garantía de óptimo.",
+    "El exacto sigue sirviendo: con él medimos cuánto se aleja la heurística en los casos chicos."],
+    si: [["¿Por qué no otro método?", "El mayor caso publicado resuelto al óptimo tiene 101 corridas (de Vos et al., 2024; Wu et al., 2025). Los exactos no llegan al tamaño de la red; las metaheurísticas sí, pero no dicen qué tan lejos quedan del óptimo. Por eso combinamos las dos (anexo A2, pág. 71)."]] },
+  { n: 9, t: "Primero se arma un plan, después se mejora", p: [24, 27], s: 35, voz: [
+    "El método tiene tres pasos.",
+    "Primero, cinco sectores: cada ruta va al electroterminal más cercano a sus cabeceras, medido por calle.",
+    "Segundo, un plan inicial: recorremos las corridas en orden de salida y cada una va al bus de su sector que llega a tiempo, tiene batería y queda más cerca; si no hay, agregamos un bus.",
+    "Tercero, lo mejoramos con grupos de cuatro buses al azar, que es lo que muestra la lámina siguiente."],
+    si: [["¿Cómo se elige el electroterminal de cada ruta?", "Por la menor suma de distancias por calle: del electroterminal al inicio de cada variante y del final de vuelta al electroterminal (codigo/fase1/preparar.py)."],
+         ["¿Por qué sectores fijos?", "Achican el problema y evitan traslados largos. El costo es que un bus no mezcla corridas de dos sectores; los electroterminales sí se comparten (anexo A5, pág. 74)."]] },
+  { n: 10, t: "Un bus reparte sus viajes y desaparece", p: [28, 32], s: 35, voz: [
+    "Esta es la jugada central. Tomamos cuatro buses y el que tiene menos viajes intenta repartirlos entre los otros tres.",
+    "El primero cabe en un hueco del bus 1.",
+    "El segundo, en el bus 2, y el tercero, en el bus 3.",
+    "Pero al bus 3 ya no le alcanza la batería: un modelo entero decide dónde y cuánto recargar.",
+    "Si el plan sigue factible y es más barato, el bus 4 se elimina. Lo repetimos miles de veces; los horarios son ilustrativos."],
+    si: [["¿Cómo decide el modelo cuándo y cuánto cargar?", "Las corridas de cada bus ya vienen fijas; el MILP elige terminales y recargas respetando batería, reserva, potencia y lo que dejan libre los demás buses. Se resuelve en dos segundos (anexo A1, pág. 70)."]] },
+  { n: 11, t: "Todos los planes fueron auditados", p: [33, 35], s: 30, voz: [
+    "Todo está en Python y los modelos enteros se resuelven con Gurobi.",
+    "El flujo parte de los datos, arma el plan inicial, lo mejora por grupos y lo pasa por los auditores antes de usarlo.",
+    "Todos los planes, el nuestro y el caso base, cubren todas las corridas y respetan horarios, batería y plazas. Lo que los auditores no certifican está escrito abajo: por ejemplo, los turnos de conductores y la recarga nocturna."] },
+  { n: 12, t: "Fortalezas y debilidades del método híbrido", p: [36, 38], s: 35, voz: [
+    "Antes de los resultados, seamos honestos con el método. A favor: escala a toda la red, porque cada intento resuelve un MILP chico, y nunca acepta un plan infactible ni más caro.",
+    "En contra: no garantiza el óptimo, depende del punto de partida y, con sectores fijos, no intercambia corridas entre sectores.",
+    "Cada debilidad tiene respuesta: medimos la brecha al óptimo, repetimos con tres semillas y dejamos los intercambios como paso siguiente."] },
+  { n: 13, t: "Implementación: procedimiento computacional", p: [39, 42], s: 30, voz: [
+    "Así corre el programa. Python prepara las corridas y los traslados, y arma el plan inicial en orden de salida.",
+    "La mejora sortea cuartetos y Gurobi reprograma sus recargas; se repite miles de veces hasta agotar el tiempo.",
+    "Una auditoría independiente revisa todo.",
+    "La salida es la jornada de cada bus: corridas, traslados y recargas."],
+    si: [["¿Cuánto demora y en qué equipo?", "Cuarenta minutos de búsqueda por tipo de día en un Mac M1 de 8 GB, más la construcción del plan inicial."]] },
+  { n: 14, t: "Implementación: decisiones y aspectos técnicos", p: [43, 44], s: 33, voz: [
+    "Tres decisiones técnicas. La recarga es parcial, en bloques de cinco minutos: el modelo decide cuándo y cuánto carga cada bus, mientras el caso base carga al cien por ciento. Todos los métodos corren con el mismo tiempo y en el mismo equipo.",
+    "Y un cambio se acepta solo si mantiene la cobertura, respeta batería y electroterminales, y baja el costo. [[traspaso:Con el método claro, Gonzalo les muestra los resultados.]]"] },
+
+  { n: 15, t: "Mismo servicio, menos buses y menos costo", p: [45, 48], s: 52, voz: [
+    "Gracias, Fernando. Ahora, los resultados. El caso base necesita casi ocho mil setecientos buses en un día laboral.",
+    "Nuestro plan cubre las mismas corridas con siete mil trescientos cincuenta y uno: mil trescientos treinta y tres buses menos, un quince por ciento, promedio de tres semillas muy parejas. La mayor parte de esa baja ya la logra el plan inicial, al compartir buses entre rutas; los cuartetos sacan el resto.",
+    "El costo diario baja catorce y medio por ciento. [[pausa]]",
+    "Y se repite el fin de semana: casi dieciocho y dieciséis por ciento menos buses. En la semana el costo baja casi quince por ciento, y la flota la fija el día laboral."],
+    si: [["¿Cómo calculan la semana?", "Cinco días laborales más sábado y domingo: USD 16,27 millones contra 19,12 millones del caso base."]] },
+  { n: 16, t: "Tres de cada cuatro dólares ahorrados son buses", p: [49, 51], s: 45, voz: [
+    "¿De dónde sale el ahorro? Tres de cada cuatro dólares vienen de usar menos buses; la energía aporta algo y los kilómetros, poco.",
+    "Los kilómetros en vacío bajan del dieciséis al doce por ciento, porque cada bus encadena corridas cercanas.",
+    "¿Los cargadores son un cuello de botella? De día, no: como máximo hay treinta y ocho buses cargando a la vez en un electroterminal; el caso base, que también carga, llena tres. Y la energía cargada en el día cae casi noventa por ciento. Esto es el día laboral; el sábado el uso de conexiones sube a cuarenta y uno por ciento."],
+    si: [["¿En qué horarios cargan?", "La mitad de la energía del plan cae en tramos caros, sobre todo de 19 a 20 horas. Como la energía pesa menos de medio punto del costo, la tarifa de punta +50 % casi no lo mueve (anexo A7, pág. 76)."]] },
+  { n: 17, t: "Cerca del óptimo donde se puede medir", p: [52, 55], s: 50, voz: [
+    "El método es aproximado, así que medimos cuánto se aleja del óptimo. El óptimo es el plan más barato posible: el modelo exacto lo encuentra y demuestra que no hay uno mejor, pero solo en casos chicos, de dos a cuatro rutas. La brecha es cuánto más caro sale nuestro plan.",
+    "Con dos minutos, cuartetos al azar queda a cero coma trece por ciento en promedio y cero coma treinta y uno en el peor caso: el mejor tamaño de grupo que probamos.",
+    "En la red completa no hay óptimo, pero sí un piso: nunca puede haber menos buses que corridas en curso a la vez. Quedamos once por ciento arriba.",
+    "Ese piso no cuenta kilómetros ni energía, y puede no ser alcanzable."],
+    si: [["¿La solución es óptima?", "No, es aproximada. A 0,13 % del óptimo en los cinco casos chicos y a 0,57 % en el de 293 corridas. Nunca decir «óptima» para la red completa."],
+         ["¿Y el caso base contra el óptimo?", "En los casos chicos no lo corrimos. En la red completa el caso base usa 8.684 buses: 32 % sobre el piso de 6.601, contra 11 % de nuestro plan."],
+         ["¿Y la cota en costo del informe?", "Los 6.601 buses más los km de servicio dan USD 2.322.956; quedamos 12,7 % arriba. Es una cota débil: ignora la recarga, los sectores y los km en vacío."]] },
+  { n: 18, t: "La brecha varía, y con recarga llega a ~5 %", p: [56, 58], s: 48, voz: [
+    "¿Qué pasa fuera de los casos chicos? En casos medianos con óptimo demostrado, ordenados por tamaño, la brecha no crece con las corridas: cuartetos queda bajo uno por ciento en tres de cuatro; en el de ocho rutas usa dos buses de más, y ahí pares y tríos lo hace mejor.",
+    "Con batería chica, para obligar a recargar, la exacta ya no demuestra el óptimo; contra su mejor plan quedamos cuatro coma ocho por ciento arriba en promedio con ciento cincuenta kilowatt-hora y dos coma ocho con ciento veinte; el peor caso llega a casi siete.",
+    "Pero en el caso más grande los cuartetos le ganan a la exacta, y más tiempo no ayuda: el límite es el vecindario. La extensión natural es mover recargas entre buses."],
+    si: [["¿Me muestran cada caso?", "Anexo A4, pág. 73: la tabla caso por caso, con buses y costo."],
+         ["¿Por qué el de 8 rutas sale tan mal?", "Son 40 buses contra 38 del óptimo, con 5 minutos y una sola semilla; pares y tríos queda en 39. Ningún tamaño de grupo gana en todos los casos; en la red completa, con el mismo tiempo, cuartetos es el más barato (7.351 contra 7.433 de pares y tríos)."]] },
+  { n: 19, t: "Lo que más pesa es el bus mismo", p: [59, 61], s: 40, voz: [
+    "¿Qué pasa si cambian los supuestos? Movimos la capacidad de carga, el bus y los precios.",
+    "La franja gris es el ruido de la búsqueda: solo cerrar un electroterminal grande mueve el costo; con otros precios o cobrando la espera, el ahorro sigue entre catorce y quince por ciento.",
+    "Lo que sí pesa es el bus: con una batería de doscientos cincuenta kilowatt-hora hacen falta casi treinta por ciento más buses. Pero el caso base también crece, y el ahorro se mantiene entre catorce y dieciséis por ciento."],
+    si: [["¿Por qué no cobran la espera?", "Pesa igual en los dos planes. Cobrándola después, el ahorro del día laboral queda en 14,6 %."],
+         ["¿Y el límite del transformador?", "El dato no viene en los archivos; se modeló como conexiones por 180 kW (anexo A3, pág. 72)."]] },
+  { n: 20, t: "El día siguiente no se repite solo", p: [62, 64], s: 35, voz: [
+    "Nos preguntaron si el día se puede repetir. Los buses terminan el día laboral con sesenta y seis kilowatt-hora en promedio, menos que en el caso base, porque cargan poco de día.",
+    "Con las conexiones actuales, de noche se repone el cuarenta y cinco por ciento en día laboral, tres cuartos el sábado y el noventa por ciento el domingo. El caso base tampoco lo logra.",
+    "Harían falta mil quinientas cuarenta y siete conexiones: una decisión de infraestructura para RED."],
+    si: [["¿Y con atrasos?", "Nuestro plan tiene menos buses y carga lo justo, así que se atrasa más que el caso base. Antes de operarlo hay que agregar holgura: margen de energía o buses de reserva (anexo A6, pág. 75)."]] },
+  { n: 21, t: "Conclusiones y siguiente paso", p: [65, 68], s: 62, voz: [
+    "Tres conclusiones. Primero: con el mismo servicio se necesitan menos buses, los tres tipos de día; es el objetivo que nos pusimos.",
+    "Segundo: el ahorro viene de la flota; de día los cargadores sobran, pero de noche faltan, y esa es la próxima restricción para RED.",
+    "Tercero: la solución es aproximada; muy cerca del óptimo en casos chicos, cerca de cinco por ciento arriba con recarga forzada, y resiste precios y plazas. Lo que sí le pesa son los atrasos: con tiempos de viaje diez por ciento variables, el diecisiete por ciento de las corridas sale con más de cinco minutos de atraso, contra cuatro en el caso base. Antes de operarlo hay que darle holgura.",
+    "Proponemos un piloto en un sector: primero en paralelo, sin operarse; después operado y comparado con un sector de control en buses, costo, atrasos y batería al cierre. Si ahorra buses sin más atrasos, se extiende por etapas. [[pausa]] Gracias. Quedamos atentos a sus preguntas."],
+    fin: "clic → pág. 69, portada: queda en pantalla durante las preguntas" }
+];
+
+const PREGUNTAS = [
+  ["¿La solución es óptima?", "Gonzalo", "No, es aproximada: a 0,13 % del óptimo en los cinco casos chicos y a 0,57 % en el de 293 corridas. En la red completa no hay óptimo; quedamos 11 % sobre el piso de buses.", "Lám. 17 (págs. 52–55)"],
+  ["¿Por qué este método y no otro?", "Fernando", "Los exactos no llegan al tamaño de la red; las metaheurísticas sí, pero sin cota. El híbrido entrega el plan y el exacto mide la brecha en casos chicos.", "A2 (pág. 71)"],
+  ["¿Cómo decide el modelo cuándo y cuánto cargar?", "Fernando", "Con las corridas ya fijas, un MILP chico elige terminales y recargas con balance de energía, reserva, potencia y capacidad libre. Se acepta solo si baja el costo.", "A1 (pág. 70)"],
+  ["¿Por qué sectores fijos?", "Fernando", "Achican el problema. Se pierden los intercambios de corridas entre sectores; no medimos cuánto valen y queda como extensión.", "A5 (pág. 74)"],
+  ["¿El caso base es justo?", "Fernando", "Es una regla razonable ruta por ruta, auditada, y le dimos el umbral de recarga que más le conviene.", "Lám. 7 (págs. 18–20)"],
+  ["¿Cuánto demora y en qué equipo?", "Fernando", "Cuarenta minutos de búsqueda por tipo de día en un Mac M1 de 8 GB, más el plan inicial.", "Lám. 14 (págs. 43–44)"],
+  ["¿Por qué no respetan los 1.200 buses?", "Ricardo", "Cubren cerca del 28 % del servicio: la punta pide más de seis mil seiscientos. La flota es la decisión, no un dato.", "Lám. 5 · A3 (pág. 72)"],
+  ["¿De dónde salen los datos?", "Ricardo", "Horarios y recorridos reales del GTFS de DTPM; costos, batería, tarifas y electroterminales del enunciado.", "Lám. 5 (págs. 11–14)"],
+  ["¿Qué supuestos hicieron?", "Ricardo", "Traslados en vacío a 18 km/h, límite eléctrico como conexiones por 180 kW, batería llena al empezar. Los mismos para los dos planes.", "A3 (pág. 72)"],
+  ["¿Por qué no cobran la espera?", "Gonzalo", "Pesa igual en los dos planes; cobrándola después, el ahorro del día laboral queda en 14,6 %.", "Lám. 19 (págs. 59–61)"],
+  ["¿Qué pasa con baterías más chicas?", "Gonzalo", "Con 250 kWh hacen falta casi 30 % más buses, pero el caso base también crece y el ahorro sigue entre 14 y 16 %.", "Lám. 19 · A4 (pág. 73)"],
+  ["¿Se puede repetir el día siguiente?", "Gonzalo", "No solo: de noche se repone el 45 % en día laboral y harían falta 1.547 conexiones. El caso base tampoco lo logra.", "Lám. 20 (págs. 62–64)"],
+  ["¿Qué pasa con atrasos?", "Gonzalo", "El plan se atrasa más que el caso base porque carga lo justo. Hay que agregar holgura: margen de energía o buses de reserva.", "A6 (pág. 75)"],
+  ["¿En qué horarios cargan?", "Gonzalo", "La mitad cae en tramos caros, de 19 a 20 h sobre todo; la energía pesa menos de medio punto del costo, así que casi no cambia el resultado.", "A7 (pág. 76)"],
+  ["Una pregunta que nadie sabe responder", "Gonzalo", "«No lo medimos; queda como extensión.» No inventar cifras ni prometer resultados.", "—"]
+];
+
+const REGLAS = [
+  "Cada clic avanza una página de Canva. Si te pasas, flecha izquierda; no se comenta.",
+  "La lámina muestra las cifras; tú das el argumento. No leas la lámina.",
+  "Nunca digas que la solución es «óptima» para la red completa: es «aproximada».",
+  "El traspaso se dice mirando a quien sigue. El barrido rojo marca su entrada (láminas 7 y 15).",
+  "En las preguntas responde el dueño del tema (pestaña «Preguntas»); los demás no interrumpen. Mientras tanto queda la portada en pantalla (pág. 69)."
+];
+
+const PALABRAS_POR_SEGUNDO = 2.3;
+const textoPlano = s => s.replace(/\[\[traspaso:([^\]]*)\]\]/g, "$1").replace(/\[\[pausa\]\]/g, "");
+const palabras = s => textoPlano(s).trim().split(/\s+/).filter(Boolean).length;
+const reloj = seg => { const t = Math.round(seg); return `${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}`; };
+const escapar = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+const marcar = s => escapar(s)
+  .replace(/\[\[traspaso:([^\]]*)\]\]/g, '<span class="traspaso">$1</span>')
+  .replace(/\[\[pausa\]\]/g, '<span class="pausa">(pausa de un segundo)</span>');
+
+function datosBloque(clave) {
+  const b = BLOQUES[clave];
+  const lams = LAMINAS.filter(l => l.n >= b.desde && l.n <= b.hasta);
+  const total = lams.reduce((a, l) => a + l.voz.reduce((x, v) => x + palabras(v), 0), 0);
+  const clics = lams.reduce((a, l) => a + (l.p[1] - l.p[0]) + (l.n < 21 ? 1 : 0), 0);
+  return { b, lams, total, clics, paginas: [lams[0].p[0], lams[lams.length - 1].p[1]] };
+}
+
+function fichaLamina(l) {
+  const partes = l.voz.map((v, i) => {
+    const clic = i < l.voz.length - 1 ? ` <span class="clic">clic → pág. ${l.p[0] + i + 1}</span>` : "";
+    return `<p>${marcar(v)}${clic}</p>`;
+  }).join("");
+  const sig = LAMINAS.find(x => x.n === l.n + 1);
+  const pasar = sig ? `<p><span class="clic lamina-sig">clic → lámina ${sig.n}, pág. ${sig.p[0]}</span></p>`
+    : l.fin ? `<p><span class="clic lamina-sig">${escapar(l.fin)}</span></p>` : "";
+  const si = (l.si || []).map(([q, r]) => `<div class="si"><b>Si preguntan: ${escapar(q)}</b>${escapar(r)}</div>`).join("");
+  const pags = l.p[0] === l.p[1] ? `pág. ${l.p[0]}` : `págs. ${l.p[0]}–${l.p[1]}`;
+  return `<article class="lamina"><div class="num">${l.n}<small>${pags}</small></div><div>
+    <div class="cab"><h2>${escapar(l.t)}</h2><span class="seg">${l.s} s</span></div>
+    <div class="voz">${partes}${pasar}</div>${si}</div></article>`;
+}
+
+function vistaBloque(clave) {
+  const d = datosBloque(clave);
+  return `<div class="resumen">
+      <span>Láminas <b>${d.b.desde}–${d.b.hasta}</b></span>
+      <span>Canva <b>págs. ${d.paginas[0]}–${d.paginas[1]}</b></span>
+      <span>Tiempo <b>${reloj(d.total / PALABRAS_POR_SEGUNDO)}</b> (${d.total} palabras a 2,3 por segundo)</span>
+      <span>Clics <b>${d.clics}</b></span>
+      <span>${escapar(d.b.entra)} ${escapar(d.b.sale)}</span>
+    </div>
+    <div class="reglas"><h3>Antes de empezar</h3><ul>${REGLAS.map(r => `<li>${escapar(r)}</li>`).join("")}</ul></div>
+    ${d.lams.map(fichaLamina).join("")}`;
+}
+
+function vistaPreguntas() {
+  const filas = PREGUNTAS.map(([p, q, r, ir]) => `<tr><td class="p">${escapar(p)}</td><td class="q">${escapar(q)}</td><td class="r">${escapar(r)}</td><td class="ir">${escapar(ir)}</td></tr>`).join("");
+  return `<div class="reglas"><h3>Cómo responder</h3><ul>
+      <li>Responde quien figura en la columna «Responde». Si necesita una lámina o un anexo, lo pide y quien tenga el control salta a esa página.</li>
+      <li>Respuestas de una o dos frases. Si quieren más detalle, se muestra el anexo.</li>
+      <li>En el modo presentación de Canva se salta a una página escribiendo su número y Enter.</li></ul></div>
+    <div class="tabla-envoltura"><table><thead><tr><th>Pregunta</th><th>Responde</th><th>Respuesta corta</th><th>Mostrar</th></tr></thead><tbody>${filas}</tbody></table></div>`;
+}
+
+function reparto(actual) {
+  return Object.entries(BLOQUES).map(([clave, b]) => {
+    const d = datosBloque(clave);
+    return `<a href="#${clave}"${clave === actual ? ' aria-current="page"' : ""}><span class="quien">${escapar(b.nombre)}</span>
+      <span class="dato">Láminas ${b.desde}–${b.hasta} · ${reloj(d.total / PALABRAS_POR_SEGUNDO)}</span></a>`;
+  }).join("");
+}
+
+function mostrar() {
+  const h = location.hash.slice(1);
+  const vista = ["ricardo", "fernando", "gonzalo", "preguntas"].includes(h) ? h : "ricardo";
+  document.getElementById("contenido").innerHTML = vista === "preguntas" ? vistaPreguntas() : vistaBloque(vista);
+  document.getElementById("reparto").innerHTML = reparto(vista);
+  document.querySelectorAll("#pestanas a").forEach(a => {
+    if (a.getAttribute("href") === "#" + vista) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+  });
+}
+
+const solo = document.getElementById("solo");
+try { solo.checked = localStorage.getItem("guion-solo") === "1"; } catch (e) { solo.checked = false; }
+document.body.classList.toggle("solo", solo.checked);
+solo.addEventListener("change", () => {
+  document.body.classList.toggle("solo", solo.checked);
+  try { localStorage.setItem("guion-solo", solo.checked ? "1" : "0"); } catch (e) { /* la preferencia no se guarda */ }
+});
+window.addEventListener("hashchange", mostrar);
+mostrar();
+</script>
