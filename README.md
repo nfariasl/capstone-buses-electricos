@@ -6,6 +6,10 @@ cargadores. Queremos cubrir todos los viajes al menor costo (buses + electricida
 en vacío). En la literatura se llama **MD-E-VSP** (*Multi-Depot Electric Vehicle Scheduling
 Problem*) con programación de recargas.
 
+> **¿Llegas nuevo al proyecto o trabajas con otra IA?** Lee primero
+> [`CONTEXTO-DEL-PROYECTO.md`](CONTEXTO-DEL-PROYECTO.md): qué se hizo en cada entrega, los resultados,
+> las decisiones tomadas, lo que falta y las trampas conocidas.
+
 ## Mapa de carpetas
 
 Las carpetas con número siguen el orden del semestre; las que no tienen número son el código
