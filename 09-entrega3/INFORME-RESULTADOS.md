@@ -88,14 +88,16 @@ Los 5 casos chicos (2 a 4 rutas, 84 a 157 corridas) se resolvieron con el modelo
 
 Casos más grandes resueltos al óptimo con la exacta podada:
 
-| Caso | Corridas | Buses | Costo exacto (USD) | Cuartetos (5 min) |
-|---|---|---|---|---|
-| rutas_06 | 129 | 24 | 7.506,30 | — |
-| rutas_08 | 200 | 38 | 11.517,04 | — |
-| mediano_200 | 200 | 24 | 8.177,94 | +0,03 % |
-| **rutas_10** | **293** | **60** | **18.204,24** | **+0,57 %** |
+| Caso | Corridas | Buses | Costo exacto (USD) | Pares + tríos (5 min) | Cuartetos (5 min) |
+|---|---|---|---|---|---|
+| rutas_06 | 129 | 24 | 7.506,30 | +0,08 % | +0,96 % |
+| rutas_08 | 200 | 38 | 11.517,04 | +2,32 % | **+4,93 %** |
+| mediano_200 | 200 | 24 | 8.177,94 | — | +0,03 % |
+| **rutas_10** | **293** | **60** | **18.204,24** | +1,47 % | **+0,57 %** |
 
-**Lectura:** donde se puede demostrar el óptimo, el método queda a menos de 1 % de él. En la red completa no se puede demostrar el óptimo; ahí la referencia es la cota de la sección 2 (brecha de 12,7 % en el día laboral). Esa cota es débil: ignora la recarga, los sectores y el espacio de los electroterminales, así que la brecha real es menor.
+En 12 rutas (442 corridas) la exacta se cortó y no hay óptimo; ahí pares + tríos y cuartetos mejoran el plan inicial en 0,22 % y 0,09 %. Heurísticas de 6, 8 y 12 rutas corridas el 23-nov con una semilla (`octetos/resultados/casos_rutas.csv`).
+
+**Lectura:** donde se puede demostrar el óptimo, el método queda a menos de 1 % de él en todos los casos salvo uno: en 8 rutas, con 5 min, cuartetos queda a 4,93 % (pares + tríos, a 2,32 %). En la red completa no se puede demostrar el óptimo; ahí la referencia es la cota de la sección 2 (brecha de 12,7 % en el día laboral). Esa cota es débil: ignora la recarga, los sectores y el espacio de los electroterminales, así que la brecha real es menor.
 
 ## 6. Recarga forzada: ¿y si la batería es más chica?
 

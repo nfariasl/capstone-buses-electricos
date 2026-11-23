@@ -2,7 +2,7 @@
 
 Grupo 29 · ICS2122 Taller de Investigación Operativa (Capstone) · 2026-2
 Problema P7: planificación de la operación de buses eléctricos en la Región Metropolitana.
-Escrito el **22-nov-2026** y actualizado el **23-nov** (resultados de la sensibilidad) para que
+Escrito el **22-nov-2026** y actualizado el **23-nov** (resultados de la sensibilidad y heurísticas en 6, 8 y 12 rutas) para que
 cualquier integrante, o la IA con la que trabaje, pueda seguir sin haber estado en las sesiones
 anteriores. Las cifras se comprobaron contra los archivos del repositorio.
 
@@ -61,7 +61,7 @@ Diego Barrios, Gustavo Anguita, Cristobal Rehbein y Ricardo Palma. Ayudante: Max
 | Interrogación 1 (29-sep) | ✅ Rendida | §3.1 |
 | Entrega 2 (presentación 8-oct, informe 16-oct) | ✅ Entregada | §3.2 |
 | Método final: cuartetos al azar en la red completa, L / S / D | ✅ Corrido y comparado | §5.1 |
-| Distancia al óptimo en casos chicos (exacta) | ✅ 0,13 % en promedio | §5.3 |
+| Distancia al óptimo en casos chicos (exacta) | ✅ 0,13 % en promedio; en 6, 8 y 10 rutas (5 min), cuartetos queda a 0,96 %, **4,93 %** y 0,57 % | §5.3 |
 | Casos con recarga forzada (150 y 120 kWh) | ✅ Corridos | §5.4 |
 | KPI y uso de electroterminales | ✅ Recalculados el 22-nov sobre el plan de cuartetos (semilla 1) | §5.5 |
 | Sensibilidad | ✅ Corrida el 22/23-nov (11 escenarios + base); solo cerrar E2, E4 o E1 mueve el costo | §5.7, §9 C |
@@ -169,6 +169,10 @@ El plan completo está en `09-entrega3/PLAN-ENTREGA3.md`. Lo que se hizo:
 10. **22 al 23-nov · Sensibilidad corrida** (`09-entrega3/sensibilidad/correr_sensibilidad.sh`): los 11
     escenarios y la base, con plan inicial y cuartetos al azar (semilla 1, 20 min), 4 en paralelo en el
     Mac M1, de 22:55 a 00:05. Tabla con `resumir.py`; resultados en §5.7 y en el README de la carpeta.
+11. **23-nov · Heurísticas en 6, 8 y 12 rutas** (`09-entrega3/octetos/correr_rutas_heuristicas.sh`, de
+    00:05 a 00:35): plan inicial, pares + tríos y cuartetos al azar (semilla 1, 5 min) en
+    `octetos/resultados/casos_rutas.csv`. Con eso la distancia al óptimo se mide en 129, 200 y 293
+    corridas (§5.3).
 
 ---
 
@@ -249,18 +253,23 @@ contra el caso base.
 
 - **Casos más grandes con la exacta podada** (batería de 350 kWh):
 
-  | Caso | Corridas | Óptimo | Cuartetos (5 min) |
-  |---|---|---|---|
-  | rutas_06 | 129 | 24 buses · USD 7.506,30 | sin correr |
-  | rutas_08 | 200 | 38 buses · USD 11.517,04 | sin correr |
-  | mediano_200 | 200 | 24 buses · USD 8.177,94 | +0,03 % |
-  | **rutas_10** | **293** | **60 buses · USD 18.204,24** | **+0,57 %** |
+  | Caso | Corridas | Óptimo | Plan inicial | Pares + tríos (5 min) | Cuartetos (5 min) |
+  |---|---|---|---|---|---|
+  | rutas_06 | 129 | 24 buses · USD 7.506,30 | +1,76 % | +0,08 % (24 buses) | +0,96 % (24 buses) |
+  | rutas_08 | 200 | 38 buses · USD 11.517,04 | +7,22 % | +2,32 % (39 buses) | **+4,93 % (40 buses)** |
+  | mediano_200 | 200 | 24 buses · USD 8.177,94 | — | — | +0,03 % |
+  | **rutas_10** | **293** | **60 buses · USD 18.204,24** | +1,99 % | +1,47 % (61 buses) | **+0,57 % (60 buses)** |
+  | rutas_12 | 442 | sin óptimo (la exacta se cortó) | USD 27.378,07 · 84 buses | −0,22 % vs inicial | −0,09 % vs inicial |
+
+  Fuentes: `octetos/resultados/casos_rutas_exacta.csv` (óptimos) y `casos_rutas.csv` (heurísticas).
+  Las heurísticas de 6, 8 y 12 rutas se corrieron el 23-nov con una sola semilla.
 
 - **Red completa:** no se puede demostrar el óptimo. La cota básica (6.601 buses en circulación a la
   vez más los km de servicio) es USD 2.322.956, y el plan queda 12,7 % sobre ella. Es una cota débil:
   ignora la recarga, los sectores y las plazas.
-- Mensaje para el informe y el deck: **la solución es aproximada**, a menos de 1 % del óptimo donde se
-  puede medir. Nunca decir que la solución de la red completa es «óptima».
+- Mensaje para el informe y el deck: **la solución es aproximada.** Queda a menos de 1 % del óptimo en
+  los casos chicos y en 6 y 10 rutas, pero **en 8 rutas cuartetos queda a 4,93 %** con 5 min (pares +
+  tríos, a 2,32 %). No decir «a menos de 1 % donde se puede medir»: ya no es cierto. Nunca decir que la solución de la red completa es «óptima».
 
 ### 5.4 Recarga forzada (baterías chicas)
 
@@ -619,7 +628,6 @@ resultados 50 · sensibilidad y extensiones 40 · conclusiones 25.
 ### G. Corridas que quedaron sin hacer (opcional)
 
 - La exacta de rutas_12 (442 corridas; se cortó a los 34 min).
-- Las heurísticas de rutas_06, rutas_08 y rutas_12.
 - Los medianos de 250 a 400 corridas, que necesitan un computador con más de 16 GB. Las instrucciones
   están en `octetos/INSTRUCCIONES-EXACTA-MEDIANOS.md`.
 - Más réplicas para medir la variabilidad (T6).
