@@ -67,8 +67,8 @@ Quedan donde el deck ya los tiene: en la lámina 8 y en la 14, con barrido rojo.
 
 **Cifras desde:** `kpi/resultados/kpi_planes.md`, `uso_e_perfil_L.png` y `uso_e_mapa_calor_L.png`.
 **Debe responder (feedback del 8-oct):** «peso de cada costo», «en qué horarios cargan los buses», «si el caso base carga, ¿sería tan grande la diferencia?».
-**Hallazgos del README de KPI (sobre el plan de 7.427, no el de cuartetos):** el pico de carga simultánea es de 21 a 45 buses, entre 17,5 % y 26 % de las conexiones, entre las 17:00 y las 19:30. La energía pesa 0,4 % del costo.
-**Dependencia:** estos KPI se calcularon sobre el plan de 7.427. Para usar los de cuartetos hay que agregar el plan de `octetos/resultados/planes_417_L/` a `kpi/planes.py` y decidir qué semilla usar. Hasta entonces, no mezclar cifras de dos planes en una misma lámina. Eso lo resuelvo yo.
+**Hallazgos de KPI (plan de cuartetos, semilla 1; recalculados el 22-nov):** contra el caso base, −15,4 % de buses, −14,5 % de costo y −30,4 % de km en vacío. El pico de carga simultánea es de 15 a 38 buses por electroterminal, entre 11 % y 21 % de las conexiones, entre las 19:25 y las 19:55. Las plazas se usan como máximo al 21 % durante la operación y se llenan solo al cierre. La energía pesa 0,4 % del costo.
+**Dependencia resuelta:** `kpi/resultados/` ya está calculado sobre el plan de cuartetos (semilla 1, 7.351 buses). Usar solo esas cifras; las del plan de 7.427 ya no van.
 
 ## 15 · Qué tan cerca del óptimo estamos · 50 s
 
@@ -112,13 +112,13 @@ Quedan donde el deck ya los tiene: en la lámina 8 y en la 14, con barrido rojo.
 
 **Mensaje:** los buses terminan el día con poca batería, y eso hay que reponerlo de noche.
 **Pasos:**
-1. Los buses parten con la batería llena y terminan con ~71 kWh en promedio (README de `kpi/`).
-2. Para repetir el día habría que reponer ~2,07 GWh durante la noche.
+1. Los buses parten con la batería llena y terminan con ~66 kWh en promedio (plan de cuartetos, `kpi_planes.md`).
+2. Para repetir el día habría que reponer ~2,08 GWh durante la noche (16,5 h con las 700 conexiones a 180 kW).
 3. Qué capacidad tienen los 5 electroterminales de noche, y qué se recomienda.
 
 **Cifras desde:** `kpi/README.md` («Primeros hallazgos»), `kpi_planes.md` y la columna `energia_final` de los KPI.
 **Debe responder (feedback del 8-oct):** «¿cómo se cubre el día siguiente?».
-**Pendiente:** el plan de trabajo (tarea T7) pedía calcular cuántos MW faltan por electroterminal para repetir el día. Si ese cálculo no está hecho, la lámina solo dice cuánta energía hay que reponer y plantea la brecha de infraestructura como pregunta abierta. **No inventar una cifra.**
+**Cálculo por electroterminal (hecho el 22-nov):** `kpi/resultados/repetibilidad.md`. En día laboral, las 700 conexiones alcanzan a entregar el **45 %** de la energía en la ventana nocturna (mediana de 7,5 h): harían falta 278 MW contra 126 instalados, o 1.547 conexiones contra 700. El sábado se cubre el 75 % y el domingo el 90 %. El caso base tampoco se repite (52 % en día laboral). Es una cota optimista: no cuenta el viaje hasta el electroterminal ni el transformador. Decirlo como hallazgo y recomendación de infraestructura, no esconderlo.
 
 ## 19 · Conclusiones · 45 s
 

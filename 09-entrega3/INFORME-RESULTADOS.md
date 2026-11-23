@@ -123,17 +123,23 @@ Lo que se ve:
 
 ## 7. Qué dicen los KPI
 
-Los KPI de Gustavo (`kpi/`) se calcularon sobre el plan de **7.427 buses** (corrida de octubre), no sobre el de cuartetos. Hay que agregar el plan de cuartetos para recalcularlos. La diferencia entre ambos planes es de 1,0 % en buses y 0,8 % en costo, así que las conclusiones cualitativas se mantienen. Los hallazgos (día laboral):
+Los KPI de Gustavo (`kpi/`) se recalcularon el 22-nov sobre el **plan final: cuartetos al azar, semilla 1, 40 min** (7.351 buses en día laboral, 4.521 el sábado y 3.902 el domingo). Ya no hay cifras del plan de 7.427 de octubre en `kpi/resultados/`. Los hallazgos:
 
-- **Ahorro contra el caso base (plan de 7.427):** −14,5 % de buses y −13,9 % de costo; los km en vacío bajan 31,0 %.
-- **Los cargadores no son el cuello de botella.** El pico es de 21 a 45 buses cargando a la vez, entre 17,5 % y 26 % de las conexiones, entre las 17:00 y las 19:30, antes del tramo caro (19:00 a 22:00). El caso base llena las conexiones de E2, E4 y E5 entre las 20:00 y las 22:00.
-- **El espacio sí se llena.** Exactamente 700 buses terminan el día estacionados en un electroterminal (la capacidad total: 180 + 150 + 150 + 120 + 100); en el caso base, ninguno.
-- **Desbalance entre sectores.** El sector 3 (Los Espinos) carga solo 34 % de su energía en su propio electroterminal; los demás cargan entre 53 % y 77 % en el suyo.
-- **La energía casi no pesa:** 0,4 % del costo. Se carga el 3,0 % de la energía consumida, porque los buses parten llenos y terminan con 71 kWh en promedio.
+| Día | Buses (base → cuartetos) | Δ buses | Costo USD/día (base → cuartetos) | Δ costo |
+|---|---|---|---|---|
+| Laboral | 8.684 → 7.351 | −15,4 % | 3.062.717 → 2.617.245 | −14,5 % |
+| Sábado | 5.492 → 4.521 | −17,7 % | 2.040.216 → 1.704.731 | −16,4 % |
+| Domingo | 4.669 → 3.902 | −16,4 % | 1.765.184 → 1.475.231 | −16,4 % |
+
+- **Km en vacío** (día laboral): bajan 30,4 % contra el caso base.
+- **Los cargadores no son el cuello de botella.** En día laboral el pico es de 15 a 38 buses cargando a la vez por electroterminal (11 a 21 % de las conexiones), entre las 19:25 y las 19:55. Ojo: eso cae al inicio del tramo caro (19:00 a 22:00), a diferencia del plan de octubre. El sábado llega a 41 % (La Reina) a las 17:25. El caso base llena las conexiones de E2, E4 y E5 entre las 20:00 y las 22:00.
+- **Las plazas se llenan solo al cierre.** Durante la operación, la ocupación máxima es de 11 a 21 % de las plazas en día laboral (hasta 41 % el sábado). Al cierre, exactamente 700 buses quedan estacionados en los electroterminales (la capacidad total) y las plazas pasan entre 75 y 155 min al 100 % después de medianoche. En el caso base, ninguno termina en un electroterminal. Fuente: `kpi/resultados/plazas_metodo_{L,S,D}_resumen.csv`.
+- **Desbalance entre sectores.** El sector 3 (Los Espinos) carga solo 37,6 % de su energía en su propio electroterminal (36,5 % en E2 y 18,7 % en E5); los demás cargan entre 56,5 % y 76,1 % en el suyo.
+- **La energía casi no pesa:** 0,4 % del costo en día laboral. Se carga el 2,5 % de la energía consumida, porque los buses parten llenos y terminan con 66 kWh en promedio.
 
 ## 8. Límites que hay que decir en voz alta
 
-1. **El día siguiente no se repite solo.** Para volver a partir con batería llena habría que reponer 2,07 GWh de noche. Con las 700 conexiones a 180 kW tomaría 16,4 h el día laboral (10,8 h el sábado, 9,3 h el domingo), y 6.727 de los 7.427 buses terminan en terminales sin cargadores. El equipo docente ya lo preguntó el 8-oct.
+1. **El día siguiente no se repite solo.** Para volver a partir con batería llena habría que reponer 2,08 GWh de noche (plan de cuartetos). Con las 700 conexiones a 180 kW tomaría 16,5 h el día laboral (10,7 h el sábado, 9,1 h el domingo), y 6.651 de los 7.351 buses terminan en terminales sin cargadores. Por electroterminal (`kpi/resultados/repetibilidad.md`), en la ventana nocturna mediana de 7,5 h las 700 conexiones entregan solo el 45 % de esa energía: harían falta 278 MW (hay 126) o 1.547 conexiones. El sábado se cubre el 75 % y el domingo el 90 %. El caso base tampoco se repite (52 % en día laboral). El equipo docente ya lo preguntó el 8-oct.
 2. **No hay prueba de optimalidad en la red completa.** Solo en casos de hasta 293 corridas.
 3. **Los límites eléctricos son supuestos.** `transformer_mw` no viene en los datos; se modeló como conexiones × 180 kW.
 4. **El costo de espera (0,03 USD/min) no se cobra** en los planes.

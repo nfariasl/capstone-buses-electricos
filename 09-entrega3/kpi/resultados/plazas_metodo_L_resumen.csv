@@ -1,0 +1,6 @@
+electroterminal,nombre,plazas,presentes_max,pct_plazas_max,hora_pico,presentes_max_sin_cierre,pct_plazas_max_sin_cierre,hora_pico_sin_cierre,minutos_al_100,minutos_al_100_sin_cierre,estacionados_al_cierre
+E1,Vespucio Norte,150,150,100.0,01:30 (+1),17,11.333333333333334,19:45,125,0,150
+E2,El Conquistador,180,180,100.0,01:00 (+1),38,21.11111111111111,19:50,155,0,180
+E3,Los Espinos,120,120,100.0,01:50 (+1),15,12.5,19:45,105,0,120
+E4,La Reina,100,100,100.0,01:05 (+1),21,21.0,19:55,150,0,100
+E5,Santa Rosa,150,150,100.0,01:10 (+1),30,20.0,19:25,145,0,150

@@ -60,9 +60,9 @@ Diego Barrios, Gustavo Anguita, Cristobal Rehbein y Ricardo Palma. Ayudante: Max
 | Método final: cuartetos al azar en la red completa, L / S / D | ✅ Corrido y comparado | §5.1 |
 | Distancia al óptimo en casos chicos (exacta) | ✅ 0,13 % en promedio | §5.3 |
 | Casos con recarga forzada (150 y 120 kWh) | ✅ Corridos | §5.4 |
-| KPI y uso de electroterminales | 🟡 Hechos, pero sobre el plan de 7.427 buses de octubre, no el de cuartetos | §9 B |
+| KPI y uso de electroterminales | ✅ Recalculados el 22-nov sobre el plan de cuartetos (semilla 1) | §5.5 |
 | Sensibilidad | 🟡 Escenarios definidos, **sin resultados** en el repo | §9 C |
-| Repetibilidad del día siguiente | 🟡 Diagnóstico hecho; falta la recomendación por electroterminal | §9 D |
+| Repetibilidad del día siguiente | ✅ Calculada por electroterminal (22-nov): en día laboral se cubre el 45 % | §9 D |
 | Incertidumbre (atrasos, Monte Carlo) | 🔴 Sin empezar | §9 E |
 | Deck final (15 min) | 🟡 Láminas 1–11 hechas; **faltan las 12–20** | §9 A |
 | Informe final (45 págs., 200 pts) | 🔴 **Sin empezar** en el repo | §9 F |
@@ -272,22 +272,25 @@ Con 350 kWh casi ningún bus recarga. Por eso se probaron copias de los 5 casos 
   vecindario. La diferencia viene del vecindario, no del tiempo. Queda como trabajo futuro probar grupos
   que muevan recargas entre buses.
 
-### 5.5 KPI (sobre el plan de 7.427 buses de octubre; ver §9 B)
+### 5.5 KPI (sobre el plan final de cuartetos, semilla 1; recalculados el 22-nov)
 
-- Contra el caso base: −14,5 % de buses, −13,9 % de costo y −31,0 % de km en vacío.
-- **Los cargadores no son el cuello de botella.** El pico es de 21 a 45 buses cargando a la vez (17,5 a
-  26 % de las conexiones), entre las 17:00 y las 19:30. El caso base llena las conexiones de E2, E4 y E5
-  entre las 20:00 y las 22:00.
-- **El espacio sí se llena.** Exactamente 700 buses terminan el día en un electroterminal.
-- **Hay desbalance entre sectores.** El sector 3 (Los Espinos) carga solo el 34 % de su energía en su
-  propio electroterminal.
-- **La energía pesa el 0,4 % del costo.** Se compra solo el 3,0 % de la energía que se consume.
+- Contra el caso base, día laboral: −15,4 % de buses (8.684 → 7.351), −14,5 % de costo y −30,4 % de
+  km en vacío. Sábado: −17,7 % de buses y −16,4 % de costo. Domingo: −16,4 % y −16,4 %.
+- **Los cargadores no son el cuello de botella.** En día laboral el pico es de 15 a 38 buses cargando a
+  la vez por electroterminal (11 a 21 % de las conexiones), entre las 19:25 y las 19:55, al inicio del
+  tramo caro. El caso base llena las conexiones de E2, E4 y E5 entre las 20:00 y las 22:00.
+- **Las plazas se llenan solo al cierre.** Durante la operación se usa como máximo el 11 a 21 % de las
+  plazas (41 % el sábado); al cierre, 700 buses quedan estacionados en los electroterminales.
+- **Hay desbalance entre sectores.** El sector 3 (Los Espinos) carga solo el 37,6 % de su energía en su
+  propio electroterminal; los demás, entre 56,5 % y 76,1 %.
+- **La energía pesa el 0,4 % del costo.** Se compra solo el 2,5 % de la energía que se consume.
 
 ### 5.6 Repetibilidad: el límite más importante
 
-Los buses parten llenos y terminan con unos 71 kWh en promedio. Para repetir el día habría que reponer
-**2,07 GWh** de noche, lo que toma 16,4 h con las 700 conexiones a 180 kW (10,8 h el sábado y 9,3 h el
-domingo). Además, 6.727 de los 7.427 buses terminan en terminales sin cargadores. **Con la
+Los buses parten llenos y terminan con unos 66 kWh en promedio (plan de cuartetos, día laboral). Para
+repetir el día habría que reponer **2,08 GWh** de noche, lo que toma 16,5 h con las 700 conexiones a
+180 kW (10,7 h el sábado y 9,1 h el domingo). Además, 6.651 de los 7.351 buses terminan en terminales
+sin cargadores. **Con la
 infraestructura actual, el plan no se puede repetir día tras día.** Se presenta como hallazgo; no se
 esconde.
 
@@ -436,10 +439,15 @@ La versión que se edita está en Canva (`DAHbqgcw7t8`).
 - las cifras son las mismas del informe;
 - un ensayo completo cae dentro del tiempo.
 
-### B. KPI sobre el plan de cuartetos
+### B. KPI sobre el plan de cuartetos — ✅ HECHO (22-nov, noche)
 
-**Problema.** Los KPI de `09-entrega3/kpi/` usan el plan de 7.427 buses de octubre, y la cifra
-principal es 7.351 (cuartetos). No mezclar cifras de dos planes en una misma lámina.
+`planes.py` ya apunta a los planes de cuartetos, semilla 1; se corrieron `kpi_planes.py`,
+`uso_electroterminales.py`, `ocupacion_plazas.py` (L, S y D) y las 9 pruebas, que pasan. Las cifras
+están en §5.5 y en `kpi/resultados/`. Lo único pendiente es pasarlas a la lámina 14. Lo que sigue
+queda como registro de cómo se hizo.
+
+**Problema (resuelto).** Los KPI de `09-entrega3/kpi/` usaban el plan de 7.427 buses de octubre, y la
+cifra principal es 7.351 (cuartetos). No mezclar cifras de dos planes en una misma lámina.
 
 **Qué hacer:**
 1. Elegir la semilla. Recomendación: **semilla 1** (7.351 buses, USD 2.617.245), que coincide con el
@@ -493,14 +501,26 @@ la justificación de cada parámetro y lo que implica para RED.
 
 ### D. Repetibilidad e infraestructura (lámina 18; tarea T7 del plan)
 
-El diagnóstico ya está (§5.6). Falta calcularlo **por electroterminal**:
-- cuánta energía hay que reponer;
-- cuánta se puede entregar en la ventana nocturna (plazas × 180 kW × horas);
-- cuántos MW o plazas faltan.
+**✅ Hecho el 22-nov (noche)** con `09-entrega3/kpi/repetibilidad.py` (3 pruebas en
+`test_repetibilidad.py`). Salida: `kpi/resultados/repetibilidad.csv` y `.md`, para los 6 planes.
 
-Se puede hacer con `jornadas.csv` (energía y terminal final de cada bus), sin Gurobi. **Si no se hace,
-la lámina dice solo la energía que hay que reponer y deja la brecha como pregunta abierta. No inventar
-una cifra.**
+Cada bus se recarga en el electroterminal de su sector, en su ventana nocturna (de su última llegada a su
+primera salida, que se repite igual). Plan de cuartetos:
+
+| Día | Energía a reponer | Se alcanza a entregar | MW necesarios / instalados | Conexiones necesarias / hay |
+|---|---|---|---|---|
+| Laboral | 2.085 MWh | 45 % | 278 / 126 | 1.547 / 700 (faltan 847) |
+| Sábado | 1.351 MWh | 75 % | 163 / 126 | 909 / 700 (faltan 230) |
+| Domingo | 1.150 MWh | 90 % | 126 / 126 | 704 / 700 (faltan 76) |
+
+- La ventana nocturna mediana es de 7,5 h en día laboral (8,3 h el sábado y 9,2 h el domingo).
+- En día laboral faltan conexiones en los 5 electroterminales. El peor es E5 Santa Rosa (38 % cubierto,
+  faltan 246); el mejor es E1 Vespucio Norte (71 %, faltan 61).
+- **El caso base tampoco se repite:** en día laboral cubre el 52 % y le faltan 656 conexiones. No es un
+  defecto solo de nuestro método: los dos parten con la flota llena, como dice el enunciado.
+- **Es una cota optimista.** Supone que todas las conexiones trabajan toda la ventana, que no hay límite
+  de transformador y no cuenta el viaje en vacío hasta el electroterminal (6.651 buses terminan en
+  terminales sin cargadores). La brecha real es al menos esta.
 
 ### E. Incertidumbre (T9; sin empezar)
 
@@ -587,7 +607,7 @@ Solo si sobra tiempo.
    calzan, gana el informe y se avisa al grupo.
 2. **Cifras que se confunden:**
    - Las buenas son 64.502 corridas, 417 rutas y 6.601 buses, no 64.603, 418 y 6.603.
-   - 7.351 (cuartetos, la cifra principal) no es 7.427 (plan de octubre, base de los KPI actuales), ni
+   - 7.351 (cuartetos, la cifra principal y base de los KPI desde el 22-nov) no es 7.427 (plan de octubre), ni
      7.433 (pares y tríos de noviembre), ni 7.570 (plan inicial).
    - El −2,25 % es contra el plan inicial; contra el caso base, el costo baja 14,5 %.
    - Con recarga forzada, «heurística contra exacta» se mide contra el **mejor plan conocido**, no
@@ -648,7 +668,7 @@ Solo si sobra tiempo.
 
 - **¿La solución es óptima?** No, es aproximada: a 0,13 % del óptimo en los 5 casos chicos y a 0,57 % en
   el de 293 corridas. En la red completa queda 12,7 % sobre una cota débil.
-- **¿Cómo se repite el día siguiente?** Hoy no se repite solo: faltan 2,07 GWh, que toman 16,4 h de carga
+- **¿Cómo se repite el día siguiente?** Hoy no se repite solo: faltan 2,08 GWh, que toman 16,5 h de carga
   nocturna con las 700 conexiones. Es un hallazgo, con una recomendación de infraestructura.
 - **¿Por qué no respetan los 1.200 buses declarados?** Cubren alrededor del 28 % del servicio. El tamaño
   de la flota es la decisión, no un dato.

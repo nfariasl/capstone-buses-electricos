@@ -18,15 +18,20 @@ import pandas as pd
 
 RAIZ = Path(__file__).resolve().parents[2]
 
-# Planes de la red completa (417 rutas) que existen hoy en el repositorio.
-# Para agregar el plan final (por ejemplo, cuartetos), sumar una línea con su carpeta.
+# Planes de la red completa (417 rutas).
+# «metodo» es el plan final de la Entrega 3: cuartetos al azar, semilla 1, 40 min (2.400 s); en el día
+# laboral da 7.351 buses. Antes eran los planes de octubre (7.427 buses en L), en
+# metodo_hibrido/resultados/completa_417_{,S_,D_}2026xxxx/04_final. El nombre «metodo» no se cambia:
+# kpi_planes.tabla_ahorro y uso_electroterminales comparan metodo_{día} contra caso_base_{día}.
+# Las carpetas de cuartetos no están en GitHub (son pesadas); solo existen en el Mac donde se corrieron.
+_CUARTETOS = '09-entrega3/octetos/resultados/planes_417_{dia}/instancia_417{sufijo}_cuartetos_azar_s1_2400s'
 PLANES = [
     ('caso_base', 'L', 'codigo/output/tres_fases/red_417_L_caso_base'),
     ('caso_base', 'S', 'codigo/output/tres_fases/red_417_S_caso_base'),
     ('caso_base', 'D', 'codigo/output/tres_fases/red_417_D_caso_base'),
-    ('metodo', 'L', 'metodo_hibrido/resultados/completa_417_20261006/04_final'),
-    ('metodo', 'S', 'metodo_hibrido/resultados/completa_417_S_20261027/04_final'),
-    ('metodo', 'D', 'metodo_hibrido/resultados/completa_417_D_20261027/04_final'),
+    ('metodo', 'L', _CUARTETOS.format(dia='L', sufijo='')),
+    ('metodo', 'S', _CUARTETOS.format(dia='S', sufijo='_S')),
+    ('metodo', 'D', _CUARTETOS.format(dia='D', sufijo='_D')),
 ]
 
 DIAS = {'L': 'laboral', 'S': 'sábado', 'D': 'domingo'}

@@ -77,3 +77,7 @@ graphify-out/
 
 # Capturas e íconos intermedios del exportador del deck (se regeneran con exportar_pptx.py)
 09-entrega3/presentacion/exportacion/
+
+# Escenarios de sensibilidad (se recrean con 09-entrega3/sensibilidad/crear_escenarios.py) y sus planes
+metodo_hibrido/sensibilidad_*/
+09-entrega3/sensibilidad/resultados/planes/

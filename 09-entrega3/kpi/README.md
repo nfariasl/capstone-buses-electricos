@@ -18,11 +18,13 @@ python3 09-entrega3/kpi/uso_electroterminales.py
 python3 -m pytest -q 09-entrega3/kpi/
 ```
 
-La ocupación de plazas necesita `actividades.csv`, que no está en GitHub pero sí en las carpetas
-`04_final` del computador donde se corrió el método:
+La ocupación de plazas necesita `actividades.csv`, que no está en GitHub pero sí en las carpetas de
+planes del computador donde se corrió el método (una vez por día):
 
 ```bash
-python3 09-entrega3/kpi/ocupacion_plazas.py --plan metodo_hibrido/resultados/completa_417_20261006/04_final --nombre metodo_L
+python3 09-entrega3/kpi/ocupacion_plazas.py --plan 09-entrega3/octetos/resultados/planes_417_L/instancia_417_cuartetos_azar_s1_2400s --nombre metodo_L
+python3 09-entrega3/kpi/ocupacion_plazas.py --plan 09-entrega3/octetos/resultados/planes_417_S/instancia_417_S_cuartetos_azar_s1_2400s --nombre metodo_S
+python3 09-entrega3/kpi/ocupacion_plazas.py --plan 09-entrega3/octetos/resultados/planes_417_D/instancia_417_D_cuartetos_azar_s1_2400s --nombre metodo_D
 ```
 
 El script comprueba que su pico coincida con la `ocupacion_maxima` del auditor.
@@ -35,43 +37,47 @@ El script comprueba que su pico coincida con la `ocupacion_maxima` del auditor.
 | `kpi_planes.py` | 30 KPI por plan, ahorro del método contra el caso base y tabla por sector |
 | `uso_electroterminales.py` | Perfil de carga por electroterminal en bloques de 5 min, resumen, matriz sector × electroterminal y figuras |
 | `ocupacion_plazas.py` | Ocupación de plazas por electroterminal cada 5 min desde `actividades.csv`, separando buses cargando, esperando durante la operación y estacionados al cierre |
-| `test_kpi.py`, `test_ocupacion_plazas.py` | Pruebas con planes chicos y con los planes del repositorio |
-| `resultados/` | Salidas: CSV, `kpi_planes.md` y figuras PNG |
+| `repetibilidad.py` | Por electroterminal: energía a reponer de noche, lo que alcanzan a entregar sus conexiones en la ventana nocturna, y cuántos MW y conexiones faltan para repetir el día (necesita `actividades.csv`; supuestos en su encabezado) |
+| `test_kpi.py`, `test_ocupacion_plazas.py`, `test_repetibilidad.py` | Pruebas con planes chicos y con los planes del repositorio |
+| `resultados/` | Salidas: CSV, `kpi_planes.md`, `plazas_metodo_{L,S,D}_*` y figuras PNG |
 
 ## Controles
 
 - Antes de usar un plan se comprueba que `jornadas.csv`, `recargas.csv` y `resumen.json` den los mismos
   buses, corridas, km, energía, sesiones y costo. Los seis planes cuadran.
-- El pico de buses cargando a la vez en cada electroterminal coincide con el que reportó el auditor en
-  `resumen.json` (`cargas_simultaneas_maximas`), en los seis planes.
+- El pico de buses cargando a la vez y el de plazas ocupadas en cada electroterminal coinciden con los
+  que reportó el auditor en `resumen.json` (`cargas_simultaneas_maximas` y `ocupacion_maxima`).
 
-## Planes usados
+## Planes usados (desde el 22-nov)
 
 | Plan | Carpeta |
 |---|---|
 | Caso base L, S, D | `codigo/output/tres_fases/red_417_{L,S,D}_caso_base/` |
-| Método L | `metodo_hibrido/resultados/completa_417_20261006/04_final/` (7.427 buses) |
-| Método S, D | `metodo_hibrido/resultados/completa_417_{S,D}_20261027/04_final/` |
+| Método L, S, D | `09-entrega3/octetos/resultados/planes_417_{L,S,D}/instancia_417{,_S,_D}_cuartetos_azar_s1_2400s/` |
 
-El plan de cuartetos (7.351 buses) no tiene `jornadas.csv` ni `recargas.csv` en el repositorio. Cuando
-esté, se agrega a `PLANES` y las cifras se recalculan solas.
+El método es el plan final de la Entrega 3: cuartetos al azar, semilla 1, 40 min (7.351 / 4.521 / 3.902
+buses). Esas carpetas no están en GitHub: solo existen en el Mac donde se corrieron. Hasta el 22-nov,
+`kpi/` usaba los planes de octubre (7.427 buses en día laboral); esas cifras ya no van.
 
-## Primeros hallazgos (día laboral)
+## Hallazgos
 
-- **Ahorro contra el caso base:** −1.257 buses (−14,5 %) y −USD 424.223 al día (−13,9 %). En sábado,
-  −14,6 % de buses; en domingo, −10,0 %.
-- **Los cargadores no son el cuello de botella del método.** El pico es de 21 a 45 buses cargando a la
-  vez, entre 17,5 % y 26 % de las conexiones, y ocurre entre las 17:00 y las 19:30, casi siempre antes
-  del tramo caro de 19:00 a 22:00. El caso base, que recarga al 100 %, llena las conexiones de E2, E4 y E5 entre las
-  20:00 y las 22:00.
-- **Las plazas llegan al 100 % al menos al cierre del día.** En el método, exactamente 700
-  buses terminan el día estacionados en un electroterminal: 180 + 150 + 150 + 120 + 100, que es la
-  capacidad total. Por eso la verificación reporta ocupación máxima de plazas igual a la capacidad. En
-  el caso base ningún bus termina en un electroterminal. Para saber si también se llenan durante la
-  operación hace falta la ocupación de plazas hora a hora, que necesita `actividades.csv`.
-- **Desbalance entre sectores.** El sector 3 (Los Espinos) carga solo el 34 % de su energía en su propio
-  electroterminal, y el 38 % en E2 El Conquistador y el 20 % en E5 Santa Rosa. Los demás sectores
-  cargan entre 53 % y 77 % en el suyo. Santa Rosa (sector 5, 117 rutas) carga el 64 % en el suyo.
-- **La energía casi no pesa en el método:** 0,4 % del costo. Se carga el 3,0 % de la energía consumida,
-  porque los buses parten llenos y terminan con 71 kWh en promedio. Para repetir el día habría que
-  reponer 2,07 GWh de noche.
+| Día | Buses (base → método) | Δ buses | Costo USD/día (base → método) | Δ costo |
+|---|---|---|---|---|
+| Laboral | 8.684 → 7.351 | −15,4 % | 3.062.717 → 2.617.245 | −14,5 % |
+| Sábado | 5.492 → 4.521 | −17,7 % | 2.040.216 → 1.704.731 | −16,4 % |
+| Domingo | 4.669 → 3.902 | −16,4 % | 1.765.184 → 1.475.231 | −16,4 % |
+
+- **Los cargadores no son el cuello de botella del método.** En día laboral el pico es de 15 a 38 buses
+  cargando a la vez por electroterminal (11 a 21 % de las conexiones), entre las 19:25 y las 19:55, al
+  inicio del tramo caro de 19:00 a 22:00. El sábado llega a 41 % (La Reina, 17:25). El caso base, que
+  recarga al 100 %, llena las conexiones de E2, E4 y E5 entre las 20:00 y las 22:00.
+- **Las plazas se llenan solo al cierre.** Durante la operación se ocupa como máximo el 11 a 21 % de las
+  plazas en día laboral (22 a 41 % el sábado, 20 a 31 % el domingo). Al cierre, exactamente 700 buses
+  quedan estacionados en los electroterminales, que es la capacidad total, y las plazas pasan entre 75 y
+  155 min al 100 % después de medianoche. En el caso base ningún bus termina en un electroterminal.
+- **Desbalance entre sectores.** El sector 3 (Los Espinos) carga solo el 37,6 % de su energía en su
+  propio electroterminal, el 36,5 % en E2 El Conquistador y el 18,7 % en E5 Santa Rosa. Los demás
+  sectores cargan entre 56,5 % y 76,1 % en el suyo.
+- **La energía casi no pesa en el método:** 0,4 % del costo en día laboral. Se carga el 2,5 % de la
+  energía consumida, porque los buses parten llenos y terminan con 66 kWh en promedio. Para repetir el
+  día habría que reponer 2,08 GWh de noche.
