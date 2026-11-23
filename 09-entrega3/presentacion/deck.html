@@ -526,7 +526,7 @@ i.ico.rojo { color: var(--rojo); }
       <div data-desde="2" style="--retardo: 250ms"><h3>Alcance y entregable</h3><p>Toda la red, en día laboral, sábado y domingo: un plan bus por bus con su calendario de recargas, auditado.</p></div>
     </div>
     <aside class="notas">
-      (35 s) El objetivo es minimizar el costo diario. Tiene cuatro partes, con los precios del enunciado: doscientos
+      (45 s) El objetivo es minimizar el costo diario. Tiene cuatro partes, con los precios del enunciado: doscientos
       cincuenta dólares por cada bus que sale a operar, medio dólar por kilómetro, la energía según la hora y cinco
       dólares por sesión de carga. [→] El término que manda es el primero: en nuestro plan para el día laboral, los
       buses son el setenta por ciento del costo. Por eso, en la práctica, el objetivo es usar menos buses, [→] cubriendo
@@ -553,7 +553,7 @@ i.ico.rojo { color: var(--rojo); }
         <p>Tiempos de viaje fijos, sin tráfico ni mantenciones, y cargadores de 180 kW.</p></div>
     </div>
     <aside class="notas">
-      (50 s) Antes de planificar, miramos cómo se mueve la red. La curva cuenta, cada cinco minutos, cuántas corridas
+      (40 s) Antes de planificar, miramos cómo se mueve la red. La curva cuenta, cada cinco minutos, cuántas corridas
       están en curso en un día laboral. [→] La punta es a las ocho de la mañana: seis mil seiscientas corridas a la
       vez. Ese número es un piso: ningún plan puede usar menos buses. [→] El fin de semana la red necesita mucho
       menos. [→] Los horarios y recorridos son reales, del GTFS de DTPM; costos, batería, tarifas y electroterminales
@@ -582,7 +582,7 @@ i.ico.rojo { color: var(--rojo); }
     </div>
     <p class="nota-pie" data-desde="2" style="--retardo: 300ms">La calidad de la solución se mide aparte: su distancia al óptimo en casos que la exacta resuelve.</p>
     <aside class="notas">
-      (35 s) Medimos seis indicadores, y cada uno se compara contra el caso base, no contra una meta fija. Dos de
+      (40 s) Medimos seis indicadores, y cada uno se compara contra el caso base, no contra una meta fija. Dos de
       costo: los buses y el costo total, que es lo que minimizamos. [→] Dos de operación: los kilómetros en vacío y
       cuántos buses cargan a la vez en cada electroterminal, que dice si los cargadores son un cuello de botella.
       [→] Y dos de energía: cuánta se carga durante el día y con cuánta termina cada bus, que dice si el día
@@ -807,7 +807,8 @@ i.ico.rojo { color: var(--rojo); }
       buses menos, un quince por ciento, promedio de tres semillas muy parejas. La mayor parte de esa baja ya la logra
       el plan inicial, al compartir buses entre rutas; los cuartetos sacan el resto. [→] El costo diario baja catorce
       y medio por ciento. [→] Y se repite el fin de semana: casi dieciocho y dieciséis por ciento menos buses. En la
-      semana el costo baja casi quince por ciento, y la flota la fija el día laboral.
+      semana el costo baja casi quince por ciento, y la flota la fija el día laboral. (Si preguntan: la semana es
+      cinco días laborales más sábado y domingo, USD 16,27 contra 19,12 millones.)
     </aside>
   </section>
 
@@ -854,7 +855,8 @@ i.ico.rojo { color: var(--rojo); }
       cuatro rutas. La brecha es cuánto más caro sale nuestro plan. [→] Con dos minutos, cuartetos al azar queda a
       0,13 por ciento en promedio y 0,31 en el peor caso: el mejor tamaño de grupo que probamos. [→] En la red
       completa no hay óptimo, pero sí un piso: nunca puede haber menos buses que corridas en curso a la vez. Quedamos
-      once por ciento arriba. [→] Ese piso no cuenta kilómetros ni energía, y puede no ser alcanzable.
+      once por ciento arriba. [→] Ese piso no cuenta kilómetros ni energía, y puede no ser alcanzable. (Si preguntan por la cota en costo del informe: esos 6.601 buses más los km de servicio dan USD 2.322.956, y
+      quedamos 12,7 % arriba. Es débil: ignora la recarga, los sectores y los km en vacío.)
     </aside>
   </section>
 
@@ -874,7 +876,7 @@ i.ico.rojo { color: var(--rojo); }
     <div class="graf graf-recarga" style="left: 1004px; top: 400px; width: 820px; height: 300px"
       aria-label="Diferencia de la mejor heurística contra el mejor plan de la exacta: promedio 4,8 % con 150 kWh y 2,8 % con 120 kWh"></div>
     <div class="claves">
-      <div data-desde="2"><b>62 contra 64 buses</b><p>En el caso más grande con recarga (293 corridas), los cuartetos le ganan a la exacta tras una hora.</p></div>
+      <div data-desde="2"><b>62 contra 64 buses</b><p>En el caso más grande con recarga (293 corridas), los cuartetos, en 15 min, le ganan al mejor plan de la exacta en una hora.</p></div>
       <div data-desde="2" style="--retardo: 300ms"><b>−0,2&nbsp;%</b><p>es lo que mejora darle 15 min en vez de 2. El límite es el vecindario, no el tiempo.</p></div>
     </div>
     <aside class="notas">
@@ -904,14 +906,13 @@ i.ico.rojo { color: var(--rojo); }
     </div>
     <div class="graf graf-fisicos" style="left: 1220px; top: 470px; width: 604px; height: 330px"
       aria-label="Cambio de buses con batería de 300 y 250 kWh y consumo +10 y +20 %"></div>
-    <p class="nota-atrasos" data-desde="2" style="--retardo: 900ms">El caso base no se corrió con estos parámetros: no sabemos si el ahorro se mantiene.</p>
+    <p class="nota-atrasos" data-desde="2" style="--retardo: 900ms">El caso base también crece: con la misma batería o el mismo consumo, el ahorro de costo queda entre −14,0 y −15,9&nbsp;%.</p>
     <aside class="notas">
-      (40 s) ¿Qué pasa si cambian los supuestos? Movimos la capacidad de carga, el bus mismo y los precios. [→] La
-      franja gris es el ruido de la búsqueda: solo cerrar un electroterminal grande mueve el costo, y si cambian los
-      precios del bus o del km, o si cobramos la espera, el ahorro sigue entre catorce y quince por ciento. [→] Lo que
-      sí pesa es el bus: una batería de 250 kilowatt-hora pide casi treinta por ciento más buses, y un consumo veinte
-      por ciento mayor, dieciocho. No corrimos el caso base con esos valores, así que no sabemos si el ahorro se
-      mantiene.
+      (40 s) ¿Qué pasa si cambian los supuestos? Movimos la capacidad de carga, el bus y los precios. [→] La franja
+      gris es el ruido de la búsqueda: solo cerrar un electroterminal grande mueve el costo; con otros precios o
+      cobrando la espera, el ahorro sigue entre catorce y quince por ciento. [→] Lo que sí pesa es el bus: con una
+      batería de 250 kilowatt-hora hacen falta casi treinta por ciento más buses. Pero el caso base también crece, y
+      el ahorro se mantiene entre catorce y dieciséis por ciento.
     </aside>
   </section>
 
@@ -1135,6 +1136,25 @@ i.ico.rojo { color: var(--rojo); }
       con tiempos de viaje variables se atrasa más que el caso base y muchos buses bajan de la reserva. Es el costo de
       optimizar sin holgura; la solución es agregar un margen de energía o buses de reserva, y medir cuánto ahorro se pierde.
       Detalle en 09-entrega3/incertidumbre/README.md.</aside>
+  </section>
+
+  <section class="lamina anexo" data-n="28" data-tramo="4" data-anexo="A7" aria-label="Anexo A7">
+    <p class="anexo-tag">Anexo A7, fuera de los 15 minutos</p>
+    <h2 class="titulo">En qué horarios cargan los buses</h2>
+    <p class="frase">Energía cargada en cada hora del día laboral, como % de lo que carga cada plan en el día. El fondo es la tarifa del enunciado.</p>
+    <div class="graf graf-horario" style="left: 96px; top: 280px; width: 1120px; height: 520px"
+      aria-label="Energía cargada por hora: nuestro plan carga sobre todo de 17 a 21 h; el caso base, de 19 a 22 h"></div>
+    <div class="lado-cifras" style="top: 270px">
+      <div class="bloque"><b>50&nbsp;%</b><p>de la energía de nuestro plan se carga en los tramos de USD 0,22 por kWh; en el caso base, el 65&nbsp;%.</p></div>
+      <div class="bloque"><b>19 a 20 h</b><p>es la hora en que más carga el plan, y carga solo lo justo para terminar sus corridas. El caso base carga al 100&nbsp;% de 20 a 22 h.</p></div>
+      <div class="bloque"><b>USD 0,18</b><p>por kWh paga en promedio el plan, contra 0,19 del caso base.</p></div>
+    </div>
+    <p class="nota-pie" style="top: 900px; width: 1728px; font-size: 21px">La energía es el 0,4&nbsp;% del costo del plan: con la tarifa de punta +50&nbsp;%, el costo no sale del ruido (lámina 19).
+      Fuente: kpi/resultados/uso_e_perfil.csv y kpi_planes.csv; plan de cuartetos, semilla 1.</p>
+    <aside class="notas">Si preguntan en qué horarios cargan (lo pidieron en la Entrega 2). El plan carga poco y lo justo para terminar
+      las corridas, así que carga cuando los buses lo necesitan: la mitad cae en los tramos caros, sobre todo de 19 a 20 horas.
+      El caso base carga mucho más y más tarde, al cien por ciento. Como la energía pesa menos de medio punto del costo, mover la
+      carga a horas baratas casi no cambia el resultado: lo probamos subiendo la tarifa de punta un cincuenta por ciento.</aside>
   </section>
 
 </main>
@@ -1585,6 +1605,40 @@ function armarAtrasos(cont) {
   cont.innerHTML = SVG(ANCHO_G, 330, s);
 }
 document.querySelectorAll(".graf-atrasos").forEach(armarAtrasos);
+
+/* A7 · Energía cargada por hora, día laboral (kpi/resultados/uso_e_perfil.csv, kWh por hora; plan de cuartetos
+   semilla 1) y tarifa del enunciado (01-datos/electricity_prices.csv) */
+const HORARIO_BASE = [0, 0, 0, 0, 0, 0, 0, 0, 105, 1185, 3727, 6716, 9840, 12933, 13957, 13873, 16960, 21383, 27358,
+  42454, 82631, 106820, 60317, 6865];
+const HORARIO_PLAN = [0, 196, 728, 982, 1815, 349, 528, 509, 65, 252, 817, 1669, 2531, 3206, 351, 421, 858, 7572, 4662,
+  12258, 8412, 4537, 945, 257];
+const TARIFA = [[0, 8, 0.10], [8, 14, 0.15], [14, 17, 0.22], [17, 19, 0.15], [19, 22, 0.22], [22, 24, 0.11]];
+function armarHorario(cont) {
+  const W = 1120, X0 = 70, X1 = W - 10, Y0 = 70, BASE = 420, PX = 12;
+  const x = h => X0 + h * (X1 - X0) / 24, ancho = (X1 - X0) / 24, y = v => BASE - v * PX;
+  const pct = arr => { const t = arr.reduce((a, b) => a + b, 0); return arr.map(v => 100 * v / t); };
+  const base = pct(HORARIO_BASE), plan = pct(HORARIO_PLAN);
+  let s = "";
+  TARIFA.forEach(([a, b, p]) => {
+    const caro = p > 0.2;
+    s += `<rect x="${x(a)}" y="${Y0}" width="${x(b) - x(a)}" height="${BASE - Y0}" fill="${caro ? "var(--rojo)" : "var(--gris-base)"}" opacity="${caro ? 0.10 : 0.06}"/>`;
+    s += `<text class="eje" x="${(x(a) + x(b)) / 2}" y="${Y0 - 14}" text-anchor="middle" ${caro ? 'style="fill: var(--rojo); font-weight: 700"' : ""}>USD ${num(p, 2)}</text>`;
+  });
+  [0, 10, 20].forEach(v => {
+    s += `<line x1="${X0}" x2="${X1}" y1="${y(v)}" y2="${y(v)}" stroke="var(--linea)" stroke-width="${v ? 1 : 2}"/>`;
+    s += `<text class="eje" x="${X0 - 10}" y="${y(v) + 6}" text-anchor="end">${v} %</text>`;
+  });
+  base.forEach((v, h) => {
+    if (v > 0) s += barraArriba(x(h) + 3, BASE, ancho / 2 - 3, v * PX, "var(--gris-base)");
+    if (plan[h] > 0) s += barraArriba(x(h) + ancho / 2, BASE, ancho / 2 - 3, plan[h] * PX, "var(--azul)");
+  });
+  [0, 4, 8, 12, 16, 20, 24].forEach(h => { s += `<text class="eje" x="${x(h)}" y="${BASE + 30}" text-anchor="middle">${h}</text>`; });
+  s += `<text class="titulo-eje" x="${X0}" y="${BASE + 66}">Hora del día; % de la energía que carga cada plan en el día</text>`;
+  s += `<rect x="${X0}" y="${BASE + 84}" width="20" height="20" rx="3" fill="var(--gris-base)"/><text class="nom" x="${X0 + 30}" y="${BASE + 101}">Caso base</text>
+    <rect x="${X0 + 200}" y="${BASE + 84}" width="20" height="20" rx="3" fill="var(--azul)"/><text class="nom" x="${X0 + 230}" y="${BASE + 101}">Nuestro plan</text>`;
+  cont.innerHTML = SVG(W, 520, s);
+}
+document.querySelectorAll(".graf-horario").forEach(armarHorario);
 
 /* 19 · Batería y consumo: cambio de buses y costo contra la base de la misma tanda
    (sensibilidad/resultados/fisicos_417_L.csv, cuartetos al azar 1.200 s, semilla 1) */

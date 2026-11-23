@@ -1,0 +1,6 @@
+﻿escenario,bateria_kwh,consumo_kwh_km,buses_caso_base,costo_caso_base_usd,buses_cuartetos,costo_cuartetos_usd,ahorro_buses_pct,ahorro_costo_pct
+instancia_417,350.0,1.4,8684,3062717,7384,2631915,-14.97,-14.07
+bateria_300,300.0,1.4,10056,3493529,8640,2995049,-14.08,-14.27
+bateria_250,250.0,1.4,11070,3832574,9552,3294349,-13.71,-14.04
+consumo_+10,350.0,1.54,9542,3335179,8173,2860015,-14.35,-14.25
+consumo_+20,350.0,1.68,10452,3608312,8742,3033700,-16.36,-15.92

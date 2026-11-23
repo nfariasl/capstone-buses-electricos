@@ -1,6 +1,7 @@
 """Auditoría independiente de las actividades exportadas (no usa el calendario constructor)."""
 from collections import Counter, defaultdict
 import math
+from tres_fases.fase3 import BATERIA, CONSUMO, MINIMO
 
 def verificar(schedules, trips, distances, starts, physical, plugs, tariffs, t0, horizon):
     expected = {t['corrida_id']: t for t in trips}
@@ -25,7 +26,7 @@ def verificar(schedules, trips, distances, starts, physical, plugs, tariffs, t0,
         return peak
     check(len({s['bus_id'] for s in schedules}) == len(schedules), 'Identificador de bus duplicado')
     for bus in schedules:
-        soc, lowest = 350., 350.
+        soc, lowest = BATERIA, BATERIA
         loc, time = bus['terminal_inicial'], t0
         check(loc in starts, 'Salida fuera de los cuatro T')
         km_service = km_empty = q_sum = energy_cost = 0.
@@ -49,12 +50,12 @@ def verificar(schedules, trips, distances, starts, physical, plugs, tariffs, t0,
                 coverage[a['corrida_id']] += 1
                 bus_covered.append(a['corrida_id'])
                 km_service += km
-                soc -= 1.4*km
+                soc -= CONSUMO*km
             elif a['tipo'] == 'vacio':
                 d, duration = distances[a['origen'], a['destino']]
                 check(abs(km-d) < 1e-6 and f-s == duration and q == 0, 'Traslado incorrecto')
                 km_empty += km
-                soc -= 1.4*km
+                soc -= CONSUMO*km
             elif a['tipo'] in ('carga', 'espera'):
                 check(a['origen'] == a['destino'] and km == 0, 'Actividad estacionaria con movimiento')
                 if a['origen'] in physical:
@@ -73,13 +74,13 @@ def verificar(schedules, trips, distances, starts, physical, plugs, tariffs, t0,
                     check(q == 0, 'Carga en una espera')
             else:
                 raise AssertionError('Actividad desconocida')
-            check(35-1e-6 <= soc <= 350+1e-6, f"SOC inválido {bus['bus_id']} {order}: {soc}")
+            check(MINIMO-1e-6 <= soc <= BATERIA+1e-6, f"SOC inválido {bus['bus_id']} {order}: {soc}")
             lowest = min(lowest, soc)
             activities.append(dict(bus_id=bus['bus_id'], orden=order, **a, energia_inicial_kwh=before, energia_final_kwh=soc))
             loc, time, previous = a['destino'], f, a
         check(bus_covered == bus['corridas'] and bus_covered, 'Lista de corridas inconsistente')
         check(time == horizon and loc == bus['terminal_final'] and loc in set(starts)|set(physical), 'Final o estacionamiento incompleto')
-        check(abs(350+q_sum-1.4*(km_service+km_empty)-soc) < 1e-5, 'Balance energético incorrecto')
+        check(abs(BATERIA+q_sum-CONSUMO*(km_service+km_empty)-soc) < 1e-5, 'Balance energético incorrecto')
         cost = 250+.5*(km_service+km_empty)+energy_cost+5*bus_sessions
         journeys.append(dict(bus_id=bus['bus_id'], cadena_fase2=bus['cadena_fase2'], sector_id=bus['sector_id'],
                              terminal_inicial=bus['terminal_inicial'], terminal_final=loc, corridas=len(bus_covered),

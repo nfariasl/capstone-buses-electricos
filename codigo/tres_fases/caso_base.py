@@ -4,6 +4,7 @@ Ejecutar: python tres_fases/caso_base.py --base output/tres_fases/muestra_212 [-
 O sobre una instancia del híbrido (rutas, horizonte y tipo de día):
   python tres_fases/caso_base.py --instancia ../metodo_hibrido/instancia_417_S --salida output/tres_fases/red_S_caso_base
 Con --umbral, además va a cargar apenas el SOC baja de esa fracción (por defecto 0: solo cuando no alcanza).
+Batería, reserva y consumo se cambian con BATERIA_KWH, RESERVA_KWH y CONSUMO_KWH_KM (sensibilidad).
 No optimiza: sirve de referencia intuitiva sobre la misma instancia y la misma auditoría del modelo.
 """
 import sys
@@ -167,7 +168,8 @@ def ejecutar(routes, bounds, servicio, umbral, out):
     guardar(out/'recargas.csv', [a for a in activities if a['tipo'] == 'carga'])
     result = dict(politica='Cada ruta con sus propios buses; primer bus libre que alcanza; recarga al 100 % '
                            'en el E más cercano con cupo cuando no alcanza o el SOC baja del umbral',
-                  umbral_soc=umbral, servicio=servicio, configuracion=CONFIG, rutas=routes, horizonte=bounds,
+                  umbral_soc=umbral, servicio=servicio,
+                  configuracion=dict(CONFIG, bateria_kwh=BATERIA, minimo_kwh=MINIMO, consumo_kwh_km=CONSUMO), rutas=routes, horizonte=bounds,
                   km_servicio=km_service, km_vacio=km_empty, porcentaje_km_vacio=100*km_empty/(km_service+km_empty),
                   caso_base=summary, tiempo_total_s=time.perf_counter()-start)
     (out/'resumen.json').write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')

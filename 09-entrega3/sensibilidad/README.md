@@ -83,8 +83,21 @@ Resultados en `resultados/fisicos_417_L.csv`.
 | Consumo +20 % (1,68 kWh/km) | 8.742 | +18,4 % | +15,3 % | — |
 
 Lectura: el bus mismo pesa mucho más que la capacidad de carga o las tarifas. Con menos autonomía, cada
-bus alcanza a hacer menos corridas y hacen falta más buses. **Limitación:** el caso base no se corrió con
-estos parámetros (no lee las variables de entorno), así que no se sabe si el ahorro contra él se mantiene.
+bus alcanza a hacer menos corridas y hacen falta más buses.
+
+**Ahorro contra el caso base de la misma batería o consumo** (`caso_base_fisicos.sh` y `ahorro_fisicos.py`,
+23-nov). El caso base (`codigo/tres_fases/caso_base.py`) lee las mismas variables de entorno; cada corrida
+toma ~5 s. Resultados en `resultados/ahorro_fisicos.csv`.
+
+| Escenario | Caso base (buses) | Cuartetos (buses) | Ahorro de buses | Ahorro de costo |
+|---|---:|---:|---:|---:|
+| Base de la tanda | 8.684 | 7.384 | −14,97 % | −14,07 % |
+| Batería de 300 kWh | 10.056 | 8.640 | −14,08 % | −14,27 % |
+| Batería de 250 kWh | 11.070 | 9.552 | −13,71 % | −14,04 % |
+| Consumo +10 % | 9.542 | 8.173 | −14,35 % | −14,25 % |
+| Consumo +20 % | 10.452 | 8.742 | −16,36 % | −15,92 % |
+
+El ahorro se mantiene: el caso base crece en la misma proporción que el plan.
 
 **Costo por bus y por km ±20 %** (`evaluar_costos.py`), sobre los mismos planes y sin reoptimizar: el
 ahorro del día laboral contra el caso base queda entre −14,07 % (km +20 %) y −15,08 % (km −20 %).
@@ -99,5 +112,5 @@ suma ~1,9 % al costo de ambos planes; el ahorro del día laboral pasa de −14,5
   costo por km.** Están fijos en el código de `metodo_hibrido/` (`calendario.py`, `recarga.py`,
   `conjunta.py`, `exacto.py`, `verificar.py` y `caso_base.py`), y `load_instance` rechaza un escenario
   que declare otros valores. Para variarlos hay que llevarlos a `escenario.json`.
-- **El caso base en estos escenarios.** `codigo/tres_fases/caso_base.py` toma plazas y tarifas de
-  `codigo/`, no de `escenario.json`.
+- **El caso base en los escenarios de capacidad y tarifa.** `codigo/tres_fases/caso_base.py` toma plazas y
+  tarifas de `codigo/`, no de `escenario.json` (batería y consumo sí, por variables de entorno).

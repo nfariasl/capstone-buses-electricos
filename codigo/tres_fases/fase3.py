@@ -1,8 +1,22 @@
 """Heurística constructiva con calendario compartido; no prueba optimalidad."""
 import math
+import os
 import numpy as np
 
-BATERIA, MINIMO, CONSUMO = 350., 35., 1.4
+
+def _leer_entorno(nombre, omision):
+    """Batería, reserva y consumo para la sensibilidad (mismas variables que metodo_hibrido/energia.py)."""
+    valor = float(os.environ.get(nombre, omision))
+    if valor <= 0:
+        raise ValueError(f'{nombre} debe ser positivo: {valor}')
+    return valor
+
+
+BATERIA = _leer_entorno('BATERIA_KWH', 350.)
+MINIMO = _leer_entorno('RESERVA_KWH', 35.)
+CONSUMO = _leer_entorno('CONSUMO_KWH_KM', 1.4)
+if MINIMO >= BATERIA:
+    raise ValueError(f'La reserva ({MINIMO}) debe ser menor que la batería ({BATERIA})')
 BLOQUE, MAX_CARGA = 300, 15.
 EPS = 1e-7
 

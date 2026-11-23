@@ -2,7 +2,7 @@
 
 Grupo 29 · ICS2122 Taller de Investigación Operativa (Capstone) · 2026-2
 Problema P7: planificación de la operación de buses eléctricos en la Región Metropolitana.
-Escrito el **22-nov-2026** y actualizado el **23-nov** (resultados de la sensibilidad y heurísticas en 6, 8 y 12 rutas) para que
+Escrito el **22-nov-2026** y actualizado el **23-nov** (sensibilidad, heurísticas en 6, 8 y 12 rutas y auditoría final del deck) para que
 cualquier integrante, o la IA con la que trabaje, pueda seguir sin haber estado en las sesiones
 anteriores. Las cifras se comprobaron contra los archivos del repositorio.
 
@@ -67,7 +67,7 @@ Diego Barrios, Gustavo Anguita, Cristobal Rehbein y Ricardo Palma. Ayudante: Max
 | Sensibilidad | ✅ 11 escenarios de capacidad y tarifa (22/23-nov) + batería, consumo, costo por bus y km ±20 % y costo de espera (23-nov) | §5.7, §9 C |
 | Repetibilidad del día siguiente | ✅ Calculada por electroterminal (22-nov): en día laboral se cubre el 45 % | §9 D |
 | Incertidumbre (atrasos, Monte Carlo) | ✅ Simulada el 23-nov; va en el anexo A6 del deck | §9 E |
-| Deck final (15 min) | 🟡 21 láminas + 6 anexos llenos, en HTML y en Canva (74 págs., 23-nov); falta ensayar | §9 A |
+| Deck final (15 min) | 🟡 21 láminas + 7 anexos, auditado el 23-nov (tarde); HTML y Canva (75 págs.) al día; falta ensayar | §9 A |
 | Informe final (45 págs., 200 pts) | 🔴 **Sin empezar** en el repo | §9 F |
 | Repositorio final | 🟡 Público y ordenado; falta la etiqueta `entrega-3` | §9 H |
 
@@ -175,6 +175,13 @@ El plan completo está en `09-entrega3/PLAN-ENTREGA3.md`. Lo que se hizo:
     corridas (§5.3).
 12. **23-nov · Anexos A1–A5 del deck** (`09-entrega3/presentacion/deck.html`): MILP de recarga, familias de
     métodos, supuestos, tabla de casos medianos y recarga forzada, y sectores fijos. Sin «PENDIENTE» en el deck.
+13. **23-nov (tarde) · Auditoría final del deck.** El caso base (`codigo/tres_fases/caso_base.py`) ahora lee
+    batería, reserva y consumo de las mismas variables de entorno que el método; se corrió con los cuatro
+    escenarios físicos (`sensibilidad/caso_base_fisicos.sh`, ~5 s cada uno) y el ahorro de costo se mantiene
+    entre −14,0 y −15,9 % (`sensibilidad/ahorro_fisicos.py`). La lámina 19 ya no dice «no sabemos». Anexo A7
+    nuevo: en qué horarios cargan (feedback del 8-oct). Notas: tiempos de las láminas 4–6 y 19, cota en costo
+    (12,7 %) en la 17 y definición de semana en la 15. Lámina 18: «los cuartetos, en 15 min, le ganan al mejor
+    plan de la exacta en una hora».
 
 ---
 
@@ -336,6 +343,10 @@ otra corrida (sola y con 2.400 s). Fuente: `09-entrega3/sensibilidad/resultados/
   recarga nocturna (§5.6), que el modelo de un día no mide.
 - **Tarifa de punta +50 %:** USD 4.200 más al día en el plan inicial; con cuartetos queda en el ruido.
 - Plazas +50 % (−0,22 %) está en el borde del ruido; para afirmarlo harían falta más semillas.
+- **Batería y consumo contra el caso base de la misma batería o consumo** (23-nov, tarde;
+  `sensibilidad/resultados/ahorro_fisicos.csv`): el caso base también crece (10.056 buses con 300 kWh,
+  11.070 con 250 kWh, 9.542 con consumo +10 % y 10.452 con +20 %), y el ahorro de costo de cuartetos queda
+  en −14,3 / −14,0 / −14,3 / −15,9 % (−14,1 % en la base de la misma tanda).
 
 ---
 
@@ -362,9 +373,9 @@ Dentro de `09-entrega3/`:
 | `INFORME-RESULTADOS.md` | Todos los resultados, explicados para el grupo |
 | `octetos/` | Estudio de tamaños de grupo, exacta y recarga forzada. Casos en `casos/`, resultados en `resultados/*.csv` |
 | `kpi/` | KPI y uso de electroterminales (`kpi_planes.py`, `uso_electroterminales.py`, `ocupacion_plazas.py`) |
-| `sensibilidad/` | `crear_escenarios.py` (instancia de cada escenario), `correr_sensibilidad.sh` (corre los 11 y la base), `resumir.py` (tabla de Δ) y `resultados/` |
+| `sensibilidad/` | `crear_escenarios.py` (instancia de cada escenario), `correr_sensibilidad.sh` (corre los 11 y la base), `resumir.py` (tabla de Δ), `correr_fisicos.sh` (batería y consumo), `caso_base_fisicos.sh` + `ahorro_fisicos.py` (caso base con esa batería o consumo y su ahorro) y `resultados/` |
 | `mapa_sectores/` | Mapa de sectores, informe simple y metodología en 2 páginas |
-| `presentacion/` | `deck.html` (láminas 1–11), `presentacion_final_G29.pptx`, `ASIGNACION-LAMINAS-12-20.md` y `AUDITORIA-RUBRICA.md` |
+| `presentacion/` | `deck.html` (21 láminas + anexos A1–A7), `exportar_pptx.py` (.pptx para Canva; `--desde N`), `AUDITORIA-OMISIONES.md`, `AUDITORIA-RUBRICA.md` y `ASIGNACION-LAMINAS-12-20.md` |
 | `figuras/` | GIF y pasos de la absorción (lámina 10) |
 | `scripts/` | Auditoría del caso base |
 
@@ -442,7 +453,7 @@ Cada tarea dice qué hay que hacer, con qué archivos y cuándo está terminada.
 
 ### A. Presentación final (urgente: alrededor del 24-nov, por confirmar)
 
-**Estado (23-nov).** `09-entrega3/presentacion/deck.html` tiene **21 láminas y 6 anexos**; Canva
+**Estado (23-nov, tarde).** `09-entrega3/presentacion/deck.html` tiene **21 láminas y 7 anexos**; Canva
 (`DAHbqgcw7t8`, mismo link de siempre) tiene la versión exportada el 23-nov en la madrugada, con
 transiciones Disolver y barrido rojo al entrar a las láminas 8 y 15. Las notas declaran ~13:40,
 recortadas a 2,3 palabras por segundo y repartidas según el puntaje de la rúbrica.
@@ -457,7 +468,7 @@ recortadas a 2,3 palabras por segundo y repartidas según el puntaje de la rúbr
 | Implementación (5) | 11, 13, 14 | Auditoría (y lo que no certifica), procedimiento, decisiones técnicas |
 | Resultados (18) | 15–20 | Resultado L/S/D, ahorro, óptimo, casos medianos y recarga forzada, sensibilidad, día siguiente |
 | Cierre (5) | 21 | Conclusiones y piloto |
-| Anexos | A1–A6 | A1 MILP de recarga, A2 familias de métodos, A3 supuestos, A4 casos medianos y recarga forzada, A5 sectores, A6 incertidumbre |
+| Anexos | A1–A7 | A1 MILP de recarga, A2 familias de métodos, A3 supuestos, A4 casos medianos y recarga forzada, A5 sectores, A6 incertidumbre, A7 horarios de carga |
 
 **Por hacer:**
 1. ✅ **Canva al día (23-nov, 09:25)** en `DAHbqgcw7t8`, mismo link, 74 páginas: 1–48 = láminas 1–15 (sin tocar),
@@ -474,6 +485,12 @@ recortadas a 2,3 palabras por segundo y repartidas según el puntaje de la rúbr
    intercambios entre sectores (A5 lo declara como no medido).
 4. **Parciales de la rúbrica:** el impacto o escala de RED en el bloque Problema y la composición del
    costo del caso base (la lámina 16 muestra el ahorro por componente, no el % de cada uno).
+2. ✅ **Canva al día con la auditoría (23-nov, tarde)**, en `DAHbqgcw7t8` (75 páginas). Sin reimportar: con
+   la API de edición se cambiaron los textos de las láminas 18 (pág. 58) y 19 (pág. 61). También se pasaron las
+   notas del HTML a las 40 páginas que estaban atrasadas, de las láminas 4, 5, 6, 8, 9, 10, 11, 13, 15, 17 y 19:
+   las 1–14 de Canva todavía tenían las notas anteriores al reequilibrio por puntaje. El anexo A7 se importó desde
+   Chrome (`--desde 28`) y se insertó como página 75, con Disolver 0,5 s en la página 74. El importado temporal
+   `DAHbwLTpxMs` está en la papelera. Para cambios chicos conviene editar en Canva así, sin reimportar.
 5. **Definir expositores** (decisión D7; el tercero entra en la lámina 15) y **ensayar 3 veces** con
    cronómetro, con meta de 14:00 a 14:30. Si se pasa, se corta contenido; no se habla más rápido.
 6. Detalle de lo que faltaba y lo resuelto: `09-entrega3/presentacion/AUDITORIA-OMISIONES.md`.
@@ -546,9 +563,9 @@ esas órdenes.
   `sensibilidad/README.md`; en la presentación, lámina 19.
 
 **Lo que queda:**
-1. **Limitación que hay que declarar:** el caso base (`codigo/tres_fases/caso_base.py`) no lee
-   `escenario.json` ni las variables de entorno, así que en los escenarios de batería y consumo no se
-   sabe si el ahorro contra el caso base se mantiene (se decidió no hacerlo el 23-nov).
+1. ✅ **Caso base con otra batería y otro consumo (23-nov, tarde).** `codigo/tres_fases/fase3.py` lee
+   `BATERIA_KWH`, `RESERVA_KWH` y `CONSUMO_KWH_KM` (sin variables, el caso base sale idéntico: 8.684 buses,
+   USD 3.062.717; prueba en `tres_fases/test_energia_entorno.py`). El ahorro se mantiene (§5.7).
 2. Velocidad en vacío, potencia y estado de carga inicial siguen fijos en el código.
 3. Más semillas en plazas +50 % y en los cierres, para separar el efecto del ruido (~0,10 %).
 
@@ -750,7 +767,11 @@ Solo si sobra tiempo.
 - **¿Cuánto demora y en qué equipo?** 40 min de búsqueda por tipo de día en un Mac M1 de 8 GB, más la
   construcción inicial.
 - **¿Qué pasa con baterías más chicas?** Ver §5.4: el método sigue funcionando y queda a 0–7 % del mejor
-  plan conocido.
+  plan conocido. En la red completa, con 300 o 250 kWh el caso base también crece y el ahorro sigue entre
+  14 y 16 % (§5.7).
+- **¿En qué horarios cargan?** Anexo A7: la mitad de la energía del plan cae en los tramos de USD 0,22
+  (65 % en el caso base), con el pico de 19 a 20 h. La energía es el 0,4 % del costo, así que la tarifa de
+  punta +50 % no lo mueve.
 
 ---
 

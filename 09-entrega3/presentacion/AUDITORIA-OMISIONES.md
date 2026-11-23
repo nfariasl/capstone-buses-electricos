@@ -30,7 +30,14 @@ El deck pasó a **21 láminas y 5 anexos**. Lo resuelto:
 - **Lámina 19:** incertidumbre (atrasos y tiempos de viaje) y escenarios de consumo, batería, costos y espera.
 - **Anexos A1 a A5:** MILP de recarga, familias descartadas, supuestos, tabla caso por caso y sectores fijos.
 
-**Sigue abierto:**
+**Auditoría final (23-nov, tarde).**
+- Lámina 19: el caso base se corrió con las mismas baterías y consumos; el ahorro de costo queda entre −14,0 y −15,9 % (`sensibilidad/resultados/ahorro_fisicos.csv`). Ya no dice «no sabemos».
+- Feedback «en qué horarios cargan»: anexo A7 con la energía por hora sobre la tarifa (50 % en tramos de USD 0,22; 65 % en el caso base).
+- Lámina 18: «los cuartetos, en 15 min, le ganan al mejor plan de la exacta en una hora» (antes parecía que los cuartetos corrían una hora).
+- Notas: la 17 trae la cota en costo del informe (12,7 %); la 15 define la semana; tiempos declarados de las láminas 4, 5 y 6 corregidos; 19 recortada. Estimado total ~13:15 a 2,3 palabras por segundo.
+- Revisión automática de las 28 láminas (textos fuera de la lámina o encimados): sin problemas.
+
+**Sigue abierto (antes de esta auditoría):**
 - **Lámina 5:** las notas habladas duran unos 70 s y declaran 50.
 - **Feedback «en qué horarios cargan»:** se menciona en las notas de la 16, pero sin figura.
 - **Expositores (D7) y ensayos.**
