@@ -2,7 +2,7 @@
 
 Grupo 29 · ICS2122 Taller de Investigación Operativa (Capstone) · 2026-2
 Problema P7: planificación de la operación de buses eléctricos en la Región Metropolitana.
-Escrito el **22-nov-2026** y actualizado el **23-nov** (sensibilidad, heurísticas en 6, 8 y 12 rutas, auditoría final del deck y correcciones por feedback externo) para que
+Escrito el **22-nov-2026** y actualizado el **23-nov** (sensibilidad, heurísticas en 6, 8 y 12 rutas, auditoría final del deck y correcciones por feedback externo) y el **25-nov** (borrador completo del informe final) para que
 cualquier integrante, o la IA con la que trabaje, pueda seguir sin haber estado en las sesiones
 anteriores. Las cifras se comprobaron contra los archivos del repositorio.
 
@@ -53,7 +53,7 @@ Diego Barrios, Gonzalo Anguita, Cristobal Rehbein y Ricardo Palma. Ayudante: Max
 
 ---
 
-## 2. Estado al 23-nov-2026
+## 2. Estado al 25-nov-2026
 
 | Frente | Estado | Detalle |
 |---|---|---|
@@ -68,7 +68,7 @@ Diego Barrios, Gonzalo Anguita, Cristobal Rehbein y Ricardo Palma. Ayudante: Max
 | Repetibilidad del día siguiente | ✅ Calculada por electroterminal (22-nov): en día laboral se cubre el 45 % | §9 D |
 | Incertidumbre (atrasos, Monte Carlo) | ✅ Simulada el 23-nov; va en el anexo A6 del deck | §9 E |
 | Deck final (15 min) | 🟡 21 láminas + 7 anexos; corregido el 23-nov (noche) por feedback externo en HTML, guion y Canva; falta ensayar | §9 A |
-| Informe final (45 págs., 200 pts) | 🔴 **Sin empezar** en el repo | §9 F |
+| Informe final (45 págs., 200 pts) | 🟡 Borrador completo (25-nov) en `09-entrega3/informe3/`: 44 págs. de cuerpo, compila y pasa el revisor; falta que el grupo lo revise, lo firme y lo suba | §9 F |
 | Repositorio final | 🟡 Público y ordenado; falta la etiqueta `entrega-3` | §9 H |
 
 **Fechas.** Los lineamientos no las traen. Lo último que se manejó: presentación **alrededor del
@@ -194,6 +194,22 @@ El plan completo está en `09-entrega3/PLAN-ENTREGA3.md`. Lo que se hizo:
     Guion: 3:54 + 4:38 + 5:44 = 14:17, con respuestas nuevas (8 rutas, caso base contra el óptimo, sectores).
     Descartado por tiempo: correr el caso base en los 5 casos chicos, fusionar las láminas 13 y 14 y una tabla
     de seis KPI (los seis ya se reportan en las láminas 16 y 20).
+15. **25-nov · Informe final, borrador completo** (`09-entrega3/informe3/`). Plantilla del curso, abstract en inglés,
+    resumen ejecutivo, 11 capítulos y 6 anexos (notación, correcciones de los informes 1 y 2 y de la presentación 2,
+    MILP local, parámetros, reproducción y declaración de IA). `compilar.sh` corre `scripts/cifras.py` (668 macros y
+    10 tablas, todas desde los CSV), `scripts/figuras.py` (8 figuras), latexmk y `scripts/revisar.py`, que además
+    rechaza dos puntos en la prosa y negritas (preferencia del grupo). Cuerpo: 44 de 45 páginas. Atiende los 12
+    comentarios de la corrección del informe 2 (llegó el 25-nov, `~/Downloads/annotated-PLANIFICACI…GRUPO_29 (1).pdf`).
+    Nuevo `09-entrega3/kpi/ocupacion_terminales.py` (3 pruebas): máximo de buses a la vez en cada terminal común, de
+    1.435 a 2.778 en el plan y de 1.610 a 3.269 en el caso base (`kpi/resultados/ocupacion_terminales.csv`), para el
+    comentario sobre la capacidad ilimitada. Zip para Overleaf: `informe3/informe3_overleaf.zip` (probado en una
+    carpeta limpia). Propuesta de piloto: sector Vespucio Norte con **Los Espinos** como control (se descartó La Reina
+    porque carga el 11,9 % de su energía en Vespucio Norte; Los Espinos, el 0,2 %, `kpi/resultados/uso_e_sector_x_electroterminal.csv`).
+    **Auditoría (25-nov, noche):** se corrigieron el electroterminal del pico de conexiones del sábado (41 % es La Reina,
+    no Santa Rosa), los minutos con plazas llenas al cierre, dobles signos («baja −17,7 %»), cifras del abstract en
+    formato inglés, dos citas que no respaldaban lo que decían (Adler y Häll) y giros del tipo «no X, sino Y». La
+    leyenda de `mapa_sectores/mapa_sectores.pdf` se regeneró sin dos puntos (25 pruebas pasan). El revisor pasa con
+    `--final` y no quedan referencias sin resolver.
 
 ---
 
@@ -387,6 +403,7 @@ Dentro de `09-entrega3/`:
 | `kpi/` | KPI y uso de electroterminales (`kpi_planes.py`, `uso_electroterminales.py`, `ocupacion_plazas.py`) |
 | `sensibilidad/` | `crear_escenarios.py` (instancia de cada escenario), `correr_sensibilidad.sh` (corre los 11 y la base), `resumir.py` (tabla de Δ), `correr_fisicos.sh` (batería y consumo), `caso_base_fisicos.sh` + `ahorro_fisicos.py` (caso base con esa batería o consumo y su ahorro) y `resultados/` |
 | `mapa_sectores/` | Mapa de sectores, informe simple y metodología en 2 páginas |
+| `informe3/` | **Informe final**: `informe3.tex`, `chapters/`, `scripts/` (cifras, figuras, revisor), `tablas/` y `figures/` generadas, `compilar.sh`, `informe3_overleaf.zip` y `ESTADO.md` |
 | `presentacion/` | `deck.html` (21 láminas + anexos A1–A7), `exportar_pptx.py` (.pptx para Canva; `--desde N`), `AUDITORIA-OMISIONES.md`, `AUDITORIA-RUBRICA.md` y `ASIGNACION-LAMINAS-12-20.md` |
 | `figuras/` | GIF y pasos de la absorción (lámina 10) |
 | `scripts/` | Auditoría del caso base |
@@ -610,8 +627,14 @@ primera salida, que se repite igual). Plan de cuartetos:
 | Domingo | 1.150 MWh | 90 % | 126 / 126 | 704 / 700 (faltan 76) |
 
 - La ventana nocturna mediana es de 7,5 h en día laboral (8,3 h el sábado y 9,2 h el domingo).
-- En día laboral faltan conexiones en los 5 electroterminales. El peor es E5 Santa Rosa (38 % cubierto,
-  faltan 246); el mejor es E1 Vespucio Norte (71 %, faltan 61).
+- En día laboral faltan conexiones en los 5 electroterminales. A E5 Santa Rosa le faltan más (246, 38 % cubierto);
+  el menor porcentaje es E4 La Reina (36 %, faltan 181); el mejor es E1 Vespucio Norte (71 %, faltan 61).
+- **Costo de la recarga nocturna (23-nov):** `kpi/costo_recarga_nocturna.py` (4 pruebas) le suma a cada plan lo que
+  cuesta volver a llenar su flota de noche (USD 0,10–0,11/kWh, con o sin USD 5 por bus). El plan deja 2.085 MWh por
+  reponer contra 1.823 del caso base en día laboral, así que parte de su ahorro en energía es diferido. Con la noche
+  pagada, el ahorro queda en **−12,8 a −13,0 %** en día laboral (−14,5 % sin contarla), −13,5 a −13,7 % el sábado,
+  −13,0 a −13,3 % el domingo y **−12,9 a −13,1 %** en la semana (−14,9 %). Salida: `kpi/resultados/costo_recarga_nocturna.csv`.
+  No cuenta los km en vacío hasta el electroterminal ni el límite de conexiones. Va como respuesta en el guion (lámina 20).
 - **El caso base tampoco se repite:** en día laboral cubre el 52 % y le faltan 656 conexiones. No es un
   defecto solo de nuestro método: los dos parten con la flota llena, como dice el enunciado.
 - **Es una cota optimista.** Supone que todas las conexiones trabajan toda la ventana, que no hay límite
@@ -639,7 +662,7 @@ nombran en el contenido general, pero la rúbrica no le da puntaje propio).
 
 ### F. Informe final (200 pts, reprobatorio; alrededor del 27-nov, por confirmar)
 
-**No hay nada escrito aún en el repo.** Lo que piden los lineamientos:
+**Borrador completo desde el 25-nov** en `09-entrega3/informe3/` (ver §3.3, ítem 15, y `informe3/ESTADO.md`). Falta: que el grupo lo lea y corrija, completar en la declaración de IA las herramientas que usó cada uno, firmarla, poner la etiqueta `entrega-3` y subir el PDF. Para editar en Overleaf, subir `informe3_overleaf.zip`; si cambian las cifras, regenerarlo con `compilar.sh`. Lo que piden los lineamientos:
 - máximo 45 páginas, sin contar portada, anexos ni bibliografía;
 - LaTeX, Times New Roman 11, el documento base del curso sin modificar e índice;
 - **abstract en inglés** y **resumen ejecutivo**;
@@ -777,6 +800,9 @@ Solo si sobra tiempo.
 
 - **¿La solución es óptima?** No, es aproximada: a 0,13 % del óptimo en los 5 casos chicos y a 0,57 % en
   el de 293 corridas. En la red completa queda 12,7 % sobre una cota débil.
+- **¿El ahorro en energía no es carga que pasa a la noche?** En parte sí. Pagando a cada plan su recarga nocturna,
+  el ahorro del día laboral queda en 13 % (14,5 % sin contarla) y en la semana en 13 % (14,9 %). Casi todo viene de
+  usar menos buses (`kpi/resultados/costo_recarga_nocturna.csv`).
 - **¿Cómo se repite el día siguiente?** Hoy no se repite solo: faltan 2,08 GWh, que toman 16,5 h de carga
   nocturna con las 700 conexiones. Es un hallazgo, con una recomendación de infraestructura.
 - **¿Por qué no respetan los 1.200 buses declarados?** Cubren alrededor del 28 % del servicio. El tamaño

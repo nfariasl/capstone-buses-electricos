@@ -184,11 +184,11 @@ def panel_leyenda(eje, datos, resumen):
     y = 0.83 - 5 * 0.115 - 0.02
     for indice, color in enumerate(COLOR_SECTOR.values()):
         eje.add_patch(plt.Rectangle((indice * 0.015, y - 0.035), 0.015, 0.07, color=color, alpha=ALFA_MEZCLA, lw=0))
-    eje.text(0.105, y, 'Tono pálido: zona de mezcla, ningún\nsector reúne la mitad de las rutas',
+    eje.text(0.105, y, 'Tono pálido, zona de mezcla donde ningún\nsector reúne la mitad de las rutas',
              fontsize=6.2, color=TINTA_SUAVE, va='center', linespacing=1.05)
     y -= 0.15
     eje.plot(0.037, y, 'o', ms=7, mfc='white', mec=TINTA, mew=1.0)
-    eje.text(0.105, y, 'Electroterminal: donde cargan los buses', fontsize=6.2, color=TINTA_SUAVE, va='center')
+    eje.text(0.105, y, 'Electroterminal, donde cargan los buses', fontsize=6.2, color=TINTA_SUAVE, va='center')
 
 
 def main():

@@ -1,0 +1,24 @@
+% Capítulo 11. Conclusiones (rúbrica 25 pts).
+
+\section{Hallazgos}
+\label{sec:hallazgos}
+
+El problema de programar la flota eléctrica de RED se pudo resolver para toda la red y los tres tipos de día. El plan obtenido cubre las mismas \CorridasLaboral{} corridas del día laboral que un caso base razonable con \AhorroBusesLaboral{} buses menos (\DeltaPctBusesLaboral\,\%) y un costo \BajaCostoLaboral\,\% menor, y en la semana ahorra cerca de USD~\AhorroSemanaMillones{} millones (\DeltaPctSemana\,\%). Ese era el objetivo que se planteó al comienzo, operar el mismo servicio con menos flota.
+
+El ahorro viene casi todo de los buses, que explican cerca de tres de cada cuatro dólares, y la mayor parte se consigue antes de optimizar. Compartir buses entre las rutas de un sector, cargar solo lo necesario y elegir el bus más cercano ya entrega el \PctAhorroInicial\,\% de la reducción de flota. La búsqueda por grupos agrega el resto, y entre las variantes probadas la mejor fue tomar cuatro buses al azar, que es el punto donde el tamaño del grupo y la cantidad de intentos se equilibran.
+
+Durante el día la infraestructura de carga sobra. Como máximo se usa cerca de un quinto de las conexiones de un electroterminal, las plazas solo se llenan al cierre y ampliar o reducir la capacidad casi no cambia la flota. De noche ocurre lo contrario. Para repetir el día laboral habría que reponer \ReponerGwhLaboral~GWh, y las conexiones actuales solo alcanzan para el \PctCubiertoLaboral\,\% de esa energía. Esa es la restricción que viene para RED, y afecta también al caso base.
+
+La solución es aproximada. En los casos donde el óptimo se pudo demostrar queda en promedio a \BrechaCuartetos\,\% de él, en un caso mediano llega a \BrechaCuartetosRutasOchoAbs\,\%, y cuando se obliga a recargar queda cerca de un \DifMediaRecargaCientoCincuentaAbs\,\% sobre el mejor plan que encontró el modelo exacto, al que en el caso más grande supera. En la red completa solo se puede acotar, y queda \BrechaCotaCosto\,\% sobre una cota débil.
+
+\section{Fortalezas y limitaciones}
+\label{sec:fortalezas}
+
+La principal fortaleza del trabajo es que el método escala a la red completa sin perder control sobre la factibilidad. Cada plan pasa por un auditor independiente, la búsqueda solo acepta cambios factibles y más baratos, y las cifras del informe se generan desde los resultados, de modo que se pueden rastrear y repetir. La segunda es que la calidad del método se midió con el modelo exacto en casos chicos y medianos. La tercera es que la conclusión principal resiste los cambios de precios, de capacidad de carga y del bus, y aun cobrando la recarga nocturna el ahorro supera el 12\,\%.
+
+Las limitaciones más importantes son dos. El plan es más sensible a los atrasos que el caso base, porque tiene menos buses y carga lo justo, y con tiempos de viaje 10\,\% variables el \AtrasadasPlanDiez\,\% de sus corridas sale atrasado más de cinco minutos. Y el modelo trata cada día por separado, sin exigir que la energía al cierre permita repetirlo. A eso se suman los sectores fijos, que dejan fuera combinaciones entre sectores vecinos, los supuestos sobre la velocidad en vacío y la carga lineal, la ausencia de conductores y mantenciones en el modelo, y una cota débil para la red completa. Mirando hacia atrás, habría convenido incorporar antes la noche y la holgura al modelo en lugar de medirlas al final.
+
+\section{Pasos siguientes}
+\label{sec:pasos}
+
+El paso más urgente es agregar holgura de energía y de tiempo al MILP de recargas y medir cuánto ahorro se pierde con ella, porque sin eso el plan no se puede operar. Le siguen modelar la noche y ampliar las operaciones de la búsqueda. Con esas mejoras, la recomendación para RED es un piloto en el sector de Vespucio Norte, primero en paralelo y luego operado frente a un sector de control, con criterios de éxito definidos de antemano en buses, puntualidad y energía, y una evaluación de la ampliación de la carga nocturna antes de extender el plan a toda la red.

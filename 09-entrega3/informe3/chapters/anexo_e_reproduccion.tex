@@ -1,0 +1,30 @@
+El código, las pruebas y los resultados agregados están en el repositorio público \url{https://github.com/nfariasl/capstone-buses-electricos}. Los datos del curso (\texttt{01-datos}, unos 1,3~GB) y los planes bus por bus no están en el repositorio por su tamaño. Se instalan Python~3.12 y los paquetes con %literal
+\begin{verbatim}
+python3 -m venv .venv-optimizacion
+.venv-optimizacion/bin/pip install "gurobipy>=12,<13" numpy scipy \
+    pandas matplotlib pytest
+\end{verbatim}
+y se necesita una licencia académica de Gurobi, porque la gratuita del paquete no alcanza para grupos de tres buses o más. Con los datos copiados en \texttt{01-datos}, cada resultado se repite con la orden indicada en la Tabla~\ref{tab:reproduccion}. Como la búsqueda se corta por reloj, repetir una corrida en otro computador da un plan parecido pero no idéntico.
+
+\begin{table}[H]
+\centering
+\caption{Cómo reproducir cada resultado del informe.}
+\label{tab:reproduccion}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}p{3.4cm} X@{}}
+\toprule
+Resultado & Orden o script \\
+\midrule
+Instancias de la red completa & \texttt{metodo\_hibrido/preparar\_completa.py --servicio L} (también S y D) \\
+Caso base & \texttt{codigo/tres\_fases/caso\_base.py} \\
+Métodos en la red y casos chicos & \texttt{09-entrega3/octetos/correr\_todo.sh} \\
+Casos medianos y recarga forzada & \texttt{09-entrega3/octetos/correr\_noche.sh} y \texttt{correr\_rutas\_heuristicas.sh} \\
+Indicadores y uso de electroterminales & \texttt{09-entrega3/kpi/kpi\_planes.py}, \texttt{uso\_electroterminales.py} y \texttt{ocupacion\_plazas.py} \\
+Repetibilidad y recarga nocturna & \texttt{09-entrega3/kpi/repetibilidad.py} y \texttt{costo\_recarga\_nocturna.py} \\
+Terminales comunes & \texttt{09-entrega3/kpi/ocupacion\_terminales.py} \\
+Sensibilidad & \texttt{09-entrega3/sensibilidad/correr\_sensibilidad.sh}, \texttt{correr\_fisicos.sh} y \texttt{caso\_base\_fisicos.sh} \\
+Atrasos & \texttt{09-entrega3/incertidumbre/simular\_atrasos.py --replicas 20} \\
+Cifras, tablas, figuras y PDF de este informe & \texttt{09-entrega3/informe3/compilar.sh} \\
+\bottomrule
+\end{tabularx}
+\end{table}

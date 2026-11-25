@@ -1,0 +1,28 @@
+% Capítulo 1. Introducción (rúbrica resumen e introducción, 5 pts).
+
+\section{Contexto y motivación}
+\label{sec:contexto}
+
+La Red Metropolitana de Movilidad (RED) de Santiago tiene una de las flotas de buses eléctricos más grandes fuera de Asia y la sigue ampliando a medida que retira buses diésel \cite{galarza_pilotstoscale_2020,minenergia_electromovilidadred_2026}. La electrificación reduce las emisiones locales, y el consumo de estos buses ya se ha estimado con datos de la propia red \cite{basso_disaggregatedenergy_2024}, pero cambia la forma de planificar el día. Un bus diésel sale en la mañana, encadena corridas y vuelve en la noche. Uno eléctrico recorre unos \AutonomiaNominal~km con la batería llena, y si eso no le alcanza para su jornada debe salir de servicio, ir a un electroterminal y esperar a que cargue. Los electroterminales tienen pocas plazas y las comparten todos los buses, así que planificar la flota obliga a planificar también la carga. Cuando esa coordinación falla, la operación lo paga con buses adicionales, que son lo más caro del sistema.
+
+\section{Problema, objetivo y alcance}
+\label{sec:problema-intro}
+
+Para cada tipo de día (laboral, sábado y domingo) hay que decidir cuántos buses se usan, qué corridas atiende cada uno y en qué orden, qué traslados sin pasajeros hace entre ellas, y cuándo, dónde y cuánta energía recarga. Cada corrida se cubre exactamente una vez, ninguna batería puede bajar de la reserva y no se pueden exceder las plazas ni las conexiones de los electroterminales. El objetivo es minimizar el costo diario de operación, que suma los buses usados, los kilómetros recorridos, la energía comprada y las sesiones de carga. La cantidad de buses no viene dada, y de hecho es la decisión que más pesa en el costo.
+
+El trabajo abarca la red completa de buses RED, con \RutasLaboral{} rutas y \CorridasLaboral{} corridas en día laboral, \CorridasSabado{} el sábado y \CorridasDomingo{} el domingo, y los cinco electroterminales del enunciado. Los horarios se toman como fijos, de modo que el plan no elimina corridas ni cambia frecuencias. En la Entrega~2 el método se probó sobre una muestra de \EdosRutasMuestra{} rutas, y en este informe se aplica a toda la red y a los tres tipos de día.
+
+\section{Términos que se usan en el informe}
+\label{sec:terminos}
+
+Una ruta es una línea de la red con código propio, por ejemplo la 101. Una corrida es una salida programada de una ruta, con su hora, su terminal de partida y de llegada y sus kilómetros, y es la unidad que el plan debe cubrir. Un traslado en vacío es un movimiento sin pasajeros entre el final de una actividad y el inicio de la siguiente. La jornada de un bus es la secuencia de corridas, traslados, esperas y recargas que hace en el día, y como cada jornada corresponde a un bus, el tamaño de la flota es el número de jornadas. Un electroterminal es un depósito con cargadores, mientras que un terminal común es un lugar de espera sin carga. El anexo~\ref{an:notacion} reúne la notación y las siglas.
+
+\section{Entregable}
+\label{sec:entregable}
+
+El entregable es una herramienta computacional reproducible, disponible en el repositorio público \url{https://github.com/nfariasl/capstone-buses-electricos}. Recibe las corridas de un tipo de día y entrega la jornada de cada bus con sus corridas, traslados y recargas, los indicadores del plan y el reporte de un auditor independiente. Con ella se obtuvo un plan para toda la red en los tres tipos de día, comparado con un caso base razonable, junto con evidencia de cuánto se aleja ese plan del óptimo en los casos donde el óptimo se puede calcular. El informe también analiza qué pasa cuando cambian los supuestos, cuando hay atrasos y cuando se quiere repetir el día siguiente.
+
+\section{Estructura del informe}
+\label{sec:estructura}
+
+El capítulo~\ref{ch:problema} define el problema y los indicadores, y el~\ref{ch:datos} analiza los datos y explica cómo su preparación condiciona el modelo. En el capítulo~\ref{ch:literatura} se revisa la literatura y se cuenta cómo se llegó al método. El~\ref{ch:modelo} formaliza el modelo y discute los supuestos, y el~\ref{ch:estrategia} describe la estrategia de solución y su implementación. Luego vienen el caso base en el capítulo~\ref{ch:caso-base}, los resultados y su calidad en el~\ref{ch:resultados}, y la sensibilidad, la incertidumbre y la repetibilidad en el~\ref{ch:sensibilidad}. El capítulo~\ref{ch:piloto} propone cómo implementar el plan con un piloto y el~\ref{ch:conclusiones} cierra el informe.

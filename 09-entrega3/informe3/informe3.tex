@@ -1,0 +1,199 @@
+% Select one class
+%\documentclass{pucthesis}		% For DVI
+%\documentclass[pdftex]{pucthesis}	% For pdfLaTeX
+%\documentclass[spanish]{pucthesis}		% For DVI, in spanish
+\documentclass[pdftex,spanish]{pucthesis}	% For pdfLaTeX, in spanish
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%      Nota: si usas español, algunos nombres      %
+%      debes cambiarlos manualmente en este     %
+%        documento. En teoría, nunca deberías       %
+%           modificar el archivo pucthesis.cls              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%
+%   Packages	 %
+%%%%%%%%%
+
+% Floats
+\usepackage{graphicx}
+\usepackage{float}
+\floatstyle{boxed}
+\restylefloat{figure}
+\IfFileExists{subfigure.sty}{\usepackage{subfigure}}{}  % no está en el TeX Live local; en Overleaf sí
+\usepackage{color}
+
+% Math packages
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+% Closest font to Times New Roman
+\usepackage{times}
+
+% To make pretty tables
+\usepackage{booktabs}
+\usepackage{multirow}
+
+% To avoid underfull errors in the bibliography
+\usepackage{etoolbox}
+\apptocmd{\sloppy}{\hbadness 10000\relax}{}{}
+
+% To make cites and references
+\usepackage[hidelinks,pdfusetitle,pdfdisplaydoctitle]{hyperref}
+\usepackage[notocbib]{apacite} 
+\usepackage{doi}
+\renewcommand{\doitext}{}
+
+%--------- NEW ENVIRONMENTS --------- You are free to remove or use it
+\newtheorem{definition}{\bf Definition}[chapter]
+\newtheorem{property}{Property}[chapter]
+\newtheorem{claim}{Claim}[chapter]
+\newtheorem{lemma}{\bf Lemma}[chapter]
+\newtheorem{proposition}{Proposition}[chapter]
+\newtheorem{theorem}{\noindent \bf Theorem}[chapter]
+\newtheorem{corollary}{\bf Corollary}[chapter]
+\newtheorem{pf}{Proof}[chapter]
+\newtheorem{example}{\bf Example}[chapter]
+\newtheorem{remark}{Remark}[chapter]
+
+% En caso de que el título sea muy largo, se puede ajustar el espacio
+% antes y después de este en las dos primeras páginas para que quede centrado.
+
+%\makeatletter
+%  \setlength{\beftitle}{105\p@\@plus24\p@}
+%  \setlength{\afttitle}{65\p@}
+%\makeatother
+
+% Agregados del informe final (paquetes y cifras; no cambian la configuración de la plantilla)
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
+\usepackage{tabularx}
+\usepackage{url}
+\input{cifras.tex}
+\makeatletter\newcommand{\tabla}[1]{\@@input tablas/#1.tex }\makeatother
+\newcommand{\fuente}[1]{\par\vspace{2pt}{\footnotesize #1\par}}
+
+\begin{document}
+
+\mdate{Noviembre 2026}
+\version{3}
+
+\title[PLANIFICACIÓN DE LA OPERACIÓN DE BUSES ELÉCTRICOS EN LA REGIÓN METROPOLITANA\\ INFORME FINAL, GRUPO 29]
+   {\bf PLANIFICACIÓN DE LA OPERACIÓN DE BUSES ELÉCTRICOS EN LA REGIÓN METROPOLITANA\\ INFORME FINAL, GRUPO 29}
+\author[Integrantes:]{Integrantes:\\
+\textnormal{\small{
+Gonzalo Anguita\\
+Diego Barrios\\
+Gustavo Cueto\\
+Nicolás Farías\\
+Fernando González\\
+Ricardo Palma\\
+Cristóbal Rehbein}
+}
+}
+
+\address{Escuela de Ingenier\'ia\\
+                   Pontificia Universidad Cat\'olica de Chile\\
+                   Vicu\~na Mackenna 4860\\
+                  Santiago, Chile\\
+                  {\it Tel.\/} : 56 (2) 354-2000}
+
+\advisor                    {\textbf{Profesor Guía:} Agustín Chiu}
+\ogrsmember                 {\textbf{Ayudante Tutor:} Max Burr}
+\date                       {Noviembre 2026}
+\copyrightname              {Grupo 29}
+\copyrightyear              {2026}
+
+\NoChapterPageNumber
+\pagenumbering{roman}
+\maketitle
+
+\pdfbookmark{\contentsname}{toc}
+\tableofcontents
+\phantomsection \label{listoffigures}
+\listoffigures
+\phantomsection \label{listoftables}
+\listoftables
+\cleardoublepage
+
+\phantomsection \label{abstract}
+\chapter*{ABSTRACT}
+\addcontentsline{toc}{chapter}{ABSTRACT}
+\input{./chapters/abstract.tex}
+\cleardoublepage
+
+\phantomsection \label{resumen}
+\chapter*{RESUMEN EJECUTIVO}
+\addcontentsline{toc}{chapter}{RESUMEN EJECUTIVO}
+\input{./chapters/resumen.tex}
+\cleardoublepage
+
+\pagenumbering{arabic}
+
+\chapter[INTRODUCCIÓN]{Introducción} \label{ch:introduccion}
+\input{./chapters/cap01_introduccion.tex}
+
+\chapter[DESCRIPCIÓN DEL PROBLEMA E INDICADORES]{Descripción del problema e indicadores} \label{ch:problema}
+\input{./chapters/cap02_problema.tex}
+
+\chapter[DESCRIPCIÓN Y ANÁLISIS DE LOS DATOS]{Descripción y análisis de los datos} \label{ch:datos}
+\input{./chapters/cap03_datos.tex}
+
+\chapter[REVISIÓN BIBLIOGRÁFICA Y EVOLUCIÓN METODOLÓGICA]{Revisión bibliográfica y evolución metodológica} \label{ch:literatura}
+\input{./chapters/cap04_literatura.tex}
+
+\chapter[MODELO DEL CASO Y SUPUESTOS]{Modelo del caso y supuestos} \label{ch:modelo}
+\input{./chapters/cap05_modelo.tex}
+
+\chapter[ESTRATEGIA DE SOLUCIÓN E IMPLEMENTACIÓN]{Estrategia de solución e implementación} \label{ch:estrategia}
+\input{./chapters/cap06_estrategia.tex}
+
+\chapter[CASO BASE]{Caso base} \label{ch:caso-base}
+\input{./chapters/cap07_caso_base.tex}
+
+\chapter[RESULTADOS Y ANÁLISIS]{Resultados y análisis} \label{ch:resultados}
+\input{./chapters/cap08_resultados.tex}
+
+\chapter[SENSIBILIDAD, INCERTIDUMBRE Y REPETIBILIDAD]{Sensibilidad, incertidumbre y repetibilidad} \label{ch:sensibilidad}
+\input{./chapters/cap09_sensibilidad.tex}
+
+\chapter[IMPLEMENTACIÓN, PILOTO Y EXTENSIONES]{Implementación, piloto y extensiones} \label{ch:piloto}
+\input{./chapters/cap10_piloto.tex}
+
+\chapter[CONCLUSIONES]{Conclusiones} \label{ch:conclusiones}
+\input{./chapters/cap11_conclusiones.tex}
+
+\cleardoublepage
+\phantomsection \label{references}
+\bibliographystyle{apacite}
+\renewcommand{\bibname}{REFERENCIAS}
+\bibliography{referencias}
+
+\appendix
+
+\newpage
+\section[Notación y glosario]{Notación y glosario} \label{an:notacion}
+\input{./chapters/anexo_a_notacion.tex}
+
+\newpage
+\section[Correcciones atendidas]{Correcciones atendidas de las entregas anteriores} \label{an:correcciones}
+\input{./chapters/anexo_b_correcciones.tex}
+
+\newpage
+\section[Formulación del MILP local de recargas]{Formulación del MILP local de recargas} \label{an:milp-local}
+\input{./chapters/anexo_c_milp_local.tex}
+
+\newpage
+\section[Parámetros y tablas complementarias]{Parámetros del escenario y tablas complementarias} \label{an:parametros}
+\input{./chapters/anexo_d_parametros.tex}
+
+\newpage
+\section[Reproducción de los resultados]{Reproducción de los resultados} \label{an:reproduccion}
+\input{./chapters/anexo_e_reproduccion.tex}
+
+\newpage
+\section[Declaración de uso de IA]{Declaración de uso de IA en este informe y presentación asociada} \label{an:ia}
+\input{./chapters/anexo_f_declaracion_ia.tex}
+
+\end{document}

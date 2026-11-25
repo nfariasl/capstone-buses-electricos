@@ -1,0 +1,24 @@
+Este anexo presenta la formulación del MILP local que el método resuelve en cada intento (\texttt{metodo\_hibrido/conjunta.py}). Corresponde a la formulación de la sección 5.5 del informe~2, extendida a grupos de hasta cuatro jornadas.
+
+Sea \(\mathcal{B}\) el conjunto de jornadas de una propuesta, con \(1\le |\mathcal{B}|\le 4\). Para cada bus \(b\in \mathcal{B}\) la búsqueda fija sus corridas y su orden, indexadas por \(I_b=\{1,\dots,n_b\}\), y \(G_b=\{2,\dots,n_b\}\) son los huecos antes de cada corrida. Sean \(A_b\subseteq T\) y \(Z_b\subseteq T\cup E\) los terminales candidatos de inicio y de término. Las ventanas de carga candidatas del hueco \(i\) forman \(K_{bi}\), y \(J=\{(b,i,k)\mid b\in \mathcal{B},\ i\in G_b,\ k\in K_{bi}\}\). Cada ventana fija un electroterminal \(e(k)\), un número \(N_{bik}\) de bloques completos de \MinutosBloque~minutos y una tarifa media \(\bar p_{bik}\). Las distancias \(d^{\mathrm{ini}}_{bt}\), \(d^{\mathrm{fin}}_{bt}\) y \(d_{bi}\) son las del traslado de salida, de regreso y entre corridas, y \(\delta_{bik}=a_{bik}+h_{bik}-d_{bi}\) es el desvío adicional por ir a cargar. La energía máxima por bloque es \(g=\EnergiaBloque\)~kWh.
+
+Las variables son \(x_{bt},z_{bt}\in\{0,1\}\) para el terminal inicial y final, \(y_{bik}\in\{0,1\}\) para usar la ventana \(k\), \(q_{bik}\ge 0\) para la energía cargada y \(E_{bi}\in[m,B]\) para la energía al terminar la corrida \(i\). El modelo minimiza los kilómetros variables, las sesiones y la energía,
+\begin{equation}
+\min\ c^{D}\sum_{b\in \mathcal{B}}\Bigl(\sum_{t\in A_b}d^{\mathrm{ini}}_{bt}x_{bt}+\sum_{t\in Z_b}d^{\mathrm{fin}}_{bt}z_{bt}+\sum_{i\in G_b}d_{bi}\Bigr)
++\sum_{(b,i,k)\in J}\bigl[(c^{S}+c^{D}\delta_{bik})\,y_{bik}+\bar p_{bik}\,q_{bik}\bigr],
+\end{equation}
+sujeto a
+\begin{align}
+\sum_{t\in A_b}x_{bt}=1,\qquad \sum_{t\in Z_b}z_{bt}&=1 && \forall b\in \mathcal{B},\\
+E_{b1}&=B-r\Bigl(L_{b1}+\sum_{t\in A_b}d^{\mathrm{ini}}_{bt}x_{bt}\Bigr) && \forall b\in \mathcal{B},\\
+\sum_{k\in K_{bi}}y_{bik}\le 1,\qquad 0\le q_{bik}&\le g\,N_{bik}\,y_{bik} && \forall b\in \mathcal{B},\ i\in G_b,\ k\in K_{bi},\\
+E_{bi}&=E_{b,i-1}-r\,(d_{bi}+L_{bi})+\sum_{k\in K_{bi}}\bigl(q_{bik}-r\,\delta_{bik}\,y_{bik}\bigr) && \forall b\in \mathcal{B},\ i\in G_b,\\
+y_{bik}=1\ \Rightarrow\ E_{b,i-1}-r\,a_{bik}&\ge m,\quad E_{b,i-1}-r\,a_{bik}+q_{bik}\le B && \forall (b,i,k)\in J,\\
+E_{b,n_b}-r\sum_{t\in Z_b}d^{\mathrm{fin}}_{bt}z_{bt}&\ge m && \forall b\in \mathcal{B},
+\end{align}
+y a la capacidad que deja libre el resto del plan. Si \(O_{e\ell}\) y \(H_{e\ell}\) son las plazas y conexiones que ocupan los demás buses en el intervalo \(\ell\) del electroterminal \(e\), y los indicadores \(\alpha\) y \(\beta\) valen uno cuando una ventana o un término ocupan ese intervalo,
+\begin{align}
+\sum_{(b,i,k)\in J}\alpha_{bik,e\ell}\,y_{bik}+\sum_{b\in \mathcal{B}}\sum_{t\in Z_b}\beta_{bt,e\ell}\,z_{bt}&\le P_e-O_{e\ell},\\
+\sum_{(b,i,k)\in J}\alpha_{bik,e\ell}\,y_{bik}&\le C_e-H_{e\ell}.
+\end{align}
+Antes de resolver se descartan las conexiones y ventanas que no alcanzan en tiempo. El costo por bus no aparece en el modelo, porque cuántos buses hay lo decide la búsqueda al vaciar una jornada. Para comparar propuestas con distinto número de jornadas se suma \(c^{B}|\mathcal{B}|\) y los kilómetros de servicio, y un candidato \(S'\) reemplaza al plan \(S\) solo si el auditor lo aprueba y \(C(S')<C(S)-10^{-5}\).

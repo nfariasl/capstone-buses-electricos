@@ -1,0 +1,72 @@
+Este anexo lista los comentarios recibidos en las entregas anteriores y dónde se atendió cada uno en este informe.
+
+\begin{table}[H]
+\centering
+\caption{Comentarios de la corrección del informe 2.}
+\label{tab:corr-informe2}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}X p{5.2cm}@{}}
+\toprule
+Comentario & Dónde se atiende \\
+\midrule
+Cómo afecta que los terminales comunes tengan capacidad ilimitada y qué pasa con una capacidad realista & Se midió la ocupación máxima de cada terminal en ambos planes, sección~\ref{sec:supuestos} \\
+Si se va a escalar y cuánto cuesta hacerlo & El método se aplicó a la red completa en los tres tipos de día, capítulo~\ref{ch:resultados} \\
+Falta justificar mejor la metodología seleccionada & Revisión por familias y justificación, secciones~\ref{sec:familias} y~\ref{sec:justificacion} \\
+Hacer un diagrama de la metodología y del caso base, con entradas y salidas, y ponerlo antes & Figura~\ref{fig:enfoque} en el capítulo~\ref{ch:problema} y Figura~\ref{fig:flujo} \\
+Qué tan bueno o malo es programar primero y cargar después, y si hay estudios & Sección~\ref{sec:evolucion}, con literatura y la evidencia propia \\
+Confunde que se diga que aumentan los buses al incorporar la electricidad como si fuera una decisión & La batería se presenta como restricción, secciones~\ref{sec:descripcion} y~\ref{sec:evolucion} \\
+En qué se basa combinar construcción cronológica y mejora local & Sección~\ref{sec:justificacion} \\
+Del costo del caso base, qué es lo más mejorable & Composición del costo, sección~\ref{sec:resultado-caso-base} \\
+No se entendía cómo se relacionaba la metodología con el diagnóstico anterior & El capítulo~\ref{ch:literatura} encadena diagnóstico, evolución y método \\
+Hacer dibujos de las operaciones & Figura~\ref{fig:operaciones} \\
+Para qué es el MILP & Sección~\ref{sec:milp-local} \\
+Poner el diagrama de flujo más arriba, sin código & Figura~\ref{fig:flujo}, al inicio del capítulo~\ref{ch:estrategia} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Comentarios de la presentación de la Entrega 2 que siguen vigentes.}
+\label{tab:corr-presentacion}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}X p{5.2cm}@{}}
+\toprule
+Comentario & Dónde se atiende \\
+\midrule
+Que el caso base incluya la carga, aunque sea de manera básica & Capítulo~\ref{ch:caso-base} \\
+Explicitar los supuestos sobre lo que no está en los datos, como tráfico y mantenciones & Tablas~\ref{tab:preparacion} y~\ref{tab:supuestos} \\
+Decir de dónde sale cada porcentaje y cada costo & Notas de fuente en cada tabla y sección~\ref{sec:descripcion} \\
+Comparar los indicadores contra el caso base y no contra metas fijas & Sección~\ref{sec:kpis} \\
+Justificar la comparación contra una cota que no es factible & Secciones~\ref{sec:kpis} y~\ref{sec:calidad} \\
+Definir corrida, traslado en vacío y jornada & Sección~\ref{sec:terminos} \\
+Mostrar el peso de cada costo y en qué horario cargan los buses & Tabla~\ref{tab:caso-base}, Figuras~\ref{fig:ahorro} y~\ref{fig:energia-hora} \\
+Cómo se cubre el día siguiente & Sección~\ref{sec:repetibilidad} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Comentarios de la corrección del informe 1.}
+\label{tab:corr-informe1}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}X p{5.2cm}@{}}
+\toprule
+Comentario & Dónde se atiende \\
+\midrule
+Definir corrida antes de usarla y distinguirla de recorrido y viaje & Sección~\ref{sec:terminos} \\ %literal
+No es necesario discutir la flota declarada, basta decir que la flota es una decisión & Sección~\ref{sec:curva} \\
+Explicar las siglas & Primera aparición y anexo~\ref{an:notacion} \\
+Presentar el objetivo completo, con electroterminales y horarios & Secciones~\ref{sec:problema-intro} y~\ref{sec:descripcion} \\
+Aclarar de qué es la distancia usada para los sectores & Sección~\ref{sec:energia-datos} \\
+Aclarar qué significa la energía en MWh de la tabla de escala & Sección~\ref{sec:energia-datos} \\
+Mostrar el gráfico de corridas a lo largo del día & Figura~\ref{fig:corridas-dia} \\
+Los KPI se comparan contra un caso base y no son valores fijos & Sección~\ref{sec:kpis} \\
+Llamar costo total y costo energético a los indicadores de costo, y comparar todos los costos & Sección~\ref{sec:descripcion} y Tabla~\ref{tab:caso-base} \\
+Aclarar si corrida y viaje son lo mismo & Se usa solo corrida, sección~\ref{sec:terminos} \\ %literal
+Qué son los terminales convencionales & Terminales comunes, secciones~\ref{sec:terminos} y~\ref{sec:energia-datos} \\
+Si la carga lineal es un supuesto propio o de la metodología & Tabla~\ref{tab:supuestos} \\
+\bottomrule
+\end{tabularx}
+\end{table}

@@ -1,0 +1,49 @@
+Este anexo reúne las siglas y los símbolos que se usan en el informe. Los términos del problema se definen en la sección~\ref{sec:terminos}.
+
+\begin{table}[H]
+\centering
+\caption{Siglas.}
+\label{tab:siglas}
+\small
+\begin{tabularx}{\textwidth}{@{}l X@{}}
+\toprule
+Sigla & Significado \\
+\midrule
+RED & Red Metropolitana de Movilidad de Santiago \\
+GTFS & \emph{General Transit Feed Specification}, formato estándar de horarios de transporte público \\
+E-VSP & Programación de vehículos eléctricos (\emph{electric vehicle scheduling problem}) \\
+MILP & Programación lineal entera mixta (\emph{mixed-integer linear programming}) \\
+KPI & Indicador de desempeño (\emph{key performance indicator}) \\
+E1 a E5 & Electroterminales Vespucio Norte, El Conquistador, Los Espinos, La Reina y Santa Rosa \\
+T01 a T04 & Terminales comunes, sin cargadores \\
+L, S, D & Día laboral, sábado y domingo \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Símbolos del modelo del capítulo~\ref{ch:modelo}.}
+\label{tab:simbolos}
+\small
+\begin{tabularx}{\textwidth}{@{}l X@{}}
+\toprule
+Símbolo & Significado \\
+\midrule
+\(N\) & Corridas del tipo de día \\
+\(T,\ E,\ F\) & Terminales comunes, electroterminales y lugares de término (\(F=T\cup E\)) \\
+\(s_i,\ f_i,\ L_i,\ \sigma(i)\) & Inicio, término, distancia de servicio y sector de la corrida \(i\) \\
+\(A\) & Pares de corridas que un bus puede encadenar directo \\
+\(K_{ij},\ R\) & Opciones de carga entre \(i\) y \(j\), y conjunto de todas ellas \\
+\(e(k),\ a_k,\ h_k,\ g_k,\ p_k\) & Electroterminal, km de ida y de vuelta, energía máxima y precio medio de la opción \(k\) \\
+\(d_{ij},\ d^{0}_i,\ d^{1}_{i\ell}\) & Km del traslado entre corridas, desde el terminal de salida y hasta el lugar de término \\
+\(B,\ m,\ r\) & Batería, reserva y consumo por km \\
+\(c^{B},\ c^{D},\ c^{S}\) & Costo por bus, por km y por sesión \\
+\(P_e,\ C_e\) & Plazas y conexiones del electroterminal \(e\) \\
+\(\Omega,\ \alpha_{k\omega}\) & Bloques de cinco minutos e indicador de que la opción \(k\) carga en el bloque \(\omega\) \\
+\(u_i,\ z_{i\ell}\) & La corrida \(i\) inicia una jornada, o la termina en \(\ell\) \\
+\(x_{ij},\ y_{ijk},\ q_{ijk}\) & Encadenamiento directo, encadenamiento con carga y kWh cargados \\
+\(e_i\) & Energía del bus al terminar la corrida \(i\) \\
+\bottomrule
+\end{tabularx}
+\end{table}

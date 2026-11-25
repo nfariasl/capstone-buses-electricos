@@ -1,0 +1,9 @@
+plan,terminal,buses_max,hora
+metodo_L,T01,1535,22:00
+metodo_L,T02,2778,22:00
+metodo_L,T03,1717,02:27
+metodo_L,T04,1435,22:00
+caso_base_L,T01,1845,22:00
+caso_base_L,T02,3269,22:00
+caso_base_L,T03,2603,02:27
+caso_base_L,T04,1610,22:00

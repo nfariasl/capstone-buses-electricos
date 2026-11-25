@@ -1,0 +1,81 @@
+% Capítulo 2. Descripción del problema e indicadores (rúbrica: problema 15 pts y KPIs 5 pts).
+
+\section{Antecedentes e impacto}
+\label{sec:antecedentes}
+
+El transporte público de Santiago se organiza en unidades de negocio que operan rutas definidas por el Directorio de Transporte Público Metropolitano; desde 2017 incorpora buses eléctricos, primero como pilotos y luego a gran escala \cite{galarza_pilotstoscale_2020}. El bus eléctrico gasta menos en energía y mantención que el diésel \cite{galarza_pilotstoscale_2020}, pero exige infraestructura de carga y ajustar el proceso de planificación \cite{hall_adjustmentsplanning_2018}. Planificar bien tiene un efecto directo en el costo. En el plan que propone este informe los buses explican el \PctFlotaPlanLaboral\,\% del costo diario del día laboral, de modo que cada bus que una mejor programación evita son USD~\CostoBus{} diarios menos, y unos USD~\AhorroCompFlota{} diarios en la red completa (capítulo~\ref{ch:resultados}).
+
+\section{Descripción del problema}
+\label{sec:descripcion}
+
+Los datos, que se analizan en el capítulo~\ref{ch:datos}, entregan para cada tipo de día un conjunto de corridas con su hora y lugar de inicio y término y su distancia. También entregan las distancias por calle entre terminales, cinco electroterminales con sus plazas y conexiones, un bus tipo con batería de \Bateria~kWh, consumo de \Consumo~kWh/km y carga de hasta \Potencia~kW, y una tarifa eléctrica por tramo horario. Con esa información el plan decide cuántos buses se usan y qué corridas atiende cada uno, en qué orden. Decide además los traslados en vacío de cada bus entre corridas y al comienzo y al final del día, cuándo, en qué electroterminal y cuánta energía recarga en bloques de \MinutosBloque~minutos (la carga puede ser parcial), y dónde termina el día, que puede ser un terminal común o un electroterminal.
+
+Un plan es factible cuando cumple cuatro condiciones. La primera es la cobertura, que exige que cada corrida la atienda exactamente un bus. La segunda es la continuidad, según la cual cada bus llega a tiempo al inicio de su siguiente actividad desde el lugar donde terminó la anterior. La tercera es energética, porque la batería nunca puede bajar de la reserva de \Reserva~kWh (\PctReserva\,\% de la capacidad) ni superar la capacidad, y todos los buses parten el día con la batería llena. La cuarta es de capacidad, ya que en ningún bloque de tiempo puede haber en un electroterminal más buses que plazas, ni más buses cargando que conexiones.
+
+Lo que se minimiza es el costo total diario, que tiene cuatro componentes fijados por el enunciado. Cada bus usado cuesta USD~\CostoBus{} y cada kilómetro recorrido, con o sin pasajeros, USD~\CostoKmUnit. El costo energético depende de la tarifa de la hora en que se carga, que va de USD~\TarifaMin{} a \TarifaMax{} por kWh, y cada sesión de carga suma USD~\CostoSesion. El enunciado informa además un costo de espera de USD~\CostoEsperaMinuto{} por minuto, que se dejó fuera del objetivo y se evalúa aparte en el capítulo~\ref{ch:sensibilidad}. En la literatura el problema se conoce como programación de vehículos eléctricos con múltiples depósitos, recarga parcial y capacidad de carga limitada \cite{perumal_evspreview_2022}. La programación con varios depósitos ya es NP-difícil sin considerar la batería \cite{kliewer_timespacemdvsp_2006}, y la batería junto con los cargadores compartidos acoplan las decisiones de todos los buses.
+
+La batería es una restricción del problema y no una decisión. Un plan que la ignore puede encadenar corridas con menos buses, pero no se puede operar, y por eso corridas y carga se programan juntas (sección~\ref{sec:evolucion}).
+
+\section{Cómo se aborda el problema}
+\label{sec:enfoque}
+
+La Figura~\ref{fig:enfoque} resume el trabajo completo. Los mismos datos alimentan dos planes, el del caso base, que imita cómo se programaría la flota sin optimización (capítulo~\ref{ch:caso-base}), y el del método híbrido (capítulo~\ref{ch:estrategia}). Ambos pasan por el mismo auditor y se comparan con los mismos indicadores. Un modelo exacto resuelve casos chicos al óptimo y mide cuánto se aleja el método (sección~\ref{sec:calidad}).
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[node distance=5mm and 6mm,
+  caja/.style={draw, rounded corners, align=center, font=\footnotesize, minimum height=10mm, text width=27mm},
+  dato/.style={caja, fill=black!5}, flecha/.style={-Stealth}]
+\node[dato] (gtfs) {Horarios GTFS\\{\scriptsize corridas L, S y D}};
+\node[dato, below=of gtfs] (enun) {Enunciado\\{\scriptsize bus, costos, tarifas,\\ electroterminales}};
+\node[caja, right=12mm of gtfs, yshift=6mm] (base) {Caso base\\{\scriptsize cada ruta con sus buses,\\ carga al 100\,\%}};
+\node[caja, below=of base] (hib) {Método híbrido\\{\scriptsize sectores, plan inicial,\\ mejora por grupos + MILP}};
+\node[caja, below=of hib] (exa) {Modelo exacto\\{\scriptsize casos chicos, óptimo\\ demostrado}};
+\node[caja, right=12mm of hib, yshift=7mm] (aud) {Auditor\\{\scriptsize cobertura, horarios,\\ batería y capacidad}};
+\node[caja, right=of aud] (kpi) {Indicadores\\{\scriptsize contra el caso base}};
+\node[caja, right=12mm of exa] (brecha) {Brecha al óptimo\\{\scriptsize calidad del método}};
+\node[caja, below=of kpi, yshift=-3mm] (sens) {Sensibilidad,\\ atrasos y día\\ siguiente};
+\draw[flecha] (gtfs.east) -- ++(4mm,0) |- (base.west);
+\draw[flecha] (gtfs.east) -- ++(4mm,0) |- (hib.west);
+\draw[flecha] (enun.east) -- ++(4mm,0) |- (hib.west);
+\draw[flecha] (enun.east) -- ++(4mm,0) |- (exa.west);
+\draw[flecha] (base.east) -- (aud);
+\draw[flecha] (hib.east) -- (aud);
+\draw[flecha] (aud) -- (kpi);
+\draw[flecha] (exa) -- (brecha);
+\draw[flecha] (hib.south east) -- (brecha.north west);
+\draw[flecha] (kpi) -- (sens);
+\end{tikzpicture}
+\caption{Entradas, métodos y salidas del proyecto. El caso base y el método híbrido producen un plan bus por bus para toda la red; el modelo exacto solo resuelve casos chicos y se usa para medir la calidad del método.}
+\label{fig:enfoque}
+\end{figure}
+
+\section{Indicadores de desempeño}
+\label{sec:kpis}
+
+Los indicadores no tienen metas fijas. Cada uno se compara con el caso base, que representa lo que haría un planificador sin optimización, en el mismo tipo de día y con el mismo auditor. La Tabla~\ref{tab:kpis} los define. Los dos primeros miden lo que se minimiza. Los dos de operación muestran de dónde viene el ahorro y si los cargadores son una limitante, y los dos de energía indican cuánto depende el plan de cargar durante el día y si el día siguiente se puede repetir. La calidad de la solución se mide por separado, con la brecha al óptimo
+\[
+\text{brecha} = 100\cdot\left(\frac{C(\text{plan})}{C(\text{óptimo})}-1\right)\ \%,
+\]
+donde \(C\) es el costo total. En la red completa no se conoce el óptimo y se usa en su lugar una cota inferior (sección~\ref{sec:calidad}). Una cota sirve aunque no corresponda a un plan factible, porque ningún plan puede costar menos que ella.
+
+\begin{table}[htbp]
+\centering
+\caption{Indicadores de desempeño. Todos se comparan contra el caso base en el mismo tipo de día.}
+\label{tab:kpis}
+\small
+\begin{tabularx}{\textwidth}{@{}l l X@{}}
+\toprule
+Indicador & Unidad & Qué mide y por qué importa \\
+\midrule
+Buses usados & buses & Tamaño de la flota del día; el componente que más pesa en el costo. \\
+Costo total & USD/día & Lo que se minimiza, con buses, kilómetros, energía y sesiones. \\
+Kilómetros en vacío & \% de los km & Eficiencia de los encadenamientos; explica parte del ahorro. \\
+Buses cargando a la vez & máximo por electroterminal & Si las conexiones de carga son un cuello de botella durante el día. \\
+Energía cargada en el día & kWh & Cuánto depende el plan de cargar durante la operación y a qué tarifa. \\
+Energía al cerrar el día & kWh por bus & Cuánto hay que reponer de noche para repetir el día. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Los kilómetros de servicio y la cobertura no se usan como indicadores, porque son iguales en todos los planes. Todos cubren el 100\,\% de las corridas y recorren los mismos \KmServicioLaboral~km de servicio en día laboral.

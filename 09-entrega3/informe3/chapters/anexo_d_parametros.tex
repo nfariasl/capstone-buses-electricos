@@ -1,0 +1,26 @@
+La Tabla~\ref{tab:parametros} reúne los parámetros del escenario base que usan el caso base, el método y el modelo exacto, con su origen.
+
+\begin{table}[H]
+\centering
+\caption{Parámetros del escenario base.}
+\label{tab:parametros}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}p{3.2cm} X p{2.4cm}@{}}
+\toprule
+Elemento & Valor & Origen \\
+\midrule
+Corridas & \CorridasLaboral{} laborales, \CorridasSabado{} de sábado y \CorridasDomingo{} de domingo, en \RutasLaboral{} rutas & GTFS, reconstruidas \\
+Batería & \Bateria~kWh, llena al inicio del día; reserva de \Reserva~kWh (\PctReserva\,\%) & Enunciado \\
+Consumo & \Consumo~kWh/km, igual con y sin pasajeros & Derivado \\
+Carga & Hasta \Potencia~kW por conexión, en bloques de \MinutosBloque~min de hasta \EnergiaBloque~kWh, carga parcial & Enunciado \\
+Traslados en vacío & Distancias viales dirigidas, a \VelocidadVacio~km/h & Supuesto \\
+Costos & USD~\CostoBus{} por bus, USD~\CostoKmUnit{} por km, USD~\CostoSesion{} por sesión, energía de USD~\TarifaMin{} a \TarifaMax{} por kWh según la hora & Enunciado \\
+Espera & USD~\CostoEsperaMinuto{} por minuto, fuera del objetivo & Enunciado, evaluada aparte \\
+Electroterminales & E1 (\PlazasUno), E2 (\PlazasDos), E3 (\PlazasTres), E4 (\PlazasCuatro) y E5 (\PlazasCinco) plazas, cada una con su conexión; disponibles todo el día & Enunciado \\
+Terminales comunes & T01 a T04, sin cargadores y sin límite de plazas; Los Acacios se excluyó porque su dirección no calza entre fuentes & Decisión del grupo \\
+Flota & Sin máximo; la flota declarada de \FlotaDeclarada{} buses no se impone & Aclaración docente \\
+Sectores & Cinco, de \RutasSectorUno, \RutasSectorDos, \RutasSectorTres, \RutasSectorCuatro{} y \RutasSectorCinco{} rutas; cada bus atiende un solo sector y carga en cualquier electroterminal & Decisión del grupo \\
+Búsqueda & Cuartetos al azar, \MinutosFinal{} min por tipo de día, tres semillas; MILP local con dos segundos por intento, tolerancia de 2\,\% y un hilo & Decisión del grupo \\
+\bottomrule
+\end{tabularx}
+\end{table}

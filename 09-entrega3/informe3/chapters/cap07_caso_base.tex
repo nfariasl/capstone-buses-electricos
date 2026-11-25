@@ -1,0 +1,48 @@
+% Capítulo 7. Caso base (rúbrica 10 pts).
+
+El caso base es la referencia contra la que se miden todos los indicadores. Representa una forma razonable de programar la flota sin investigación operativa, y por eso incluye la recarga, que es parte esencial del problema, como pidió el equipo docente en la Entrega~2.
+
+\section{Política miope por ruta con recarga}
+\label{sec:politica-miope}
+
+La política decide corrida por corrida sin mirar las que vienen, y por eso se le llama miope. Las corridas se recorren en orden de hora de salida y cada ruta tiene sus propios buses, de modo que un bus nunca atiende dos rutas distintas aunque sean del mismo sector. Cada corrida se asigna al bus de su ruta que lleva más tiempo libre y alcanza a llegar a tiempo. Si la batería de ese bus no alcanza para la corrida y el regreso a un terminal con la reserva de \Reserva~kWh, el bus va antes al electroterminal más cercano con cupo y carga hasta el 100\,\% a la tarifa de esa hora. Si ningún bus de la ruta puede tomar la corrida, se agrega uno nuevo con la batería llena desde el terminal común más cercano, y al terminar su última corrida cada bus vuelve al terminal común más cercano. La implementación está en \texttt{codigo/tres\_fases/caso\_base.py}.
+
+\section{Por qué es una referencia defendible}
+\label{sec:caso-base-defendible}
+
+La política reproduce cómo se programaría una flota eléctrica con la lógica de una flota diésel, con buses asignados a una ruta que cargan cuando se les acaba la energía. No resuelve ningún modelo, así que toda diferencia con el método viene de coordinar mejor las decisiones. Se compara en las mismas condiciones, con las mismas corridas, distancias, velocidad en vacío, costos, electroterminales y batería inicial, y lee la batería, la reserva y el consumo de los mismos parámetros que el método, lo que permite compararlos también en la sensibilidad. Su plan pasó por el mismo auditor que los planes del método, que confirmó la cobertura, la continuidad, la energía, las capacidades y el costo.
+
+Para no inflar el ahorro se eligió la versión más favorable al caso base. La política admite un umbral, de modo que con un umbral de 30\,\% el bus va a cargar apenas su batería baja de ese nivel, aunque todavía le alcance para la corrida siguiente. En la muestra de \EdosRutasMuestra{} rutas, subir el umbral solo empeoró el caso base, porque multiplica las visitas a los electroterminales. Con umbrales de 0, 20, 30 y 50\,\% necesitó \EdosBusesBase, \EdosBusesUmbralVeinte, \EdosBusesUmbralTreinta{} y \EdosBusesUmbralCincuenta{} buses, de modo que se usa el umbral de 0\,\%.
+
+Este caso base reemplazó al que se mostró en la presentación de la Entrega~2, que no recargaba, porque exageraba la ganancia de cualquier método que sí cargara.
+
+\section{Resultado en la red completa}
+\label{sec:resultado-caso-base}
+
+La Tabla~\ref{tab:caso-base} resume el caso base en los tres tipos de día. En día laboral necesita \BusesBaseLaboral{} buses y cuesta USD~\CostoBaseLaboral{} al día.
+
+\begin{table}[htbp]
+\centering
+\caption{Caso base en la red completa por tipo de día. Costos en USD por día y su porcentaje del costo total.}
+\label{tab:caso-base}
+\small
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+ & \multicolumn{2}{c}{Laboral} & \multicolumn{2}{c}{Sábado} & \multicolumn{2}{c}{Domingo} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+Indicador & Valor & \% & Valor & \% & Valor & \% \\
+\midrule
+Buses & \BusesBaseLaboral & & \BusesBaseSabado & & \BusesBaseDomingo & \\
+Costo total & \CostoBaseLaboral & 100 & \CostoBaseSabado & 100 & \CostoBaseDomingo & 100 \\
+\quad Buses & \CostoFlotaBaseLaboral & \PctFlotaBaseLaboral & \CostoFlotaBaseSabado & \PctFlotaBaseSabado & \CostoFlotaBaseDomingo & \PctFlotaBaseDomingo \\
+\quad Kilómetros & \CostoKmBaseLaboral & \PctKmBaseLaboral & \CostoKmBaseSabado & \PctKmBaseSabado & \CostoKmBaseDomingo & \PctKmBaseDomingo \\
+\quad Energía & \CostoEnergiaBaseLaboral & \PctEnergiaBaseLaboral & \CostoEnergiaBaseSabado & \PctEnergiaBaseSabado & \CostoEnergiaBaseDomingo & \PctEnergiaBaseDomingo \\
+\quad Sesiones & \CostoSesionesBaseLaboral & \PctSesionesBaseLaboral & \CostoSesionesBaseSabado & \PctSesionesBaseSabado & \CostoSesionesBaseDomingo & \PctSesionesBaseDomingo \\
+Km en vacío (\% de los km) & \PctVacioBaseLaboral & & \PctVacioBaseSabado & & \PctVacioBaseDomingo & \\
+Corridas por bus & \CorridasPorBusBaseLaboral & & \CorridasPorBusBaseSabado & & \CorridasPorBusBaseDomingo & \\
+\bottomrule
+\end{tabular}
+\fuente{Planes en \texttt{codigo/output/tres\_fases/red\_417\_\{L,S,D\}\_caso\_base} e indicadores en \texttt{09-entrega3/kpi/resultados/kpi\_planes.csv}.}
+\end{table}
+
+La composición del costo dice dónde está el margen de mejora. Los buses son el \PctFlotaBaseLaboral\,\% del costo del día laboral, y como cada ruta tiene sus propios buses, muchos pasan buena parte del día esperando la siguiente salida de su ruta mientras otra ruta cercana necesita un bus. Ese es el componente más mejorable, y el que ataca primero el método al compartir buses entre las rutas de un sector. Los kilómetros son el \PctKmBaseLaboral\,\% y de ellos el \PctVacioBaseLaboral\,\% se recorre sin pasajeros, porque cada ruta reposiciona sus propios buses. La energía y las sesiones pesan poco en el costo, \PctEnergiaBaseLaboral{} y \PctSesionesBaseLaboral\,\%, pero no son irrelevantes, porque deciden cuándo un bus tiene que salir de servicio. El caso base carga siempre hasta el 100\,\% y lo hace sobre todo entre las 19 y las 22 horas, cuando la tarifa es más alta (sección~\ref{sec:uso-e}).

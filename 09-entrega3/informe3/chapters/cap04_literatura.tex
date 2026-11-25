@@ -1,0 +1,73 @@
+% Capítulo 4. Revisión bibliográfica y evolución metodológica (rúbrica: revisión 5 pts y parte de estrategia 15 pts).
+
+\section{Revisión crítica de las familias de métodos}
+\label{sec:familias}
+
+El problema del capítulo~\ref{ch:problema} pertenece a la familia de programación de vehículos eléctricos (E-VSP). \citeA{perumal_evspreview_2022} ordenan esa literatura según qué decisiones se toman en conjunto, entre ellas asignar corridas a buses, programar la carga, ubicar cargadores y dimensionar la flota. Este caso exige las dos primeras a la vez, con varios depósitos, carga parcial y cargadores finitos, sobre una red de decenas de miles de corridas. Con ese criterio se evaluó cada familia de métodos (Tabla~\ref{tab:familias}).
+
+\begin{table}[htbp]
+\centering
+\caption{Familias de métodos revisadas, contrastadas con el caso.}
+\label{tab:familias}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}p{2.3cm} X X p{2.4cm}@{}}
+\toprule
+Familia & Fortaleza & Debilidad o supuesto que choca con el caso & Referencias \\
+\midrule
+Flujo en red tiempo-espacio & Exacta y la que mejor escala sin batería; agrega arcos de espera y reduce el modelo. & Con la batería deja de ser un flujo puro; la energía se agrega después o como dimensión del nodo. & \citeA{kliewer_timespacemdvsp_2006}; \citeA{olsen_flowdecomposition_2022} \\
+Generación de columnas y \emph{branch-and-price} & Óptimo con cota; trata carga parcial y cargadores finitos. & El mayor caso publicado resuelto al óptimo tiene 101 corridas; la red tiene tres órdenes de magnitud más. & \citeA{devos_capacitatedcharging_2024}; \citeA{wu_waitingtimebranchprice_2025}; \citeA{li_limitedenergy_2014} \\
+Metaheurísticas y búsqueda en vecindarios grandes & Escalan a redes reales y entregan planes factibles desde temprano. & No traen cota propia, así que no indican qué tan lejos quedan del óptimo. & \citeA{wen_alnsevsp_2016}; \citeA{limmer_lnsevfleet_2023}; \citeA{ahuja_vlsn_2002} \\
+Descomposición de Benders & Separa inversión (flota, cargadores) de operación. & Aquí la flota y la infraestructura vienen dadas y no hay un nivel de inversión que separar. & \citeA{legault_bendersfleetelectrification_2025} \\
+Modelos con incertidumbre & Consumo y tiempos aleatorios dentro del modelo. & Los datos no traen distribuciones y el cómputo se multiplica. & \citeA{ricard_chanceconstrained_2026} \\
+Simulación & Mide qué tan frágil es un plan. & No optimiza; solo evalúa. & --- \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Los métodos exactos garantizan el óptimo, pero no llegan al tamaño de la red. \citeA{wu_waitingtimebranchprice_2025} resuelven al óptimo instancias de hasta 101 corridas y \citeA{devos_capacitatedcharging_2024}, que tratan la variante con cargadores finitos y carga parcial, siguen lejos de las \CorridasLaboral{} corridas del día laboral. Las metaheurísticas sí escalan, y \citeA{wen_alnsevsp_2016} muestran que una búsqueda adaptativa en vecindarios grandes resuelve el E-VSP con varios depósitos y carga parcial. Sin embargo, ninguna de las fuentes revisadas de esa familia modela cargadores finitos ni entrega una cota. Benders no aplica porque no se decide inversión, y para el modelo con incertidumbre faltan distribuciones, así que la robustez, que sigue siendo un tema abierto en el área \cite{wang_bevretrospective_2025}, se estudia con sensibilidad y simulación.
+
+\section{Programar primero y cargar después}
+\label{sec:evolucion}
+
+Una estrategia común en la literatura es secuencial. Primero se arman cadenas de corridas como si los buses fueran diésel y después se les agrega la carga \cite{perumal_evspreview_2022}. \citeA{olsen_flowdecomposition_2022} la aplican en redes grandes. Resuelven un flujo en red tiempo-espacio sin batería, lo descomponen en cadenas con reglas que anticipan la energía y recién al final insertan las cargas, agregando buses donde la energía no alcanza. Su ventaja es la escala, y su riesgo es que el flujo no ve la batería, de modo que la fase de carga debe cortar cadenas y agregar buses. \citeA{perumal_evspreview_2022} distinguen los enfoques secuenciales de los integrados, que deciden corridas y carga a la vez y capturan su interacción a cambio de modelos más difíciles, y \citeA{vankootenniekerk_schedulingev_2017} formulan ese problema integrado con carga parcial.
+
+Este proyecto midió ese riesgo en su propio caso. El prototipo de la Entrega~1 siguió la estrategia secuencial de \citeA{olsen_flowdecomposition_2022} sobre la muestra de \EdosRutasMuestra{} rutas. El flujo sin batería, que es una relajación del problema, encadenó las corridas con \EdosFlotaFaseUno{} buses. Cuando se exigió que cada bus tuviera energía para sus corridas, como obliga el problema, la flota subió a \EdosBusesPrototipoSinMejora{} (\EdosAumentoBateria{} buses más, +\EdosPctAumentoBateria\,\%). Ese aumento se explica por haber ignorado la batería al encadenar las corridas. Una construcción que revisa horario y energía en cada asignación logró \EdosBusesConstruccion{} buses factibles con las mismas corridas, de modo que al menos \EdosEvitables{} de los buses agregados se podían evitar reorganizando las jornadas (Tabla~\ref{tab:evolucion}). De ahí sale la decisión central del método, que es considerar la energía al armar cada jornada y no después.
+
+\section{Evolución del método entre las entregas}
+\label{sec:evolucion-entregas}
+
+La Tabla~\ref{tab:evolucion} sigue el método a lo largo del semestre. En la Entrega~1 se eligió la red tiempo-espacio por sectores. En la Entrega~2 el diagnóstico anterior llevó a la construcción cronológica con energía y a una mejora local por pares y tríos de jornadas, con un modelo entero que decide las recargas. En la muestra de \EdosRutasMuestra{} rutas logró \EdosBusesModelo{} buses contra \EdosBusesBase{} del caso base (\EdosDeltaPctBuses\,\%). En la Entrega~3 el método se llevó a la red completa y los tres tipos de día, se generalizó la mejora a grupos de 3 a 8 buses elegidos parecidos o al azar, y se agregó un modelo exacto para medir la distancia al óptimo.
+
+\begin{table}[htbp]
+\centering
+\caption{Evolución del método sobre la misma muestra de \EdosRutasMuestra{} rutas y \EdosCorridasMuestra{} corridas laborales (Entregas 1 y 2) y en la red completa (Entrega 3).}
+\label{tab:evolucion}
+\small
+\begin{tabularx}{\textwidth}{@{}l X r@{}}
+\toprule
+Entrega & Método & Buses \\
+\midrule
+1 & Flujo en red tiempo-espacio sin batería (relajación, no operable) & \EdosFlotaFaseUno \\
+1 & + descomposición en cadenas y carga insertada después & \EdosBusesPrototipoSinMejora \\
+1--2 & + reparaciones y mejora por pares y tríos (prototipo final) & \EdosBusesPrototipo \\
+2 & Construcción cronológica con energía, sin mejora & \EdosBusesConstruccion \\
+2 & + mejora por pares y tríos con MILP de recargas & \EdosBusesModelo \\
+\midrule
+3 & Red completa, plan inicial (construcción cronológica) & \BusesInicialLaboral \\
+3 & + pares y tríos, 40 min & \BusesMetodoParesTrios \\
+3 & + cuartetos al azar, 40 min (método final) & \BusesPlanLaboral \\
+\bottomrule
+\end{tabularx}
+\fuente{Cifras de las Entregas 1 y 2 en \texttt{08-entrega2/informe2/cifras.tex} y de la Entrega 3 en \texttt{09-entrega3/octetos/resultados/red\_completa\_417\_L.csv}.}
+\end{table}
+
+\section{Justificación del método elegido}
+\label{sec:justificacion}
+
+El método final es una búsqueda en vecindarios grandes con reparación exacta que combina tres ideas con respaldo en la literatura.
+
+La primera es construir con la energía a la vista. El plan inicial recorre las corridas en orden de salida y asigna cada una a un bus que llega a tiempo y tiene energía, como la heurística constructiva con que parte la búsqueda de \citeA{wen_alnsevsp_2016}.
+
+La segunda es mejorar el plan con vecindarios grandes. Una búsqueda local mejora un plan cambiando una parte de él, y \citeA{ahuja_vlsn_2002} describen el dilema de fondo. Un vecindario más grande encuentra mejores cambios en cada intento, pero cada intento cuesta más, y solo conviene si se puede revisar rápido. En el E-VSP, \citeA{wen_alnsevsp_2016} destruyen y reconstruyen partes del plan, y \citeA{limmer_lnsevfleet_2023} reparan la parte destruida con un modelo entero, que es exactamente lo que hace aquí el MILP de recargas.
+
+La tercera es medir el método contra el exacto. Como la búsqueda no trae cota, su calidad se mide resolviendo al óptimo casos chicos con el mismo costo y las mismas reglas, como se propuso desde el informe~1.

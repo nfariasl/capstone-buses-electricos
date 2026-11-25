@@ -1,0 +1,103 @@
+% Capítulo 5. Modelo del caso y supuestos (rúbrica modelo 10 pts y supuestos 5 pts).
+
+Este capítulo formaliza el problema como un programa lineal entero mixto (MILP) basado en conexiones entre corridas. Es el modelo que se resuelve de forma exacta en los casos chicos (sección~\ref{sec:calidad}) y, restringido a pocas jornadas, el que usa el método híbrido para decidir las recargas (capítulo~\ref{ch:estrategia}). La implementación está en \texttt{metodo\_hibrido/exacto.py}.
+
+\section{Conjuntos y parámetros}
+\label{sec:conjuntos}
+
+Sea \(N\) el conjunto de corridas de un tipo de día. Cada corrida \(i\in N\) tiene una hora de inicio \(s_i\) y de término \(f_i\), un origen y un destino, una distancia de servicio \(L_i\) y un sector \(\sigma(i)\). Sean \(T\) los terminales comunes, \(E\) los electroterminales y \(F=T\cup E\) los lugares donde un bus puede terminar el día. Las distancias son viales y dirigidas, y el tiempo de un traslado en vacío es su distancia a la velocidad \(v\) de \VelocidadVacio~km/h.
+
+Un bus que atiende la corrida \(i\) y después la \(j\) puede hacerlo de dos maneras. Si va directo, el par pertenece a
+\[
+A=\{(i,j)\in N\times N \mid \sigma(i)=\sigma(j),\ f_i+\tau_{ij}\le s_j\},
+\]
+donde \(\tau_{ij}\) es el tiempo del traslado entre el destino de \(i\) y el origen de \(j\), que mide \(d_{ij}\) kilómetros. Si en ese hueco pasa a cargar, elige una opción \(k\) de un catálogo \(K_{ij}\). Cada opción fija un electroterminal \(e(k)\), una ventana de carga dentro del hueco, los kilómetros de ida \(a_k\) y de vuelta \(h_k\), la energía máxima \(g_k\) que alcanza a cargar a \Potencia~kW en bloques completos de \MinutosBloque~minutos y el precio medio \(p_k\) de la energía en esa ventana. Una opción entra al catálogo solo si el bus alcanza a llegar, cargar al menos un bloque y llegar a tiempo al origen de \(j\). Se escribe \(R=\{(i,j,k)\mid k\in K_{ij}\}\).
+
+Para cada corrida se conoce la distancia \(d^{0}_i\) desde el terminal común más cercano a su origen y, para cada lugar \(\ell\in F\) alcanzable dentro del horizonte, la distancia \(d^{1}_{i\ell}\) desde su destino. Los parámetros físicos son la capacidad de la batería \(B=\Bateria\)~kWh, la reserva \(m=\Reserva\)~kWh y el consumo \(r=\Consumo\)~kWh/km, igual con y sin pasajeros. Los económicos son \(c^{B}=\CostoBus\) USD por bus, \(c^{D}=\CostoKmUnit\) USD/km y \(c^{S}=\CostoSesion\) USD por sesión. Cada electroterminal \(e\) tiene \(P_e\) plazas y \(C_e\) conexiones. El día se divide en bloques \(\omega\in\Omega\) de \MinutosBloque~minutos, y \(\alpha_{k\omega}\) vale uno si la opción \(k\) está cargando durante el bloque \(\omega\).
+
+\section{Variables de decisión}
+\label{sec:variables}
+
+El modelo usa seis familias de variables. La variable binaria \(u_i\) vale uno si la corrida \(i\) es la primera de una jornada, es decir, si con ella sale un bus nuevo, y \(z_{i\ell}\) vale uno si \(i\) es la última de una jornada y el bus termina en \(\ell\in F\). La binaria \(x_{ij}\) indica que un mismo bus hace \(i\) y luego \(j\) con un traslado directo, y \(y_{ijk}\) que lo hace pasando a cargar con la opción \(k\). La variable continua \(q_{ijk}\ge 0\) son los kWh que carga en esa opción, y \(e_i\in[m,B]\) es la energía que le queda al bus al terminar la corrida \(i\).
+
+\section{Función objetivo}
+\label{sec:objetivo}
+
+El costo total del plan es
+\begin{multline}
+\min\ c^{B}\sum_{i\in N}u_i
++ c^{D}\Bigl(\sum_{i\in N}d^{0}_i u_i+\sum_{i\in N}\sum_{\ell\in F}d^{1}_{i\ell}z_{i\ell}
++\sum_{(i,j)\in A}d_{ij}x_{ij}+\sum_{(i,j,k)\in R}(a_k+h_k)\,y_{ijk}+\sum_{i\in N}L_i\Bigr)\\
++\sum_{(i,j,k)\in R}\bigl(c^{S}y_{ijk}+p_k\,q_{ijk}\bigr).
+\label{eq:objetivo}
+\end{multline}
+El primer término cuenta los buses, porque cada jornada empieza en exactamente una corrida. El segundo suma todos los kilómetros, que son la salida desde el terminal, el regreso al final del día, los traslados entre corridas, los desvíos para cargar y los kilómetros de servicio, que son constantes. El último término es el costo de las sesiones y de la energía.
+
+\section{Restricciones}
+\label{sec:restricciones}
+
+Cada corrida tiene exactamente un antecesor o es la primera de su jornada, y exactamente un sucesor o es la última,
+\begin{align}
+u_j+\sum_{(i,j)\in A}x_{ij}+\sum_{(i,j,k)\in R}y_{ijk} &= 1 && \forall j\in N, \label{eq:entra}\\
+\sum_{\ell\in F}z_{j\ell}+\sum_{(j,l)\in A}x_{jl}+\sum_{(j,l,k)\in R}y_{jlk} &= 1 && \forall j\in N. \label{eq:sale}
+\end{align}
+Juntas, (\ref{eq:entra}) y (\ref{eq:sale}) dividen las corridas en cadenas disjuntas que empiezan y terminan una vez, que son las jornadas, y garantizan que cada corrida se cubra exactamente una vez. Como \(A\) y \(R\) solo unen corridas del mismo sector, ninguna jornada cruza sectores.
+
+La energía se sigue a lo largo de cada cadena. Un bus parte lleno, y desde ahí cada conexión descuenta el traslado y la corrida siguiente,
+\begin{align}
+u_i=1 &\ \Rightarrow\ e_i\le B-r\,(d^{0}_i+L_i) && \forall i\in N, \label{eq:inicio}\\
+x_{ij}=1 &\ \Rightarrow\ e_j\le e_i-r\,(d_{ij}+L_j) && \forall (i,j)\in A. \label{eq:directo}
+\end{align}
+Cuando el bus pasa a cargar, debe llegar al electroterminal sobre la reserva, no puede cargar más de lo que cabe en la batería ni más de lo que permite la ventana, y la energía de la corrida siguiente descuenta el desvío,
+\begin{align}
+y_{ijk}=1 &\ \Rightarrow\ e_i-r\,a_k\ge m,\qquad e_i-r\,a_k+q_{ijk}\le B && \forall (i,j,k)\in R, \label{eq:carga-llegada}\\
+y_{ijk}=1 &\ \Rightarrow\ e_j\le e_i+q_{ijk}-r\,(a_k+h_k+L_j) && \forall (i,j,k)\in R, \label{eq:carga-balance}\\
+q_{ijk} &\le g_k\,y_{ijk} && \forall (i,j,k)\in R. \label{eq:carga-max}
+\end{align}
+Al terminar el día, el bus debe llegar a su lugar final con la reserva intacta,
+\begin{equation}
+z_{i\ell}=1\ \Rightarrow\ e_i-r\,d^{1}_{i\ell}\ge m\qquad \forall i\in N,\ \ell\in F. \label{eq:final}
+\end{equation}
+Las implicancias (\ref{eq:inicio})--(\ref{eq:final}) se implementan como restricciones indicadoras de Gurobi y son equivalentes a restricciones lineales con constantes grandes. Que \(e_i\) se acote solo por arriba no es un problema, ya que el dominio \(e_i\ge m\) obliga a que la energía real nunca baje de la reserva.
+
+Por último, en cada electroterminal y bloque no puede haber más buses cargando que conexiones, ni más buses presentes que plazas, contando los que cargan y los que ya terminaron su día ahí,
+\begin{align}
+\sum_{(i,j,k)\in R,\ e(k)=e}\alpha_{k\omega}\,y_{ijk} &\le C_e && \forall e\in E,\ \omega\in\Omega, \label{eq:conexiones}\\
+\sum_{(i,j,k)\in R,\ e(k)=e}\alpha_{k\omega}\,y_{ijk}+\sum_{i\in N,\ f_i+\tau_{ie}\le \omega}z_{ie} &\le P_e && \forall e\in E,\ \omega\in\Omega. \label{eq:plazas}
+\end{align}
+Los dominios son \(u,z,x,y\in\{0,1\}\), \(q\ge 0\) y \(m\le e\le B\).
+
+\section{Tamaño del modelo y modelo podado}
+\label{sec:tamano}
+
+El modelo es exacto pero no escala. Solo dentro de cada sector hay unos \ParesSectorMillones{} millones de pares de corridas en un día laboral, y cada par que deja un hueco suficiente abre además varias opciones de carga. En los casos de prueba, la versión completa con \CorridasRutasMediano{} corridas ya necesitó unos 13~GB de memoria, más de lo que tiene el equipo usado. Para llegar a casos medianos se usó una versión podada, que deja en cada par solo las opciones de carga no dominadas (las que no tienen otra con menos kilómetros, más energía posible y un precio igual o menor) y omite (\ref{eq:conexiones}) y (\ref{eq:plazas}). Cualquier plan que use una opción dominada se puede cambiar por la que la domina cargando lo mismo, así que la poda no cambia el óptimo del modelo sin capacidades. Si el plan óptimo del modelo podado pasa después el auditor, que sí revisa plazas y conexiones, ese plan es óptimo también para el modelo completo. Así ocurrió en todos los casos medianos reportados en la sección~\ref{sec:calidad}.
+
+\section{Supuestos}
+\label{sec:supuestos}
+
+La Tabla~\ref{tab:supuestos} reúne los supuestos del modelo que no vienen fijados por los datos o el enunciado, con su justificación, cómo afectan la comparación y dónde se pone a prueba cada uno. Ninguno favorece al método frente al caso base, porque ambos se construyen sobre las mismas corridas, distancias, velocidad, terminales y batería inicial.
+
+\begin{table}[htbp]
+\centering
+\caption{Supuestos del modelo, su justificación y cómo se evaluaron.}
+\label{tab:supuestos}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}p{3cm} X X p{2.1cm}@{}}
+\toprule
+Supuesto & Justificación & Efecto si no se cumple & Dónde se evalúa \\
+\midrule
+Tiempos de viaje del GTFS, sin tráfico ni mantenciones & Los datos no traen variabilidad ni fallas & Las conexiones justas se rompen y el plan se atrasa más que el caso base & Simulación, sección~\ref{sec:incertidumbre} \\
+Consumo lineal de \Consumo~kWh/km & Se deriva de la batería y la autonomía nominal & Más consumo exige más buses en ambos planes & Sensibilidad, sección~\ref{sec:sens-bus} \\
+Batería de \Bateria~kWh y reserva de \PctReserva\,\% & Valores del enunciado & Baterías más chicas obligan a recargar más & Sensibilidad y recarga forzada \\
+Carga lineal hasta \Potencia~kW, en bloques de \MinutosBloque~min & No hay curva de carga en los datos & La carga real se frena cerca del 100\,\%; el plan carga poco y lejos de ese tramo & Discusión, sección~\ref{sec:limitaciones} \\
+Límite eléctrico igual a conexiones por \Potencia~kW & \texttt{transformer\_mw} no viene en ningún archivo & De día casi no se carga; afecta sobre todo la noche & Mitad de conexiones y repetibilidad \\
+Traslados en vacío a \VelocidadVacio~km/h & El enunciado no trae velocidades & Más rápido acortaría traslados y bajaría buses en ambos planes & No se varió (limitación) \\
+Terminales comunes sin límite de plazas & El enunciado no da su capacidad & Con un límite, algunos buses terminarían más lejos y sumarían km & Ocupación medida, abajo \\
+Día aislado con batería llena & Lo fija el enunciado, igual para ambos planes & El día no se repite solo & Repetibilidad, sección~\ref{sec:repetibilidad} \\
+Espera sin costo & Pesa igual en ambos planes y achica el modelo & Suma cerca del \PctEspera\,\% al costo & Sensibilidad de precios \\
+Sectores fijos & Achican cada búsqueda y evitan cruzar la ciudad & Se pierden combinaciones entre sectores vecinos & Extensión, sección~\ref{sec:extensiones} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+La corrección del informe~2 preguntó qué pasa si los terminales comunes tienen una capacidad realista. Para responderla se midió cuántos buses llegan a estar a la vez en cada uno (\texttt{09-entrega3/kpi/ocupacion\_terminales.py}). En el plan del día laboral, el máximo va de \TerminalMinPlan{} a \TerminalMaxPlan{} buses por terminal, siempre de noche, cuando la mayoría de la flota está estacionada, y en el caso base va de \TerminalMinBase{} a \TerminalMaxBase. Son cifras muy por encima de lo que cabe en un terminal real, de modo que el supuesto no favorece al método, pero sí esconde un problema que ambos planes comparten, que es dónde guardar de noche una flota de varios miles de buses. En la práctica eso se resuelve repartiendo los buses entre los depósitos de los operadores, y si cada terminal tuviera un tope, los buses que no caben tendrían que terminar en otro lugar más lejano, con más kilómetros en vacío en ambos planes. Es una extensión directa del modelo, porque bastaría agregar a (\ref{eq:plazas}) una restricción análoga para cada terminal común.

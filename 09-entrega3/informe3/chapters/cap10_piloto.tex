@@ -1,0 +1,31 @@
+% Capítulo 10. Implementación, piloto y extensiones (rúbrica, parte de sensibilidad y extensiones).
+
+Un plan que ahorra más de mil buses en el papel no se puede llevar de golpe a toda la red. Hay que comprobar que funciona con tiempos de viaje reales, conductores reales y la carga nocturna que hoy existe, y hacerlo de modo que un error no afecte el servicio. Este capítulo propone cómo hacerlo por etapas y cómo decidir si el piloto justifica el despliegue.
+
+\section{Antes del piloto}
+\label{sec:antes-piloto}
+
+El primer paso es ajustar el método a la operación real, estimando tiempos de viaje por tramo y hora con datos de posicionamiento de los buses, el consumo real con datos de carga, y la capacidad de los terminales de espera y el límite eléctrico de cada electroterminal. Con eso se agrega al MILP de recargas un margen de energía sobre la reserva y un tiempo de colchón antes de cada carga, y se vuelve a correr la simulación de atrasos hasta que el plan con holgura se atrase como máximo lo mismo que el caso base.
+
+\section{Etapas de la implementación}
+\label{sec:etapas}
+
+La implementación se propone en tres etapas. En la primera el plan corre en paralelo, sin operarse, durante cuatro a seis semanas en un sector. Cada día se calcula el plan con las corridas del día siguiente y se compara con lo que efectivamente se operó, en buses usados, kilómetros, energía y en qué corridas el plan habría fallado por atrasos o por falta de batería.
+
+En la segunda etapa el plan se opera en un sector piloto, con otro sector como control que sigue operando como hoy. Se propone Vespucio Norte como piloto, porque es el sector más chico, con \RutasSectorUno{} rutas y \BusesPlanSectorUno{} buses en el plan del día laboral. Además carga casi todo en su propio electroterminal (\PctCargaPropiaUno\,\%) y es el que mejor alcanza a recargar de noche (\ReposMejorPct\,\%), de modo que el piloto no depende de resolver primero la infraestructura nocturna. Como control se propone Los Espinos, de tamaño comparable (\BusesPlanSectorTres{} buses) y que casi no comparte carga con el piloto, porque sus buses cargan apenas el \PctEspinosEnUno\,\% de su energía en Vespucio Norte y los de Vespucio Norte el \PctVespucioEnTres\,\% en Los Espinos. Así, un cambio en la forma de cargar del piloto no contamina al control. El piloto debería durar entre ocho y doce semanas.
+
+En la tercera etapa, si el piloto cumple los criterios de la sección siguiente, el plan se extiende sector por sector, empezando por los de mejor cobertura nocturna. En paralelo, RED debería evaluar la ampliación de la carga nocturna, porque con la infraestructura actual ningún plan, tampoco el caso base, permite repetir el día laboral (sección~\ref{sec:repetibilidad}).
+
+\section{Cómo medir el éxito del piloto}
+\label{sec:exito}
+
+El piloto se evalúa comparando el sector piloto con el de control y con su propio desempeño antes del piloto, de modo que los cambios de demanda o de tráfico que afecten a ambos no se confundan con el efecto del plan. Se proponen cuatro criterios, que deben cumplirse durante varias semanas seguidas para justificar el despliegue.
+
+El primero es el ahorro. El sector piloto debe usar al menos un 10\,\% menos buses que antes para cubrir las mismas corridas, con un costo por corrida menor que el del control. El método promete cerca de 15\,\% en el modelo, y el margen reconoce que parte del ahorro se gastará en holgura. El segundo es la puntualidad. El porcentaje de corridas con más de cinco minutos de atraso no debe superar al del control en más de un punto porcentual, y no debe haber corridas perdidas por falta de bus. El tercero es la energía. Ningún bus debe quedar bajo la reserva en servicio, y la energía al cierre debe permitir partir el día siguiente con la carga que el plan supone. El cuarto es la operación. Los conductores y despachadores deben poder seguir el plan sin cambios manuales frecuentes, lo que se mide con el número de reasignaciones hechas en el día.
+
+Si se cumple el ahorro pero no la puntualidad, la respuesta es más holgura. Si ocurre lo contrario, conviene revisar si los tiempos de viaje reales dejan menos huecos para encadenar que los del GTFS.
+
+\section{Riesgos de la implementación}
+\label{sec:riesgos}
+
+El riesgo principal es operativo. Un plan con menos buses deja menos margen para fallas mecánicas o accidentes, y por eso se recomienda mantener algunos buses de reserva por sector, cuyo costo se puede comparar con el ahorro. El segundo riesgo es la carga nocturna, que limita cuántos sectores se pueden pasar al plan sin ampliar infraestructura. El tercero es que los buses dejan de estar asociados a una ruta, lo que cambia la asignación de conductores y turnos, algo que este proyecto no modeló.
